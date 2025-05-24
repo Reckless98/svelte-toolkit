@@ -16,110 +16,100 @@ A versatile and responsive header component with multiple variants, navigation s
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `string` | `'standard'` | Header style variant: `'standard'`, `'minimal'`, `'withSearch'`, `'animated'`, `'glass'` |
-| `logo` | `string` | `''` | URL to logo image |
-| `title` | `string` | `'Brand'` | Brand or site title |
-| `links` | `array` | `[...]` | Navigation links array with `text` and `href` properties |
-| `sticky` | `boolean` | `false` | Enable sticky header behavior |
-| `transparent` | `boolean` | `false` | Start with transparent background |
-| `dark` | `boolean` | `false` | Enable dark mode styling |
-| `animated` | `boolean` | `false` | Enable link animations and transitions |
-| `withSearch` | `boolean` | `false` | Include search functionality |
-| `ctaButton` | `object` | `null` | Call-to-action button config: `{ text, href, variant }` |
+| Prop          | Type      | Default      | Description                                                                              |
+| ------------- | --------- | ------------ | ---------------------------------------------------------------------------------------- |
+| `variant`     | `string`  | `'standard'` | Header style variant: `'standard'`, `'minimal'`, `'withSearch'`, `'animated'`, `'glass'` |
+| `logo`        | `string`  | `''`         | URL to logo image                                                                        |
+| `title`       | `string`  | `'Brand'`    | Brand or site title                                                                      |
+| `links`       | `array`   | `[...]`      | Navigation links array with `text` and `href` properties                                 |
+| `sticky`      | `boolean` | `false`      | Enable sticky header behavior                                                            |
+| `transparent` | `boolean` | `false`      | Start with transparent background                                                        |
+| `dark`        | `boolean` | `false`      | Enable dark mode styling                                                                 |
+| `animated`    | `boolean` | `false`      | Enable link animations and transitions                                                   |
+| `withSearch`  | `boolean` | `false`      | Include search functionality                                                             |
+| `ctaButton`   | `object`  | `null`       | Call-to-action button config: `{ text, href, variant }`                                  |
 
 ## Usage Examples
 
 ### Basic Header
+
 ```svelte
 <script>
-  import { Header } from '$lib/components';
+	import { Header } from '$lib/components';
 </script>
 
 <Header title="My Website" />
 ```
 
 ### Header with Navigation
+
 ```svelte
 <script>
-  import { Header } from '$lib/components';
-  
-  const navLinks = [
-    { text: 'Home', href: '/' },
-    { text: 'About', href: '/about' },
-    { text: 'Services', href: '/services' },
-    { text: 'Contact', href: '/contact' }
-  ];
+	import { Header } from '$lib/components';
+
+	const navLinks = [
+		{ text: 'Home', href: '/' },
+		{ text: 'About', href: '/about' },
+		{ text: 'Services', href: '/services' },
+		{ text: 'Contact', href: '/contact' },
+	];
 </script>
 
-<Header 
-  title="My Company"
-  logo="/logo.png"
-  links={navLinks}
-/>
+<Header title="My Company" logo="/logo.png" links={navLinks} />
 ```
 
 ### Sticky Header with Search
+
 ```svelte
-<Header 
-  variant="withSearch"
-  title="My App"
-  sticky={true}
-  animated={true}
-  links={navLinks}
-/>
+<Header variant="withSearch" title="My App" sticky={true} animated={true} links={navLinks} />
 ```
 
 ### Glass Morphism Header
+
 ```svelte
-<Header 
-  variant="glass"
-  title="Modern App"
-  transparent={true}
-  animated={true}
-  links={navLinks}
-/>
+<Header variant="glass" title="Modern App" transparent={true} animated={true} links={navLinks} />
 ```
 
 ### Header with CTA Button
+
 ```svelte
-<Header 
-  title="SaaS Platform"
-  links={navLinks}
-  ctaButton={{ 
-    text: 'Sign Up', 
-    href: '/signup', 
-    variant: 'primary' 
-  }}
+<Header
+	title="SaaS Platform"
+	links={navLinks}
+	ctaButton={{
+		text: 'Sign Up',
+		href: '/signup',
+		variant: 'primary',
+	}}
 />
 ```
 
 ### Dark Mode Header
+
 ```svelte
-<Header 
-  title="Dark Theme"
-  dark={true}
-  animated={true}
-  links={navLinks}
-/>
+<Header title="Dark Theme" dark={true} animated={true} links={navLinks} />
 ```
 
 ## Variants
 
 ### Standard
+
 The default header variant with full navigation and branding.
 
 ### Minimal
+
 A simplified header with just the logo/title and minimal navigation.
 
 ### With Search
+
 Includes a search input field in the navigation area.
 
 ### Animated
+
 Adds smooth hover animations and underline effects to links.
 
 ### Glass
+
 Modern glass morphism effect with backdrop blur and transparency.
 
 ## Events
@@ -127,11 +117,11 @@ Modern glass morphism effect with backdrop blur and transparency.
 The component dispatches search events when search functionality is used:
 
 ```svelte
-<Header 
-  withSearch={true}
-  on:search={(event) => {
-    console.log('Search query:', event.detail.query);
-  }}
+<Header
+	withSearch={true}
+	on:search={(event) => {
+		console.log('Search query:', event.detail.query);
+	}}
 />
 ```
 
@@ -146,6 +136,7 @@ The component dispatches search events when search functionality is used:
 ## Customization
 
 ### CSS Classes
+
 The header uses Tailwind CSS classes that can be customized:
 
 - `.header-link`: Navigation link styling
@@ -153,17 +144,14 @@ The header uses Tailwind CSS classes that can be customized:
 - `.header-mobile-menu`: Mobile menu styling
 
 ### Custom Styling
+
 ```svelte
-<Header 
-  title="Custom Styled"
-  class="custom-header-class"
-  links={navLinks}
-/>
+<Header title="Custom Styled" class="custom-header-class" links={navLinks} />
 
 <style>
-  :global(.custom-header-class) {
-    /* Custom header styles */
-  }
+	:global(.custom-header-class) {
+		/* Custom header styles */
+	}
 </style>
 ```
 

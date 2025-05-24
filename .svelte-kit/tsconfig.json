@@ -12,6 +12,24 @@
 			],
 			"$components/*": [
 				"../src/lib/components/*"
+			],
+			"$layouts": [
+				"../src/lib/layouts"
+			],
+			"$layouts/*": [
+				"../src/lib/layouts/*"
+			],
+			"$animations": [
+				"../src/lib/animations"
+			],
+			"$animations/*": [
+				"../src/lib/animations/*"
+			],
+			"$stores": [
+				"../src/lib/stores"
+			],
+			"$stores/*": [
+				"../src/lib/stores/*"
 			]
 		},
 		"rootDirs": [

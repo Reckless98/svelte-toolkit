@@ -1,199 +1,145 @@
-<!-- Reusable Card Component with multiple variants and effects -->
 <script>
-  import { onMount } from 'svelte';
-  import { fade, fly, scale } from 'svelte/transition';
-    // Props
-  export let variant = 'standard'; // standard, elevated, outlined, glass, parallax, tilt, flip, gradient, neon, morphic
-  export let image = '';
-  export let title = '';
-  export let subtitle = '';
-  export let href = '';
-  export let aspectRatio = '16/9'; // image aspect ratio
-  export let elevation = 'md'; // none, sm, md, lg, xl
-  export let animation = 'none'; // none, fade, slide, scale, bounce, float
-  export let rounded = 'lg'; // sm, md, lg, xl, full
-  export let gradientDirection = 'to-br'; // Tailwind gradient directions
-  export let hoverEffect = 'scale'; // scale, lift, glow, tilt, pulse
-  export let borderColor = 'gray-200'; // Border color for outlined variant
-  
-  // Internal state
-  let card;
-  let cardContent;
-  let isFlipped = false;
-  let isTiltEnabled = variant === 'tilt';
-  let isParallaxEnabled = variant === 'parallax';
-  
-  // 3D tilt effect
-  let tiltX = 0;
-  let tiltY = 0;
-  let tiltZ = 0;
-  let perspective = 1000;
-  let tiltIntensity = 15;
-  
-  // Initialize tilt and parallax effects
-  onMount(() => {
-    if (isTiltEnabled && card) {
-      const handleMouseMove = (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        tiltX = ((y / rect.height) - 0.5) * tiltIntensity;
-        tiltY = ((x / rect.width) - 0.5) * -tiltIntensity;
-        tiltZ = 0;
-      };
-      
-      const handleMouseLeave = () => {
-        tiltX = 0;
-        tiltY = 0;
-      };
-      
-      card.addEventListener('mousemove', handleMouseMove);
-      card.addEventListener('mouseleave', handleMouseLeave);
-      
-      return () => {
-        if (card) {
-          card.removeEventListener('mousemove', handleMouseMove);
-          card.removeEventListener('mouseleave', handleMouseLeave);
-        }
-      };
-    }
-  });
-  
-  // Handle flip card
-  function toggleFlip() {
-    if (variant === 'flip') {
-      isFlipped = !isFlipped;
-    }
-  }
-    // Computed classes
-  $: containerClasses = [
-    'overflow-hidden transition-all duration-300 transform-gpu',
-    `rounded-${rounded}`,
-    
-    // Variant styles
-    variant === 'outlined' ? `border border-${borderColor}` : '',
-    variant === 'glass' ? 'backdrop-blur-md bg-white/20 border border-white/30 shadow-lg' : '',
-    variant === 'gradient' ? `bg-gradient-${gradientDirection} from-blue-500 to-purple-600 text-white` : '',
-    variant === 'neon' ? 'bg-gray-900 border-2 border-cyan-400 shadow-lg shadow-cyan-400/20' : '',
-    variant === 'morphic' ? 'bg-gray-100 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]' : '',
-    variant === 'standard' || variant === 'elevated' || variant === 'parallax' || variant === 'tilt' ? 'bg-white' : '',
-    
-    // Elevation shadows
-    elevation === 'sm' && variant !== 'outlined' && variant !== 'morphic' ? 'shadow-sm' : '',
-    elevation === 'md' && variant !== 'outlined' && variant !== 'morphic' ? 'shadow-md' : '',
-    elevation === 'lg' && variant !== 'outlined' && variant !== 'morphic' ? 'shadow-lg' : '',
-    elevation === 'xl' && variant !== 'outlined' && variant !== 'morphic' ? 'shadow-xl' : '',
-    
-    // Hover effects
-    hoverEffect === 'scale' && variant !== 'tilt' && variant !== 'flip' ? 'hover:scale-105' : '',
-    hoverEffect === 'lift' && variant !== 'tilt' && variant !== 'flip' ? 'hover:-translate-y-2 hover:shadow-xl' : '',
-    hoverEffect === 'glow' && variant !== 'tilt' && variant !== 'flip' ? 'hover:shadow-2xl hover:shadow-blue-500/20' : '',
-    hoverEffect === 'pulse' && variant !== 'tilt' && variant !== 'flip' ? 'hover:animate-pulse' : '',
-    
-    // Special variant styles
-    variant === 'flip' ? 'relative' : '',
-    variant === 'tilt' ? 'hover:shadow-2xl' : '',
-    
-    // Interactive cursor
-    href || variant === 'flip' ? 'cursor-pointer' : ''
-  ].filter(Boolean).join(' ');
-  
-  // 3D transform styles for tilt effect
-  $: tiltStyle = isTiltEnabled 
-    ? `perspective(${perspective}px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) rotateZ(${tiltZ}deg) scale3d(1.05, 1.05, 1.05)`
-    : '';
-    
-  // Compute flip transform
-  $: flipStyle = variant === 'flip' 
-    ? `transform-style: preserve-3d; transform: ${isFlipped ? 'rotateY(180deg)' : 'rotateY(0)'}`
-    : '';
+	import { createEventDispatcher } from 'svelte';
+	import clsx from 'clsx';
+
+	// Props
+	export let variant = 'standard';
+	export let title = '';
+	export let subtitle = '';
+	export let image = null;
+	export let imageAlt = '';
+	export let hoverEffect = 'none';
+	export let clickable = false;
+	export let padding = 'normal';
+	export let borderRadius = 'lg';
+
+	const dispatch = createEventDispatcher();
+
+	// Base classes
+	const baseClasses = 'relative overflow-hidden transition-all duration-300';
+
+	// Variant classes
+	const variantClasses = {
+		standard: 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700',
+		elevated: 'bg-white dark:bg-gray-800 shadow-lg',
+		outlined: 'bg-transparent border-2 border-gray-300 dark:border-gray-600',
+		glass: 'bg-white/20 dark:bg-gray-900/20 backdrop-blur-md border border-white/30 dark:border-gray-700/30',
+		neon: 'bg-gray-900 border border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.5)]',
+		morphic: 'bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]',
+		gradient: 'bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-500/30'
+	};
+
+	// Hover effect classes
+	const hoverEffectClasses = {
+		none: '',
+		lift: 'hover:-translate-y-2 hover:shadow-xl',
+		scale: 'hover:scale-105',
+		glow: 'hover:shadow-[0_0_30px_rgba(59,130,246,0.6)]',
+		tilt: 'hover:rotate-1'
+	};
+
+	// Padding classes
+	const paddingClasses = {
+		none: '',
+		small: 'p-4',
+		normal: 'p-6',
+		large: 'p-8'
+	};
+
+	// Border radius classes
+	const borderRadiusClasses = {
+		none: '',
+		sm: 'rounded-sm',
+		md: 'rounded-md',
+		lg: 'rounded-lg',
+		xl: 'rounded-xl',
+		'2xl': 'rounded-2xl',
+		full: 'rounded-full'
+	};
+
+	// Computed classes
+	$: cardClasses = clsx(
+		baseClasses,
+		variantClasses[variant],
+		hoverEffectClasses[hoverEffect],
+		paddingClasses[padding],
+		borderRadiusClasses[borderRadius],
+		clickable && 'cursor-pointer',
+		$$props.class
+	);
+
+	// Handle click
+	function handleClick(event) {
+		if (clickable) {
+			dispatch('click', event);
+		}
+	}
 </script>
 
-<div
-  bind:this={card}
-  class={containerClasses}
-  style={isTiltEnabled ? `transform: ${tiltStyle}` : (variant === 'flip' ? flipStyle : '')}
-  on:click={toggleFlip}
+<article 
+	class={cardClasses}
+	on:click={handleClick}
+	on:keydown={(e) => e.key === 'Enter' && handleClick(e)}
+	role={clickable ? 'button' : 'article'}
+	tabindex={clickable ? 0 : -1}
 >
-  <!-- Standard Card Structure -->
-  {#if variant !== 'flip'}
-    <!-- Card image -->
-    {#if image}
-      <div class="relative" style={aspectRatio ? `aspect-ratio: ${aspectRatio};` : ''}>
-        <img
-          src={image}
-          alt={title}
-          class="w-full h-full object-cover {variant === 'parallax' ? 'transform scale-110' : ''}"
-          style={isParallaxEnabled ? `transform: translateY(${tiltY * 2}px)` : ''}
-        />
-      </div>
-    {/if}
-    
-    <!-- Card content -->
-    <div 
-      class="p-4"
-      style={isParallaxEnabled ? `transform: translateY(${tiltY * -1}px)` : ''}
-    >
-      {#if title}
-        <h3 class="font-bold text-lg mb-1">{title}</h3>
-      {/if}
-      
-      {#if subtitle}
-        <p class="text-gray-600 text-sm mb-3">{subtitle}</p>
-      {/if}
-      
-      <slot />
-    </div>
-    
-    <!-- Card footer -->
-    <slot name="footer" />
-  {:else}
-    <!-- Flip Card - Front -->
-    <div 
-      class="absolute w-full h-full backface-hidden"
-      style="transform: rotateY(0deg); backface-visibility: hidden;"
-    >
-      {#if image}
-        <div class="relative" style={aspectRatio ? `aspect-ratio: ${aspectRatio};` : ''}>
-          <img src={image} alt={title} class="w-full h-full object-cover" />
-        </div>
-      {/if}
-      
-      <div class="p-4">
-        {#if title}
-          <h3 class="font-bold text-lg mb-1">{title}</h3>
-        {/if}
-        
-        {#if subtitle}
-          <p class="text-gray-600 text-sm mb-3">{subtitle}</p>
-        {/if}
-        
-        <slot name="front" />
-      </div>
-    </div>
-    
-    <!-- Flip Card - Back -->
-    <div 
-      class="absolute w-full h-full backface-hidden bg-accent text-white p-4"
-      style="transform: rotateY(180deg); backface-visibility: hidden;"
-    >
-      <slot name="back">
-        <h3 class="font-bold text-lg mb-2">Back Content</h3>
-        <p>Add your back content here using the "back" slot.</p>
-      </slot>
-    </div>
-  {/if}
-  
-  <!-- Link overlay if href is provided -->
-  {#if href && variant !== 'flip'}
-    <a href={href} class="absolute inset-0 w-full h-full" aria-label={title}></a>
-  {/if}
-</div>
+	{#if image}
+		<div class="relative -mx-6 -mt-6 mb-6 aspect-video overflow-hidden">
+			<img 
+				src={image} 
+				alt={imageAlt || title}
+				class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+			/>
+			{#if variant === 'neon'}
+				<div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-60"></div>
+			{/if}
+		</div>
+	{/if}
+
+	{#if title || subtitle}
+		<header class="mb-4">
+			{#if subtitle}
+				<p class="text-sm font-medium text-blue-600 dark:text-blue-400 mb-1">
+					{subtitle}
+				</p>
+			{/if}
+			{#if title}
+				<h3 class="text-xl font-bold text-gray-900 dark:text-white">
+					{title}
+				</h3>
+			{/if}
+		</header>
+	{/if}
+
+	<div class="text-gray-600 dark:text-gray-300">
+		<slot />
+	</div>
+
+	{#if $$slots.footer}
+		<footer class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+			<slot name="footer" />
+		</footer>
+	{/if}
+
+	{#if variant === 'neon'}
+		<div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+	{/if}
+</article>
 
 <style>
-  /* For flip card */
-  .backface-hidden {
-    backface-visibility: hidden;
-  }
+	@keyframes tilt {
+		0%, 100% {
+			transform: rotate(0deg);
+		}
+		25% {
+			transform: rotate(1deg);
+		}
+		75% {
+			transform: rotate(-1deg);
+		}
+	}
+
+	.hover\:rotate-1:hover {
+		animation: tilt 0.3s ease-in-out;
+	}
 </style>

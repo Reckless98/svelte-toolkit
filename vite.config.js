@@ -2,14 +2,13 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  plugins: [sveltekit()],
-  server: {
-    fs: {
-      // Allow serving files from one level up to the project root
-      allow: ['..']
-    },
-    port: 5173,
-    strictPort: false,
-    open: true
-  }
+	plugins: [sveltekit()],
+	optimizeDeps: {
+		include: ['gsap', 'prismjs', 'clsx']
+	},
+	server: {
+		port: 5173,
+		strictPort: false,
+		host: true
+	}
 });

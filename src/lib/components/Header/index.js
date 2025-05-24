@@ -1,4 +1,1 @@
-import Header from './Header.svelte';
-
-export { Header };
-export default Header;
+export { default as Header } from './Header.svelte';

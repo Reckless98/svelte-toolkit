@@ -1,4 +1,1 @@
-import Card from './Card.svelte';
-
-export { Card };
-export default Card;
+export { default as Card } from './Card.svelte';

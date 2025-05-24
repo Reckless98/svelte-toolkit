@@ -16,141 +16,140 @@ A comprehensive footer component with multiple layout variants, newsletter subsc
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `string` | `'standard'` | Footer layout variant: `'standard'`, `'simple'`, `'expanded'`, `'centered'`, `'minimal'` |
-| `logo` | `string` | `''` | URL to logo image |
-| `title` | `string` | `'Brand'` | Brand or company name |
-| `description` | `string` | `'A brief description...'` | Company or site description |
-| `links` | `array` | `[...]` | Grouped navigation links with categories |
-| `socialLinks` | `array` | `[...]` | Social media links with icons |
-| `newsletter` | `boolean` | `true` | Enable newsletter subscription |
-| `copyright` | `string` | `'© 2025 Your Company...'` | Copyright text |
-| `dark` | `boolean` | `false` | Enable dark mode styling |
-| `bgColor` | `string` | `'bg-gray-100 text-gray-800'` | Custom background color classes |
+| Prop          | Type      | Default                       | Description                                                                              |
+| ------------- | --------- | ----------------------------- | ---------------------------------------------------------------------------------------- |
+| `variant`     | `string`  | `'standard'`                  | Footer layout variant: `'standard'`, `'simple'`, `'expanded'`, `'centered'`, `'minimal'` |
+| `logo`        | `string`  | `''`                          | URL to logo image                                                                        |
+| `title`       | `string`  | `'Brand'`                     | Brand or company name                                                                    |
+| `description` | `string`  | `'A brief description...'`    | Company or site description                                                              |
+| `links`       | `array`   | `[...]`                       | Grouped navigation links with categories                                                 |
+| `socialLinks` | `array`   | `[...]`                       | Social media links with icons                                                            |
+| `newsletter`  | `boolean` | `true`                        | Enable newsletter subscription                                                           |
+| `copyright`   | `string`  | `'© 2025 Your Company...'`   | Copyright text                                                                           |
+| `dark`        | `boolean` | `false`                       | Enable dark mode styling                                                                 |
+| `bgColor`     | `string`  | `'bg-gray-100 text-gray-800'` | Custom background color classes                                                          |
 
 ## Usage Examples
 
 ### Basic Footer
+
 ```svelte
 <script>
-  import { Footer } from '$lib/components';
+	import { Footer } from '$lib/components';
 </script>
 
 <Footer title="My Company" />
 ```
 
 ### Footer with Custom Links
+
 ```svelte
 <script>
-  import { Footer } from '$lib/components';
-  
-  const footerLinks = [
-    {
-      title: 'Company',
-      items: [
-        { text: 'About Us', href: '/about' },
-        { text: 'Careers', href: '/careers' },
-        { text: 'Press', href: '/press' }
-      ]
-    },
-    {
-      title: 'Products',
-      items: [
-        { text: 'Features', href: '/features' },
-        { text: 'Pricing', href: '/pricing' },
-        { text: 'API', href: '/api' }
-      ]
-    }
-  ];
+	import { Footer } from '$lib/components';
+
+	const footerLinks = [
+		{
+			title: 'Company',
+			items: [
+				{ text: 'About Us', href: '/about' },
+				{ text: 'Careers', href: '/careers' },
+				{ text: 'Press', href: '/press' },
+			],
+		},
+		{
+			title: 'Products',
+			items: [
+				{ text: 'Features', href: '/features' },
+				{ text: 'Pricing', href: '/pricing' },
+				{ text: 'API', href: '/api' },
+			],
+		},
+	];
 </script>
 
-<Footer 
-  title="My Company"
-  description="Building amazing products for the web"
-  links={footerLinks}
+<Footer
+	title="My Company"
+	description="Building amazing products for the web"
+	links={footerLinks}
 />
 ```
 
 ### Simple Footer
+
 ```svelte
-<Footer 
-  variant="simple"
-  title="Simple Site"
-  newsletter={false}
-/>
+<Footer variant="simple" title="Simple Site" newsletter={false} />
 ```
 
 ### Expanded Footer
+
 ```svelte
-<Footer 
-  variant="expanded"
-  title="Enterprise Corp"
-  description="Leading the industry with innovative solutions"
-  links={footerLinks}
-  newsletter={true}
+<Footer
+	variant="expanded"
+	title="Enterprise Corp"
+	description="Leading the industry with innovative solutions"
+	links={footerLinks}
+	newsletter={true}
 />
 ```
 
 ### Centered Footer
+
 ```svelte
-<Footer 
-  variant="centered"
-  title="Creative Agency"
-  description="We create beautiful digital experiences"
-  links={footerLinks}
+<Footer
+	variant="centered"
+	title="Creative Agency"
+	description="We create beautiful digital experiences"
+	links={footerLinks}
 />
 ```
 
 ### Minimal Footer
+
 ```svelte
-<Footer 
-  variant="minimal"
-  copyright="© 2025 Minimal Site. All rights reserved."
-/>
+<Footer variant="minimal" copyright="© 2025 Minimal Site. All rights reserved." />
 ```
 
 ### Dark Mode Footer
+
 ```svelte
-<Footer 
-  title="Dark Theme App"
-  dark={true}
-  links={footerLinks}
-/>
+<Footer title="Dark Theme App" dark={true} links={footerLinks} />
 ```
 
 ### Custom Social Links
+
 ```svelte
 <script>
-  const customSocial = [
-    { 
-      icon: '<svg>...</svg>', // Custom SVG
-      href: 'https://custom-platform.com' 
-    }
-  ];
+	const customSocial = [
+		{
+			icon: '<svg>...</svg>', // Custom SVG
+			href: 'https://custom-platform.com',
+		},
+	];
 </script>
 
-<Footer 
-  title="Custom Social"
-  socialLinks={customSocial}
-/>
+<Footer title="Custom Social" socialLinks={customSocial} />
 ```
 
 ## Variants
 
 ### Standard
+
 Comprehensive footer with brand section, organized links, newsletter, and social media.
 
 ### Simple
+
 Streamlined single-row footer with essential links and social media.
 
 ### Expanded
+
 Full-featured footer with prominent branding, newsletter, and extensive link organization.
 
 ### Centered
+
 Center-aligned layout ideal for landing pages and marketing sites.
 
 ### Minimal
+
 Clean, minimal footer with just copyright and social links.
 
 ## Link Structure
@@ -159,13 +158,13 @@ The `links` prop expects an array of link groups:
 
 ```javascript
 const links = [
-  {
-    title: 'Category Name',
-    items: [
-      { text: 'Link Text', href: '/path' },
-      { text: 'Another Link', href: '/another-path' }
-    ]
-  }
+	{
+		title: 'Category Name',
+		items: [
+			{ text: 'Link Text', href: '/path' },
+			{ text: 'Another Link', href: '/another-path' },
+		],
+	},
 ];
 ```
 
@@ -175,16 +174,17 @@ The `socialLinks` prop expects an array of social media links:
 
 ```javascript
 const socialLinks = [
-  {
-    icon: '<svg>...</svg>', // SVG icon as string
-    href: 'https://social-platform.com'
-  }
+	{
+		icon: '<svg>...</svg>', // SVG icon as string
+		href: 'https://social-platform.com',
+	},
 ];
 ```
 
 ### Included Social Icons
+
 - Twitter
-- GitHub  
+- GitHub
 - LinkedIn
 - Facebook
 - Instagram
@@ -193,18 +193,19 @@ const socialLinks = [
 ## Newsletter Functionality
 
 The newsletter subscription includes:
+
 - Email validation
 - Visual feedback on submission
 - Auto-reset after successful subscription
 - Accessible form labels
 
 ```svelte
-<Footer 
-  newsletter={true}
-  on:newsletter-subscribe={(event) => {
-    console.log('Newsletter subscription:', event.detail.email);
-    // Handle subscription logic
-  }}
+<Footer
+	newsletter={true}
+	on:newsletter-subscribe={(event) => {
+		console.log('Newsletter subscription:', event.detail.email);
+		// Handle subscription logic
+	}}
 />
 ```
 
@@ -213,10 +214,7 @@ The newsletter subscription includes:
 The component dispatches events for newsletter interactions:
 
 ```svelte
-<Footer 
-  on:newsletter-subscribe={handleSubscribe}
-  on:newsletter-error={handleError}
-/>
+<Footer on:newsletter-subscribe={handleSubscribe} on:newsletter-error={handleError} />
 ```
 
 ## Accessibility Features
@@ -231,34 +229,31 @@ The component dispatches events for newsletter interactions:
 ## Customization
 
 ### CSS Custom Properties
+
 ```css
 :root {
-  --footer-bg: #f8f9fa;
-  --footer-text: #333;
-  --footer-link-hover: #007bff;
+	--footer-bg: #f8f9fa;
+	--footer-text: #333;
+	--footer-link-hover: #007bff;
 }
 ```
 
 ### Custom Styling
+
 ```svelte
-<Footer 
-  title="Custom Styled"
-  class="custom-footer"
-/>
+<Footer title="Custom Styled" class="custom-footer" />
 
 <style>
-  :global(.custom-footer) {
-    /* Custom footer styles */
-  }
+	:global(.custom-footer) {
+		/* Custom footer styles */
+	}
 </style>
 ```
 
 ### Theme Integration
+
 ```svelte
-<Footer 
-  bgColor="bg-primary-900 text-white"
-  title="Themed Footer"
-/>
+<Footer bgColor="bg-primary-900 text-white" title="Themed Footer" />
 ```
 
 ## Browser Support
@@ -270,7 +265,7 @@ The component dispatches events for newsletter interactions:
 ## Dependencies
 
 - Svelte for reactivity
-- Tailwind CSS for styling  
+- Tailwind CSS for styling
 - No external JavaScript dependencies
 
 ## Best Practices

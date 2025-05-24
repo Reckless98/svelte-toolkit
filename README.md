@@ -24,22 +24,27 @@ A comprehensive collection of modern, accessible, and customizable UI components
 ## 📦 Components
 
 ### Form Components
+
 - **[Button](src/lib/components/Button/README.md)** - Versatile button component with multiple variants, sizes, and animations
 - **[Input](src/lib/components/Input/README.md)** - Feature-rich input component with validation, icons, and multiple variants
 
 ### Navigation Components
+
 - **[Header](src/lib/components/Header/README.md)** - Responsive header with navigation, search, and sticky behavior
 - **[Footer](src/lib/components/Footer/README.md)** - Comprehensive footer with links, social media, and newsletter signup
 - **[Navigation](src/lib/components/Navigation/README.md)** - Flexible navigation component with horizontal, vertical, breadcrumb, and tab variants
 
 ### Display Components
+
 - **[Card](src/lib/components/Card/README.md)** - Flexible card component with multiple variants and interactive features
 - **[Modal](src/lib/components/Modal/README.md)** - Accessible modal dialogs with animations and custom content
 
 ### Layout Components
+
 - **[HeroLayout & ParallaxLayout](src/lib/layouts/README.md)** - Pre-built layout components for hero sections and parallax effects
 
 ### Animation Components
+
 - **ScrollReveal** - Animate elements when they enter the viewport
 - **Parallax** - Create depth with parallax scrolling effects
 
@@ -53,38 +58,28 @@ npm install svelte-ui-toolkit
 
 ```svelte
 <script>
-  import { Button, Card, Input, Modal } from 'svelte-ui-toolkit';
-  
-  let showModal = false;
-  let formData = { name: '', email: '' };
+	import { Button, Card, Input, Modal } from 'svelte-ui-toolkit';
+
+	let showModal = false;
+	let formData = { name: '', email: '' };
 </script>
 
 <Card title="Contact Form" variant="elevated">
-  <form class="space-y-4">
-    <Input 
-      label="Name"
-      bind:value={formData.name}
-      placeholder="Enter your name"
-      required
-    />
-    <Input 
-      type="email"
-      label="Email"
-      bind:value={formData.email}
-      placeholder="Enter your email"
-      required
-    />
-    <Button 
-      variant="primary"
-      on:click={() => showModal = true}
-    >
-      Submit
-    </Button>
-  </form>
+	<form class="space-y-4">
+		<Input label="Name" bind:value={formData.name} placeholder="Enter your name" required />
+		<Input
+			type="email"
+			label="Email"
+			bind:value={formData.email}
+			placeholder="Enter your email"
+			required
+		/>
+		<Button variant="primary" on:click={() => (showModal = true)}>Submit</Button>
+	</form>
 </Card>
 
 <Modal bind:show={showModal} title="Thank You!">
-  <p>Your form has been submitted successfully.</p>
+	<p>Your form has been submitted successfully.</p>
 </Modal>
 ```
 
@@ -96,20 +91,20 @@ The toolkit uses CSS custom properties for easy theming:
 
 ```css
 :root {
-  /* Primary Colors */
-  --color-primary: #3b82f6;
-  --color-primary-hover: #2563eb;
-  --color-accent: #10b981;
-  
-  /* Neutral Colors */
-  --color-gray-50: #f9fafb;
-  --color-gray-100: #f3f4f6;
-  --color-gray-900: #111827;
-  
-  /* Component Specific */
-  --button-border-radius: 0.5rem;
-  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --modal-backdrop: rgba(0, 0, 0, 0.5);
+	/* Primary Colors */
+	--color-primary: #3b82f6;
+	--color-primary-hover: #2563eb;
+	--color-accent: #10b981;
+
+	/* Neutral Colors */
+	--color-gray-50: #f9fafb;
+	--color-gray-100: #f3f4f6;
+	--color-gray-900: #111827;
+
+	/* Component Specific */
+	--button-border-radius: 0.5rem;
+	--card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	--modal-backdrop: rgba(0, 0, 0, 0.5);
 }
 ```
 
@@ -119,8 +114,8 @@ All components automatically support dark mode through CSS classes:
 
 ```svelte
 <div class="dark">
-  <!-- All components will use dark theme -->
-  <Button variant="primary">Dark Mode Button</Button>
+	<!-- All components will use dark theme -->
+	<Button variant="primary">Dark Mode Button</Button>
 </div>
 ```
 
@@ -132,24 +127,24 @@ Add the following to your `tailwind.config.js`:
 
 ```javascript
 module.exports = {
-  content: [
-    './src/**/*.{html,js,svelte,ts}',
-    './node_modules/svelte-ui-toolkit/**/*.{html,js,svelte,ts}'
-  ],
-  darkMode: 'class',
-  theme: {
-    extend: {
-      colors: {
-        accent: {
-          50: '#f0fdf4',
-          500: '#10b981',
-          600: '#059669',
-          700: '#047857',
-        }
-      }
-    }
-  }
-}
+	content: [
+		'./src/**/*.{html,js,svelte,ts}',
+		'./node_modules/svelte-ui-toolkit/**/*.{html,js,svelte,ts}',
+	],
+	darkMode: 'class',
+	theme: {
+		extend: {
+			colors: {
+				accent: {
+					50: '#f0fdf4',
+					500: '#10b981',
+					600: '#059669',
+					700: '#047857',
+				},
+			},
+		},
+	},
+};
 ```
 
 ## 📱 Component Explorer
@@ -262,6 +257,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ## 🔄 Changelog
 
 ### v1.0.0 (Current)
+
 - Initial release with core components
 - Component explorer interface
 - Comprehensive documentation
@@ -269,6 +265,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - Dark mode support
 
 ### Roadmap
+
 - [ ] Additional form components (Select, Checkbox, Radio)
 - [ ] Data display components (Table, List, Badge)
 - [ ] Feedback components (Toast, Alert, Progress)

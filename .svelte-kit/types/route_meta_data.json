@@ -4,7 +4,52 @@
 		"src/routes/+layout.js",
 		"src/routes/+layout.js"
 	],
+	"/about": [
+		"src/routes/+layout.js"
+	],
+	"/components/alert": [
+		"src/routes/+layout.js"
+	],
+	"/components/badge": [
+		"src/routes/+layout.js"
+	],
+	"/components/list": [
+		"src/routes/+layout.js"
+	],
+	"/components/progress": [
+		"src/routes/+layout.js"
+	],
+	"/components/stats": [
+		"src/routes/+layout.js"
+	],
+	"/components/table": [
+		"src/routes/+layout.js"
+	],
+	"/components/tabs": [
+		"src/routes/+layout.js"
+	],
+	"/components/toast": [
+		"src/routes/+layout.js"
+	],
+	"/contact": [
+		"src/routes/+layout.js"
+	],
 	"/explorer": [
+		"src/routes/+layout.js"
+	],
+	"/explorer/checkbox": [
+		"src/routes/+layout.js"
+	],
+	"/explorer/select": [
+		"src/routes/+layout.js"
+	],
+	"/explorer/textarea": [
+		"src/routes/+layout.js"
+	],
+	"/explorer/toggle": [
+		"src/routes/+layout.js"
+	],
+	"/services": [
 		"src/routes/+layout.js"
 	]
 }

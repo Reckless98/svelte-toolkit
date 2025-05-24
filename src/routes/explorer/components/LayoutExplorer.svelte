@@ -1,132 +1,187 @@
-<!-- Layout Component Explorer -->
 <script>
-  import { HeroLayout, ParallaxLayout } from '$lib/layouts';
-  import ComponentPreview from '../ComponentPreview.svelte';
-  
-  // Sample background images
-  const mountainImage = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80';  const cityImage = 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80';
-  
-  // Code examples - simplified to avoid template literal conflicts
-  const heroExample = `import { HeroLayout } from 'svelte-ui-toolkit';
+	import HeroLayout from '$lib/layouts/HeroLayout.svelte';
+	// Note: ParallaxLayout component needs to be created or imported if it exists
+	import ComponentPreview from '../ComponentPreview.svelte';
 
-<HeroLayout 
-  backgroundImage="/path/to/image.jpg"
-  fullHeight={true}
-  textAlignment="text-center"
+	// Sample background images
+	const mountainImage =
+		'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80';
+	const cityImage =
+		'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80';
+
+	// Code examples
+	const heroExample = `<HeroLayout
+  variant="standard"
+  height="h-96"
+  backgroundImage={mountainImage}
+  backgroundOverlay="rgba(0, 0, 0, 0.5)"
 >
-  <h1 class="text-5xl font-bold mb-4">Hero Title</h1>
-  <p class="text-xl mb-8">Hero subtitle with more information</p>
-  <div class="flex justify-center gap-4">
-    <button class="px-6 py-2 bg-accent text-white rounded-lg">Primary Action</button>
-    <button class="px-6 py-2 bg-transparent border border-white text-white rounded-lg">Secondary Action</button>
-  </div>
+  <h1 class="text-4xl font-bold text-white mb-4">Welcome to Our Site</h1>
+  <p class="text-xl text-gray-200">Discover amazing components</p>
+  <button class="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg">
+    Get Started
+  </button>
 </HeroLayout>`;
 
-  const parallaxExample = `import { ParallaxLayout } from 'svelte-ui-toolkit';
-
-<ParallaxLayout
-  backgroundImage="/path/to/image.jpg"
-  speed={0.5}
-  fullHeight={true}
+	const gradientExample = `<HeroLayout
+  variant="gradient"
+  height="h-96"
+  primaryColor="blue"
+  secondaryColor="purple"
 >
-  <div class="text-center">
-    <h1 class="text-5xl font-bold mb-4">Parallax Section</h1>
-    <p class="text-xl">Content that moves at a different speed than the background</p>
-  </div>
-</ParallaxLayout>`;
+  <h1 class="text-4xl font-bold text-white mb-4">Gradient Hero</h1>
+  <p class="text-xl text-gray-100">Beautiful gradient backgrounds</p>
+</HeroLayout>`;
 
-  const splitHeroExample = `<HeroLayout
-  variant="split"
-  backgroundImage="/path/to/image.jpg"
+	const particlesExample = `<HeroLayout
+  variant="particles"
+  height="h-96"
+  particleCount={30}
+  enableMouseTracker={true}
 >
-  <div slot="left">
-    <h1 class="text-4xl font-bold mb-4">Left Content</h1>
-    <p class="mb-6">Description text goes here</p>
-    <button class="px-6 py-2 bg-accent text-white rounded-lg">Call to Action</button>
-  </div>
-  
-  <div slot="right" class="p-8 bg-white/20 backdrop-blur-md rounded-lg">
-    <h2 class="text-2xl font-bold mb-4">Right Content</h2>
-    <p>Secondary content, form, or image can go here</p>
-  </div>
+  <h1 class="text-4xl font-bold text-white mb-4">Interactive Particles</h1>
+  <p class="text-xl text-gray-200">Move your mouse to see the effect</p>
 </HeroLayout>`;
 </script>
 
-<section>
-  <div class="max-w-4xl mx-auto">
-    <div class="mb-6">
-      <h1 class="text-2xl font-bold mb-2">Layout Components</h1>
-      <p class="text-gray-600 dark:text-gray-400">
-        Pre-built layout components for common UI patterns, including hero sections, parallax effects, and more.
-      </p>
-    </div>
-    
-    <!-- Standard Hero Layout -->
-    <ComponentPreview
-      title="Hero Layout"
-      description="Full-screen hero section with background image and content."
-      codeSnippet={heroExample}
-    >
-      <div class="w-full h-96 relative overflow-hidden">
-        <HeroLayout 
-          backgroundImage={mountainImage}
-          fullHeight={false}
-          textAlignment="text-center"
-        >
-          <h1 class="text-4xl font-bold mb-4">Hero Title</h1>
-          <p class="text-xl mb-6">Hero subtitle with more information</p>
-          <div class="flex justify-center gap-4">
-            <button class="px-6 py-2 bg-accent text-white rounded-lg">Primary Action</button>
-            <button class="px-6 py-2 bg-transparent border border-white text-white rounded-lg">Secondary Action</button>
-          </div>
-        </HeroLayout>
-      </div>
-    </ComponentPreview>
-    
-    <!-- Parallax Layout -->
-    <ComponentPreview
-      title="Parallax Layout"
-      description="Section with parallax scrolling effect."
-      codeSnippet={parallaxExample}
-    >
-      <div class="w-full h-96 relative overflow-hidden">
-        <ParallaxLayout
-          backgroundImage={cityImage}
-          speed={0.5}
-          fullHeight={false}
-        >
-          <div class="text-center">
-            <h1 class="text-4xl font-bold mb-4">Parallax Section</h1>
-            <p class="text-xl">Content that moves at a different speed than the background</p>
-          </div>
-        </ParallaxLayout>
-      </div>
-    </ComponentPreview>
-    
-    <!-- Split Hero Layout -->
-    <ComponentPreview
-      title="Split Hero Layout"
-      description="Hero layout with content split into two columns."
-      codeSnippet={splitHeroExample}
-    >
-      <div class="w-full h-96 relative overflow-hidden">
-        <HeroLayout
-          variant="split"
-          backgroundImage={mountainImage}
-          fullHeight={false}
-        >
-          <div slot="left">
-            <h1 class="text-4xl font-bold mb-4">Left Content</h1>
-            <p class="mb-6">Description text goes here</p>
-            <button class="px-6 py-2 bg-accent text-white rounded-lg">Call to Action</button>
-          </div>
-          
-          <div slot="right" class="p-8 bg-white/20 backdrop-blur-md rounded-lg">
-            <h2 class="text-2xl font-bold mb-4">Right Content</h2>
-            <p>Secondary content, form, or image can go here</p>
-          </div>
-        </HeroLayout>
-      </div>
-    </ComponentPreview>
+<section class="space-y-8">
+	<div class="max-w-6xl mx-auto">
+		<!-- Header -->
+		<div class="mb-8">
+			<h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent mb-4">
+				Layout Components
+			</h1>
+			<p class="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+				Powerful layout components for creating stunning hero sections, parallax effects, and more.
+			</p>
+		</div>
+
+		<!-- Standard Hero -->
+		<ComponentPreview
+			title="Standard Hero Layout"
+			description="Classic hero section with background image and overlay"
+			codeSnippet={heroExample}
+		>
+			<div class="w-full -m-8">
+				<HeroLayout
+					variant="standard"
+					height="h-96"
+					backgroundImage={mountainImage}
+					backgroundOverlay="rgba(0, 0, 0, 0.5)"
+				>
+					<h1 class="text-4xl font-bold text-white mb-4">Welcome to Our Site</h1>
+					<p class="text-xl text-gray-200 mb-6">Discover amazing components</p>
+					<button class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+						Get Started
+					</button>
+				</HeroLayout>
+			</div>
+		</ComponentPreview>
+
+		<!-- Gradient Hero -->
+		<ComponentPreview
+			title="Gradient Hero Layout"
+			description="Hero section with animated gradient background"
+			codeSnippet={gradientExample}
+		>
+			<div class="w-full -m-8">
+				<HeroLayout
+					variant="gradient"
+					height="h-96"
+					primaryColor="blue"
+					secondaryColor="purple"
+					animated={true}
+				>
+					<h1 class="text-4xl font-bold text-white mb-4">Gradient Hero</h1>
+					<p class="text-xl text-gray-100 mb-6">Beautiful gradient backgrounds</p>
+					<div class="flex gap-4 justify-center">
+						<button class="px-6 py-3 bg-white/20 hover:bg-white/30 text-white rounded-lg backdrop-blur-sm transition-colors">
+							Learn More
+						</button>
+						<button class="px-6 py-3 bg-white text-gray-900 rounded-lg hover:bg-gray-100 transition-colors">
+							Get Started
+						</button>
+					</div>
+				</HeroLayout>
+			</div>
+		</ComponentPreview>
+
+		<!-- Particles Hero -->
+		<ComponentPreview
+			title="Particles Hero Layout"
+			description="Interactive hero section with animated particles"
+			codeSnippet={particlesExample}
+		>
+			<div class="w-full -m-8">
+				<HeroLayout
+					variant="particles"
+					height="h-96"
+					particleCount={30}
+					enableMouseTracker={true}
+					primaryColor="blue"
+					secondaryColor="purple"
+				>
+					<h1 class="text-4xl font-bold text-white mb-4">Interactive Particles</h1>
+					<p class="text-xl text-gray-200 mb-6">Move your mouse to see the effect</p>
+					<button class="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg transition-all transform hover:scale-105">
+						Explore Components
+					</button>
+				</HeroLayout>
+			</div>
+		</ComponentPreview>
+
+		<!-- Split Hero -->
+		<ComponentPreview
+			title="Split Hero Layout"
+			description="Two-column hero section for showcasing content and images"
+			codeSnippet={`<HeroLayout variant="split" height="h-96">
+  <div slot="left">
+    <h1 class="text-4xl font-bold mb-4">Split Layout</h1>
+    <p class="text-lg text-gray-600 mb-6">Perfect for showcasing products</p>
+    <button class="px-6 py-3 bg-blue-600 text-white rounded-lg">
+      Learn More
+    </button>
   </div>
+  <div slot="right">
+    <img src="/product.png" alt="Product" class="rounded-lg shadow-xl" />
+  </div>
+</HeroLayout>`}
+		>
+			<div class="w-full -m-8 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+				<HeroLayout variant="split" height="h-96">
+					<div slot="left" class="text-left">
+						<h1 class="text-4xl font-bold mb-4 text-gray-900 dark:text-white">Split Layout</h1>
+						<p class="text-lg text-gray-600 dark:text-gray-300 mb-6">
+							Perfect for showcasing products or features side by side
+						</p>
+						<button class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+							Learn More
+						</button>
+					</div>
+					<div slot="right" class="flex items-center justify-center">
+						<div class="w-64 h-64 bg-gradient-to-br from-blue-400 to-purple-600 rounded-lg shadow-xl flex items-center justify-center">
+							<span class="text-white text-6xl">🚀</span>
+						</div>
+					</div>
+				</HeroLayout>
+			</div>
+		</ComponentPreview>
+
+		<!-- Minimal Hero -->
+		<ComponentPreview
+			title="Minimal Hero Layout"
+			description="Clean and minimal hero section with glassmorphic effect"
+			codeSnippet={`<HeroLayout variant="minimal" height="h-64">
+  <h2 class="text-3xl font-bold mb-2">Minimal Design</h2>
+  <p class="text-gray-600">Less is more</p>
+</HeroLayout>`}
+		>
+			<div class="w-full -m-8 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900">
+				<HeroLayout variant="minimal" height="h-64">
+					<h2 class="text-3xl font-bold mb-2 text-gray-900 dark:text-white">Minimal Design</h2>
+					<p class="text-gray-600 dark:text-gray-300">Less is more - focus on what matters</p>
+				</HeroLayout>
+			</div>
+		</ComponentPreview>
+	</div>
 </section>

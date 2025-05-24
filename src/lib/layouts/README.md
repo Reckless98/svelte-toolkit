@@ -25,14 +25,14 @@ A parallax scrolling container that creates depth and visual interest through di
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `backgroundImage` | `string` | `''` | URL for background image |
-| `fullHeight` | `boolean` | `true` | Use full viewport height |
-| `textAlignment` | `string` | `'text-center'` | Text alignment class |
-| `overlay` | `boolean` | `true` | Show background overlay |
-| `overlayOpacity` | `number` | `0.5` | Overlay opacity (0-1) |
-| `variant` | `string` | `'standard'` | Layout variant (`standard`, `split`) |
+| Prop              | Type      | Default         | Description                          |
+| ----------------- | --------- | --------------- | ------------------------------------ |
+| `backgroundImage` | `string`  | `''`            | URL for background image             |
+| `fullHeight`      | `boolean` | `true`          | Use full viewport height             |
+| `textAlignment`   | `string`  | `'text-center'` | Text alignment class                 |
+| `overlay`         | `boolean` | `true`          | Show background overlay              |
+| `overlayOpacity`  | `number`  | `0.5`           | Overlay opacity (0-1)                |
+| `variant`         | `string`  | `'standard'`    | Layout variant (`standard`, `split`) |
 
 ### Usage Examples
 
@@ -40,40 +40,30 @@ A parallax scrolling container that creates depth and visual interest through di
 
 ```svelte
 <script>
-  import { HeroLayout } from 'svelte-ui-toolkit';
+	import { HeroLayout } from 'svelte-ui-toolkit';
 </script>
 
-<HeroLayout 
-  backgroundImage="/path/to/hero-image.jpg"
-  textAlignment="text-center"
->
-  <h1 class="text-5xl font-bold mb-4">Welcome to Our Site</h1>
-  <p class="text-xl mb-8">Discover amazing features and services</p>
-  <button class="px-8 py-3 bg-blue-600 text-white rounded-lg">
-    Get Started
-  </button>
+<HeroLayout backgroundImage="/path/to/hero-image.jpg" textAlignment="text-center">
+	<h1 class="text-5xl font-bold mb-4">Welcome to Our Site</h1>
+	<p class="text-xl mb-8">Discover amazing features and services</p>
+	<button class="px-8 py-3 bg-blue-600 text-white rounded-lg"> Get Started </button>
 </HeroLayout>
 ```
 
 #### Split Hero Layout
 
 ```svelte
-<HeroLayout 
-  variant="split"
-  backgroundImage="/path/to/hero-image.jpg"
->
-  <div slot="left">
-    <h1 class="text-4xl font-bold mb-4">Left Content</h1>
-    <p class="mb-6">Your main message goes here</p>
-    <button class="px-6 py-2 bg-accent text-white rounded-lg">
-      Call to Action
-    </button>
-  </div>
-  
-  <div slot="right" class="p-8 bg-white/20 backdrop-blur-md rounded-lg">
-    <h2 class="text-2xl font-bold mb-4">Right Content</h2>
-    <p>Secondary content, forms, or additional information</p>
-  </div>
+<HeroLayout variant="split" backgroundImage="/path/to/hero-image.jpg">
+	<div slot="left">
+		<h1 class="text-4xl font-bold mb-4">Left Content</h1>
+		<p class="mb-6">Your main message goes here</p>
+		<button class="px-6 py-2 bg-accent text-white rounded-lg"> Call to Action </button>
+	</div>
+
+	<div slot="right" class="p-8 bg-white/20 backdrop-blur-md rounded-lg">
+		<h2 class="text-2xl font-bold mb-4">Right Content</h2>
+		<p>Secondary content, forms, or additional information</p>
+	</div>
 </HeroLayout>
 ```
 
@@ -89,12 +79,12 @@ A parallax scrolling container that creates depth and visual interest through di
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `backgroundImage` | `string` | `''` | Background image URL |
-| `speed` | `number` | `0.5` | Parallax speed (0-1, where 0.5 is half scroll speed) |
-| `direction` | `string` | `'up'` | Parallax direction (`up`, `down`, `left`, `right`) |
-| `fullHeight` | `boolean` | `false` | Use full viewport height |
+| Prop              | Type      | Default | Description                                          |
+| ----------------- | --------- | ------- | ---------------------------------------------------- |
+| `backgroundImage` | `string`  | `''`    | Background image URL                                 |
+| `speed`           | `number`  | `0.5`   | Parallax speed (0-1, where 0.5 is half scroll speed) |
+| `direction`       | `string`  | `'up'`  | Parallax direction (`up`, `down`, `left`, `right`)   |
+| `fullHeight`      | `boolean` | `false` | Use full viewport height                             |
 
 ### Usage Examples
 
@@ -102,18 +92,14 @@ A parallax scrolling container that creates depth and visual interest through di
 
 ```svelte
 <script>
-  import { ParallaxLayout } from 'svelte-ui-toolkit';
+	import { ParallaxLayout } from 'svelte-ui-toolkit';
 </script>
 
-<ParallaxLayout 
-  backgroundImage="/path/to/background.jpg"
-  speed={0.5}
-  direction="up"
->
-  <div class="text-center py-20">
-    <h2 class="text-4xl font-bold mb-4">Parallax Section</h2>
-    <p class="text-xl">Content that moves at a different speed</p>
-  </div>
+<ParallaxLayout backgroundImage="/path/to/background.jpg" speed={0.5} direction="up">
+	<div class="text-center py-20">
+		<h2 class="text-4xl font-bold mb-4">Parallax Section</h2>
+		<p class="text-xl">Content that moves at a different speed</p>
+	</div>
 </ParallaxLayout>
 ```
 
@@ -121,19 +107,19 @@ A parallax scrolling container that creates depth and visual interest through di
 
 ```svelte
 <div class="grid grid-cols-2 gap-8">
-  <ParallaxLayout speed={0.2} direction="left">
-    <div class="p-6 bg-white rounded-lg shadow-md">
-      <h3 class="font-bold mb-2">Moves Left</h3>
-      <p>This content moves left while scrolling</p>
-    </div>
-  </ParallaxLayout>
-  
-  <ParallaxLayout speed={0.2} direction="right">
-    <div class="p-6 bg-white rounded-lg shadow-md">
-      <h3 class="font-bold mb-2">Moves Right</h3>
-      <p>This content moves right while scrolling</p>
-    </div>
-  </ParallaxLayout>
+	<ParallaxLayout speed={0.2} direction="left">
+		<div class="p-6 bg-white rounded-lg shadow-md">
+			<h3 class="font-bold mb-2">Moves Left</h3>
+			<p>This content moves left while scrolling</p>
+		</div>
+	</ParallaxLayout>
+
+	<ParallaxLayout speed={0.2} direction="right">
+		<div class="p-6 bg-white rounded-lg shadow-md">
+			<h3 class="font-bold mb-2">Moves Right</h3>
+			<p>This content moves right while scrolling</p>
+		</div>
+	</ParallaxLayout>
 </div>
 ```
 
@@ -150,8 +136,8 @@ Both components use Tailwind CSS classes and support:
 
 ```css
 :root {
-  --hero-overlay-color: rgba(0, 0, 0, 0.5);
-  --parallax-transform-origin: center center;
+	--hero-overlay-color: rgba(0, 0, 0, 0.5);
+	--parallax-transform-origin: center center;
 }
 ```
 
