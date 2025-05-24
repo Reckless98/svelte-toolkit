@@ -14,10 +14,10 @@
 		duration: number;
 		size: number;
 		opacity: number;
-		x?: number;
-		y?: number;
-		speed?: number;
-		color?: string;
+		x: number;
+		y: number;
+		speed: number;
+		color: string;
 	}
 
 	type HeroVariant = 'standard' | 'split' | 'fullscreen' | 'minimal' | 'gradient' | 'particles' | 'animated' | 'video';
@@ -47,6 +47,15 @@
 	let scrollY = 0;
 	let innerWidth = 0;
 	let innerHeight = 0;
+	
+	// Enhanced mouse tracking for interactive effects
+	let mouseX = 0;
+	let mouseY = 0;
+	let isMouseActive = false;
+	let mouseVelocityX = 0;
+	let mouseVelocityY = 0;
+	let lastMouseX = 0;
+	let lastMouseY = 0;
 
 	// Component count - actual components in the project
 	const componentCount = 19; // Alert, Badge, Button, Card, Documentation, Footer, Header, Input, List, Modal, Navigation, Progress, Search, Stats, Table, Tabs, Toast, HeroLayout, ParallaxLayout
@@ -58,43 +67,85 @@
 	theme.subscribe((value) => (currentTheme = value));
 	homeMode.subscribe((value) => (currentMode = value));
 
+	// Performance optimization - throttled mouse tracking
+	let mouseTrackingFrame: number;
+
 	onMount(() => {
 		mounted = true;
 		createAnimationElements();
 		
-		// Create interval for dynamic animations
+		// Enhanced mouse tracking with velocity calculation
+		const handleMouseMove = (e: MouseEvent) => {
+			if (mouseTrackingFrame) {
+				cancelAnimationFrame(mouseTrackingFrame);
+			}
+			
+			mouseTrackingFrame = requestAnimationFrame(() => {
+				// Calculate mouse velocity for enhanced effects
+				mouseVelocityX = e.clientX - lastMouseX;
+				mouseVelocityY = e.clientY - lastMouseY;
+				lastMouseX = mouseX;
+				lastMouseY = mouseY;
+				
+				mouseX = e.clientX;
+				mouseY = e.clientY;
+				isMouseActive = true;
+			});
+		};
+
+		const handleMouseLeave = () => {
+			isMouseActive = false;
+		};
+
+		document.addEventListener('mousemove', handleMouseMove);
+		document.addEventListener('mouseleave', handleMouseLeave);
+		
+		// Create interval for dynamic animations - optimized to 8 seconds
 		const interval = setInterval(() => {
-			if (currentMode === HOME_MODES.NEURAL || currentMode === HOME_MODES.AURORA) {
+			if (currentMode === HOME_MODES.NEURAL || currentMode === HOME_MODES.GRADIENT || currentMode === HOME_MODES.AURORA) {
 				createAnimationElements();
 			}
-		}, 5000);
+		}, 8000);
 
-		return () => clearInterval(interval);
+		return () => {
+			clearInterval(interval);
+			document.removeEventListener('mousemove', handleMouseMove);
+			document.removeEventListener('mouseleave', handleMouseLeave);
+			if (mouseTrackingFrame) {
+				cancelAnimationFrame(mouseTrackingFrame);
+			}
+		};
 	});
 
 	function createAnimationElements() {
+		// Detect device capabilities for performance optimization
+		const isMobile = innerWidth < 768;
+		const isLowPerformance = isMobile || navigator.hardwareConcurrency < 4;
+		
 		const configs = {
-			[HOME_MODES.MATRIX]: { count: 25, baseSize: 1, maxSize: 2 },
-			[HOME_MODES.PARTICLES]: { count: 30, baseSize: 2, maxSize: 4 },
-			[HOME_MODES.COSMIC]: { count: 20, baseSize: 3, maxSize: 6 },
-			[HOME_MODES.WAVES]: { count: 15, baseSize: 8, maxSize: 16 },
-			[HOME_MODES.GEOMETRIC]: { count: 12, baseSize: 10, maxSize: 20 },
-			[HOME_MODES.NEURAL]: { count: 40, baseSize: 1, maxSize: 3 },
-			[HOME_MODES.CRYSTALLINE]: { count: 18, baseSize: 6, maxSize: 12 },
-			[HOME_MODES.AURORA]: { count: 8, baseSize: 50, maxSize: 100 },
+			[HOME_MODES.MATRIX]: { count: isLowPerformance ? 15 : 25, baseSize: 1, maxSize: 2 },
+			[HOME_MODES.PARTICLES]: { count: isLowPerformance ? 20 : 30, baseSize: 2, maxSize: 4 },
+			[HOME_MODES.COSMIC]: { count: isLowPerformance ? 12 : 20, baseSize: 3, maxSize: 6 },
+			[HOME_MODES.WAVES]: { count: isLowPerformance ? 10 : 15, baseSize: 8, maxSize: 16 },
+			[HOME_MODES.GEOMETRIC]: { count: isLowPerformance ? 8 : 12, baseSize: 10, maxSize: 20 },
+			[HOME_MODES.NEURAL]: { count: isLowPerformance ? 35 : 60, baseSize: 1, maxSize: 4 }, // Enhanced with more nodes
+			[HOME_MODES.CRYSTALLINE]: { count: isLowPerformance ? 12 : 18, baseSize: 6, maxSize: 12 },
+			[HOME_MODES.AURORA]: { count: isLowPerformance ? 5 : 8, baseSize: 50, maxSize: 100 },
+			[HOME_MODES.PARALLAX]: { count: isLowPerformance ? 20 : 35, baseSize: 3, maxSize: 8 }, // Added parallax config
+			[HOME_MODES.GRADIENT]: { count: isLowPerformance ? 15 : 25, baseSize: 5, maxSize: 15 }, // Added gradient config
 		};
 
 		const config = configs[currentMode] || configs[HOME_MODES.PARTICLES];
 		
 		animationElements = Array.from({ length: config.count }, (_, i) => ({
 			id: i,
-			delay: Math.random() * 8,
-			duration: 2 + Math.random() * 6,
+			delay: Math.random() * (isLowPerformance ? 4 : 8),
+			duration: (isLowPerformance ? 1.5 : 2) + Math.random() * (isLowPerformance ? 3 : 6),
 			size: config.baseSize + Math.random() * (config.maxSize - config.baseSize),
-			opacity: 0.2 + Math.random() * 0.6,
+			opacity: 0.2 + Math.random() * (isLowPerformance ? 0.4 : 0.6),
 			x: Math.random() * 100,
 			y: Math.random() * 100,
-			speed: 0.5 + Math.random() * 2,
+			speed: 0.5 + Math.random() * (isLowPerformance ? 1 : 2),
 			color: getRandomColor(currentMode)
 		}));
 	}
@@ -106,9 +157,11 @@
 			[HOME_MODES.COSMIC]: ['#a855f7', '#ec4899', '#f59e0b'],
 			[HOME_MODES.WAVES]: ['#06b6d4', '#0ea5e9', '#3b82f6'],
 			[HOME_MODES.GEOMETRIC]: ['#f97316', '#ef4444', '#eab308'],
-			[HOME_MODES.NEURAL]: ['#10b981', '#06b6d4', '#8b5cf6'],
+			[HOME_MODES.NEURAL]: ['#10b981', '#06b6d4', '#8b5cf6', '#3b82f6', '#22d3ee'],
 			[HOME_MODES.CRYSTALLINE]: ['#e879f9', '#c084fc', '#a78bfa'],
 			[HOME_MODES.AURORA]: ['#22d3ee', '#a78bfa', '#fb7185'],
+			[HOME_MODES.PARALLAX]: ['#10b981', '#06b6d4', '#34d399', '#22d3ee', '#14b8a6'],
+			[HOME_MODES.GRADIENT]: ['#f59e0b', '#ec4899', '#8b5cf6', '#3b82f6', '#ef4444'],
 		};
 		
 		const palette = colorPalettes[mode] || colorPalettes[HOME_MODES.PARTICLES];
@@ -271,18 +324,98 @@
 		},
 	];
 
-	// Mode selector configuration
+	// Enhanced Mode selector configuration with consistent design patterns
 	const modeSelectors = [
-		{ mode: HOME_MODES.PARTICLES, icon: '✨', label: 'Particles', color: 'from-blue-500 to-purple-500' },
-		{ mode: HOME_MODES.PARALLAX, icon: '🌊', label: 'Parallax', color: 'from-emerald-500 to-teal-500' },
-		{ mode: HOME_MODES.GRADIENT, icon: '🎨', label: 'Gradient', color: 'from-pink-500 to-orange-500' },
-		{ mode: HOME_MODES.MATRIX, icon: '💻', label: 'Matrix', color: 'from-green-500 to-emerald-500' },
-		{ mode: HOME_MODES.COSMIC, icon: '🌌', label: 'Cosmic', color: 'from-purple-500 to-blue-500' },
-		{ mode: HOME_MODES.WAVES, icon: '〰️', label: 'Waves', color: 'from-cyan-500 to-blue-500' },
-		{ mode: HOME_MODES.GEOMETRIC, icon: '🔶', label: 'Geometric', color: 'from-orange-500 to-red-500' },
-		{ mode: HOME_MODES.NEURAL, icon: '🧠', label: 'Neural', color: 'from-emerald-500 to-green-500' },
-		{ mode: HOME_MODES.CRYSTALLINE, icon: '💎', label: 'Crystal', color: 'from-violet-500 to-purple-500' },
-		{ mode: HOME_MODES.AURORA, icon: '🌈', label: 'Aurora', color: 'from-cyan-500 to-purple-500' },
+		{ 
+			mode: HOME_MODES.PARTICLES, 
+			icon: '✨', 
+			label: 'Particles', 
+			color: 'from-blue-500 to-purple-500',
+			bgPattern: 'radial-gradient(circle at 30% 70%, rgba(59, 130, 246, 0.3) 0%, transparent 50%)',
+			hoverEffect: 'hover:shadow-blue-500/25',
+			description: 'Interactive floating particles'
+		},
+		{ 
+			mode: HOME_MODES.PARALLAX, 
+			icon: '🌊', 
+			label: 'Parallax', 
+			color: 'from-emerald-500 to-teal-500',
+			bgPattern: 'linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(20, 184, 166, 0.2) 100%)',
+			hoverEffect: 'hover:shadow-emerald-500/25',
+			description: 'Depth-based scroll effects'
+		},
+		{ 
+			mode: HOME_MODES.GRADIENT, 
+			icon: '🎨', 
+			label: 'Gradient', 
+			color: 'from-pink-500 to-orange-500',
+			bgPattern: 'linear-gradient(45deg, rgba(236, 72, 153, 0.3) 0%, rgba(251, 146, 60, 0.3) 100%)',
+			hoverEffect: 'hover:shadow-pink-500/25',
+			description: 'Dynamic color transitions'
+		},
+		{ 
+			mode: HOME_MODES.MATRIX, 
+			icon: '💻', 
+			label: 'Matrix', 
+			color: 'from-green-500 to-emerald-500',
+			bgPattern: 'repeating-linear-gradient(0deg, rgba(34, 197, 94, 0.1) 0px, transparent 2px, transparent 4px, rgba(34, 197, 94, 0.1) 6px)',
+			hoverEffect: 'hover:shadow-green-500/25',
+			description: 'Digital rain cascades'
+		},
+		{ 
+			mode: HOME_MODES.COSMIC, 
+			icon: '🌌', 
+			label: 'Cosmic', 
+			color: 'from-purple-500 to-blue-500',
+			bgPattern: 'radial-gradient(ellipse at 20% 80%, rgba(147, 51, 234, 0.3) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(59, 130, 246, 0.2) 0%, transparent 50%)',
+			hoverEffect: 'hover:shadow-purple-500/25',
+			description: 'Cosmic objects floating'
+		},
+		{ 
+			mode: HOME_MODES.WAVES, 
+			icon: '〰️', 
+			label: 'Waves', 
+			color: 'from-cyan-500 to-blue-500',
+			bgPattern: 'linear-gradient(0deg, rgba(6, 182, 212, 0.2) 0%, transparent 30%, rgba(59, 130, 246, 0.2) 70%, transparent 100%)',
+			hoverEffect: 'hover:shadow-cyan-500/25',
+			description: 'Flowing wave animations'
+		},
+		{ 
+			mode: HOME_MODES.GEOMETRIC, 
+			icon: '🔶', 
+			label: 'Geometric', 
+			color: 'from-orange-500 to-red-500',
+			bgPattern: 'conic-gradient(from 0deg at 50% 50%, rgba(251, 146, 60, 0.3) 0deg, transparent 90deg, rgba(239, 68, 68, 0.3) 180deg, transparent 270deg)',
+			hoverEffect: 'hover:shadow-orange-500/25',
+			description: 'Abstract geometric shapes'
+		},
+		{ 
+			mode: HOME_MODES.NEURAL, 
+			icon: '🧠', 
+			label: 'Neural', 
+			color: 'from-emerald-500 to-green-500',
+			bgPattern: 'radial-gradient(circle at 25% 25%, rgba(16, 185, 129, 0.2) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(34, 197, 94, 0.2) 0%, transparent 50%)',
+			hoverEffect: 'hover:shadow-emerald-500/25',
+			description: 'Neural network connections'
+		},
+		{ 
+			mode: HOME_MODES.CRYSTALLINE, 
+			icon: '💎', 
+			label: 'Crystal', 
+			color: 'from-violet-500 to-purple-500',
+			bgPattern: 'conic-gradient(from 45deg at 50% 50%, rgba(139, 92, 246, 0.3) 0deg, rgba(147, 51, 234, 0.2) 120deg, rgba(139, 92, 246, 0.3) 240deg)',
+			hoverEffect: 'hover:shadow-violet-500/25',
+			description: 'Prismatic crystal effects'
+		},
+		{ 
+			mode: HOME_MODES.AURORA, 
+			icon: '🌈', 
+			label: 'Aurora', 
+			color: 'from-cyan-500 to-purple-500',
+			bgPattern: 'linear-gradient(135deg, rgba(6, 182, 212, 0.3) 0%, rgba(147, 51, 234, 0.2) 50%, rgba(236, 72, 153, 0.3) 100%)',
+			hoverEffect: 'hover:shadow-cyan-500/25',
+			description: 'Northern lights dance'
+		},
 	];
 </script>
 
@@ -302,6 +435,10 @@
 		>
 			<div class="absolute top-1/6 left-1/6 w-96 h-96 bg-gradient-to-br from-white/10 to-white/5 rounded-full blur-3xl animate-pulse-slow"></div>
 			<div class="absolute bottom-1/6 right-1/6 w-80 h-80 bg-gradient-to-br from-white/8 to-white/3 rounded-full blur-2xl animate-float"></div>
+			{#if currentMode === HOME_MODES.PARALLAX}
+				<div class="absolute top-1/3 left-1/2 w-64 h-64 bg-gradient-to-br from-emerald-300/15 to-transparent rounded-full blur-2xl animate-parallax-float"></div>
+				<div class="absolute bottom-1/2 right-1/3 w-48 h-48 bg-gradient-to-br from-teal-300/20 to-transparent rounded-full blur-xl animate-parallax-trail"></div>
+			{/if}
 		</div>
 		
 		<!-- Layer 2 - Medium -->
@@ -311,6 +448,10 @@
 		>
 			<div class="absolute top-1/3 right-1/4 w-64 h-64 bg-gradient-to-br from-white/12 to-white/6 rounded-full blur-xl animate-float-delayed"></div>
 			<div class="absolute bottom-1/3 left-1/3 w-48 h-48 bg-gradient-to-br from-white/10 to-white/4 rounded-full blur-lg animate-bounce-slow"></div>
+			{#if currentMode === HOME_MODES.PARALLAX}
+				<div class="absolute top-2/3 left-1/4 w-56 h-56 bg-gradient-to-br from-cyan-300/20 to-transparent rounded-full blur-2xl animate-float"></div>
+				<div class="absolute bottom-1/4 right-2/3 w-32 h-32 bg-gradient-to-br from-emerald-400/25 to-transparent rounded-full blur-lg animate-parallax-float"></div>
+			{/if}
 		</div>
 		
 		<!-- Layer 3 - Fastest -->
@@ -321,6 +462,10 @@
 			<div class="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-white/15 to-white/8 rounded-full blur-3xl animate-float"></div>
 			<div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-white/12 to-white/5 rounded-full blur-2xl animate-float-delayed"></div>
 			<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-white/8 to-transparent rounded-full blur-2xl animate-pulse-slow"></div>
+			{#if currentMode === HOME_MODES.PARALLAX}
+				<div class="absolute top-1/6 right-1/5 w-40 h-40 bg-gradient-to-br from-teal-400/30 to-transparent rounded-full blur-xl animate-parallax-trail"></div>
+				<div class="absolute bottom-1/6 left-2/3 w-28 h-28 bg-gradient-to-br from-emerald-500/25 to-transparent rounded-full blur-md animate-parallax-float"></div>
+			{/if}
 		</div>
 		
 		<!-- Layer 4 - Floating particles for extra depth -->
@@ -331,6 +476,11 @@
 			<div class="absolute top-3/4 left-1/5 w-32 h-32 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-xl animate-float"></div>
 			<div class="absolute top-1/5 right-1/5 w-40 h-40 bg-gradient-to-br from-white/8 to-transparent rounded-full blur-2xl animate-bounce-slow"></div>
 			<div class="absolute bottom-2/3 left-2/3 w-24 h-24 bg-gradient-to-br from-white/12 to-transparent rounded-full blur-lg animate-float-delayed"></div>
+			{#if currentMode === HOME_MODES.PARALLAX}
+				<div class="absolute top-1/5 left-3/4 w-16 h-16 bg-gradient-to-br from-emerald-300/35 to-transparent rounded-full blur-sm animate-parallax-float"></div>
+				<div class="absolute bottom-1/5 right-1/6 w-20 h-20 bg-gradient-to-br from-teal-300/30 to-transparent rounded-full blur-md animate-parallax-trail"></div>
+				<div class="absolute top-2/3 left-1/6 w-12 h-12 bg-gradient-to-br from-cyan-300/40 to-transparent rounded-full blur-sm animate-bounce-slow"></div>
+			{/if}
 		</div>
 	</div>
 
@@ -426,33 +576,225 @@
 				
 			{:else if currentMode === HOME_MODES.NEURAL}
 				{#each animationElements as element (element.id)}
+					<!-- Enhanced Neural Nodes with pulsing effect and mouse interaction -->
 					<div
-						class="absolute animate-neural-pulse"
+						class="absolute animate-neural-pulse-enhanced"
 						style="
-							left: {element.x}%;
-							top: {element.y}%;
-							width: {element.size}px;
-							height: {element.size}px;
-							background: radial-gradient(circle, {element.color}, transparent);
+							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 25 * (element.size / 4) : 0)}%;
+							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 20 * (element.size / 4) : 0)}%;
+							width: {element.size * 2 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.2 : 0)}px;
+							height: {element.size * 2 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.2 : 0)}px;
+							background: radial-gradient(circle, {element.color}80, {element.color}20, transparent);
 							animation-delay: {element.delay}s;
-							animation-duration: {element.duration}s;
-							opacity: {element.opacity};
+							animation-duration: {element.duration - (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.005 : 0)}s;
+							opacity: {element.opacity + (isMouseActive ? 0.4 : 0)};
+							border-radius: 50%;
+							box-shadow: 0 0 {element.size * 4 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.5 : 0)}px {element.color}40;
+							transition: all 0.1s ease-out;
 						"
 					></div>
-					{#if Math.random() > 0.7}
+					
+					<!-- Neural Connections - Multiple dynamic connections per node with mouse response -->
+					{#if element.id % 3 === 0}
+						{#each Array(2 + Math.floor(Math.random() * 3)) as _, connIndex}
+							<div
+								class="absolute animate-neural-connection-flow"
+								style="
+									left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 15 : 0)}%;
+									top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 12 : 0)}%;
+									width: {50 + Math.random() * 150 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.5 : 0)}px;
+									height: 2px;
+									background: linear-gradient(90deg, transparent, {element.color}60, {element.color}80, {element.color}60, transparent);
+									animation-delay: {element.delay + connIndex * 0.5}s;
+									animation-duration: {(element.duration + connIndex) * 1.2}s;
+									opacity: {element.opacity * 0.7 + (isMouseActive ? 0.3 : 0)};
+									transform-origin: left center;
+									transform: rotate({Math.random() * 360 + (isMouseActive ? mouseVelocityX * 0.2 : 0)}deg);
+									border-radius: 1px;
+									filter: brightness({1 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.01 : 0)});
+									transition: all 0.15s ease-out;
+								"
+							></div>
+						{/each}
+					{/if}
+					
+					<!-- Neural Data Packets with mouse attraction -->
+					{#if element.id % 5 === 0}
 						<div
-							class="absolute animate-neural-connection"
+							class="absolute animate-neural-data-flow"
 							style="
-								left: {element.x}%;
-								top: {element.y}%;
-								width: {Math.random() * 100}px;
-								height: 1px;
-								background: linear-gradient(90deg, {element.color}, transparent);
-								animation-delay: {element.delay + 1}s;
+								left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 10 : 0)}%;
+								top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 8 : 0)}%;
+								width: {element.size + (isMouseActive ? Math.abs(mouseVelocityX) * 0.1 : 0)}px;
+								height: {element.size + (isMouseActive ? Math.abs(mouseVelocityY) * 0.1 : 0)}px;
+								background: {element.color};
+								animation-delay: {element.delay + 2}s;
+								animation-duration: {element.duration * 0.8 - (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.005 : 0)}s;
+								opacity: {element.opacity + (isMouseActive ? 0.5 : 0)};
+								border-radius: 2px;
+								box-shadow: 0 0 {element.size * 2 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.2 : 0)}px {element.color};
+								filter: brightness({1 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.02 : 0)});
+								transition: all 0.1s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- Mouse-activated neural impulses -->
+					{#if isMouseActive && Math.abs(mouseVelocityX + mouseVelocityY) > 10 && element.id % 12 === 0}
+						<div
+							class="absolute pointer-events-none"
+							style="
+								left: {(mouseX / innerWidth) * 100}%;
+								top: {(mouseY / innerHeight) * 100}%;
+								width: 4px;
+								height: 4px;
+								background: {element.color};
+								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.05, 1)};
+								border-radius: 50%;
+								transform: translate(-50%, -50%);
+								animation: neural-data-flow 3s ease-out forwards;
+								box-shadow: 0 0 20px {element.color};
+							"
+						></div>
+					{/if}
+				{/each}
+				
+			{:else if currentMode === HOME_MODES.PARALLAX}
+				{#each animationElements as element (element.id)}
+					<!-- Multi-layer parallax elements with depth and mouse interaction -->
+					<div
+						class="absolute animate-parallax-float"
+						style="
+							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 20 * element.speed : 0)}%;
+							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 15 * element.speed : 0)}%;
+							width: {element.size}px;
+							height: {element.size}px;
+							background: radial-gradient(circle, {element.color}60, transparent);
+							animation-delay: {element.delay}s;
+							animation-duration: {element.duration * (1 + element.speed)}s;
+							opacity: {element.opacity * (0.5 + element.speed * 0.5) + (isMouseActive ? 0.2 : 0)};
+							transform: translateZ({element.speed * 100}px) scale({0.8 + element.speed * 0.4 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.001 : 0)});
+							border-radius: 50%;
+							filter: blur({(1 - element.speed) * 2}px);
+							transition: transform 0.1s ease-out, opacity 0.2s ease-out;
+						"
+					></div>
+					
+					<!-- Parallax trailing effect with mouse responsiveness -->
+					{#if element.id % 4 === 0}
+						<div
+							class="absolute animate-parallax-trail"
+							style="
+								left: {element.x + 5 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 10 : 0)}%;
+								top: {element.y + 5 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 8 : 0)}%;
+								width: {element.size * 0.6}px;
+								height: {element.size * 0.6}px;
+								background: linear-gradient(45deg, {element.color}40, transparent);
+								animation-delay: {element.delay + 0.5}s;
 								animation-duration: {element.duration * 1.5}s;
-								opacity: {element.opacity * 0.5};
-								transform-origin: left center;
-								transform: rotate({Math.random() * 360}deg);
+								opacity: {element.opacity * 0.6 + (isMouseActive ? 0.3 : 0)};
+								border-radius: 50%;
+								transform: translateZ({element.speed * 50}px);
+								transition: opacity 0.3s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- Mouse trail effect for parallax mode -->
+					{#if isMouseActive && element.id % 8 === 0}
+						<div
+							class="absolute pointer-events-none"
+							style="
+								left: {(mouseX / innerWidth) * 100}%;
+								top: {(mouseY / innerHeight) * 100}%;
+								width: {Math.abs(mouseVelocityX + mouseVelocityY) * 0.5 + 5}px;
+								height: {Math.abs(mouseVelocityX + mouseVelocityY) * 0.5 + 5}px;
+								background: radial-gradient(circle, {element.color}80, transparent);
+								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.01, 0.8)};
+								border-radius: 50%;
+								transform: translate(-50%, -50%);
+								animation: parallax-trail 1s ease-out forwards;
+							"
+						></div>
+					{/if}
+				{/each}
+				
+			{:else if currentMode === HOME_MODES.GRADIENT}
+				{#each animationElements as element (element.id)}
+					<!-- Dynamic gradient orbs with morphing shapes and mouse interaction -->
+					<div
+						class="absolute animate-gradient-morph"
+						style="
+							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 15 : 0)}%;
+							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 12 : 0)}%;
+							width: {element.size + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.1 : 0)}px;
+							height: {element.size + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.1 : 0)}px;
+							background: radial-gradient(ellipse at {Math.random() * 100}% {Math.random() * 100}%, {element.color}, transparent);
+							animation-delay: {element.delay}s;
+							animation-duration: {element.duration - (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.01 : 0)}s;
+							opacity: {element.opacity + (isMouseActive ? 0.3 : 0)};
+							border-radius: {30 + Math.random() * 70}%;
+							filter: blur({Math.random() * 2}px) hue-rotate({Math.random() * 360 + (isMouseActive ? mouseVelocityX * 2 : 0)}deg);
+							transition: all 0.2s ease-out;
+						"
+					></div>
+					
+					<!-- Gradient flow streams with mouse responsiveness -->
+					{#if element.id % 3 === 0}
+						<div
+							class="absolute animate-gradient-flow"
+							style="
+								left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 10 : 0)}%;
+								top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 8 : 0)}%;
+								width: {element.size * 3 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.2 : 0)}px;
+								height: {element.size * 0.3}px;
+								background: linear-gradient(90deg, transparent, {element.color}80, {element.color}, {element.color}80, transparent);
+								animation-delay: {element.delay + 1}s;
+								animation-duration: {element.duration * 2}s;
+								opacity: {element.opacity * 0.8 + (isMouseActive ? 0.2 : 0)};
+								border-radius: 50px;
+								transform: rotate({Math.random() * 360 + (isMouseActive ? mouseVelocityX * 0.5 : 0)}deg);
+								transition: all 0.15s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- Gradient particles with color shifts and mouse interaction -->
+					{#if element.id % 6 === 0}
+						<div
+							class="absolute animate-gradient-particle"
+							style="
+								left: {element.x + 10 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 8 : 0)}%;
+								top: {element.y + 10 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 6 : 0)}%;
+								width: {element.size * 0.5 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.05 : 0)}px;
+								height: {element.size * 0.5 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.05 : 0)}px;
+								background: {element.color};
+								animation-delay: {element.delay + 2}s;
+								animation-duration: {element.duration * 0.7}s;
+								opacity: {element.opacity + (isMouseActive ? 0.4 : 0)};
+								border-radius: 50%;
+								box-shadow: 0 0 {element.size + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.1 : 0)}px {element.color};
+								filter: hue-rotate({isMouseActive ? mouseVelocityX * 3 : 0}deg);
+								transition: all 0.1s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- Mouse-responsive gradient ripples -->
+					{#if isMouseActive && element.id % 10 === 0}
+						<div
+							class="absolute pointer-events-none"
+							style="
+								left: {(mouseX / innerWidth) * 100}%;
+								top: {(mouseY / innerHeight) * 100}%;
+								width: {Math.abs(mouseVelocityX + mouseVelocityY) * 2 + 10}px;
+								height: {Math.abs(mouseVelocityX + mouseVelocityY) * 2 + 10}px;
+								background: radial-gradient(circle, {element.color}60, transparent);
+								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.02, 1)};
+								border-radius: 50%;
+								transform: translate(-50%, -50%);
+								animation: gradient-morph 2s ease-out forwards;
+								filter: hue-rotate({mouseVelocityX * 5}deg);
 							"
 						></div>
 					{/if}
@@ -504,35 +846,65 @@
 	<!-- Hero Section -->
 	<section class="min-h-screen flex items-center justify-center px-4 py-20">
 		<div class="text-center max-w-6xl mx-auto">
-			<!-- Enhanced Mode Selection Grid - Moved lower -->
+			<!-- Enhanced Mode Selection Grid with consistent sizing -->
 			{#if mounted}
 				<div class="fixed top-32 right-6 z-50" transition:fade={{ delay: 1000 }}>
-					<div class="bg-black/20 backdrop-blur-xl rounded-2xl p-3 border border-white/20">
-						<div class="grid grid-cols-2 gap-2 max-w-xs">
-							{#each modeSelectors as { mode, icon, label, color }}
+					<div class="bg-black/10 backdrop-blur-2xl rounded-3xl p-4 border border-white/20 shadow-2xl shadow-black/20">
+						<!-- Header -->
+						<div class="text-center mb-4">
+							<h3 class="text-sm font-semibold text-white/90 mb-1">Animation Mode</h3>
+							<div class="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+						</div>
+						
+						<!-- Mode Grid with fixed dimensions -->
+						<div class="grid grid-cols-2 gap-3 w-64">
+							{#each modeSelectors as { mode, icon, label, color, bgPattern, hoverEffect, description }}
 								<button
 									on:click={() => setHomeMode(mode)}
-									class="group relative overflow-hidden px-3 py-2 text-xs rounded-xl transition-all duration-500 hover:scale-105 active:scale-95 backdrop-blur-xl border {currentMode === mode
-										? 'bg-white/30 text-white border-white/60 shadow-xl shadow-white/25'
-										: 'bg-white/10 text-white/80 border-white/30 hover:bg-white/20 hover:text-white hover:border-white/50'}"
-									title="Switch to {label} mode - {modeConfig[mode]?.description}"
+									class="group relative overflow-hidden w-full h-20 rounded-2xl transition-all duration-500 hover:scale-105 active:scale-95 {hoverEffect} border-2 {currentMode === mode
+										? 'bg-white/25 border-white/60 shadow-xl shadow-white/20'
+										: 'bg-white/8 border-white/20 hover:bg-white/15 hover:border-white/40 shadow-lg'}"
+									title="Switch to {label} mode - {description}"
+									style="background-image: {bgPattern}; background-blend-mode: overlay;"
 								>
-									<div class="relative z-10 flex flex-col items-center gap-1">
-										<span class="text-lg group-hover:animate-bounce">{icon}</span>
-										<span class="font-medium truncate">{label}</span>
-									</div>
-									{#if currentMode !== mode}
-										<div class="absolute inset-0 bg-gradient-to-r {color} opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+									<!-- Background pattern overlay -->
+									<div class="absolute inset-0 opacity-50 {currentMode === mode ? 'bg-gradient-to-br' : 'bg-gradient-to-br opacity-0 group-hover:opacity-30'} {color} transition-opacity duration-500"></div>
+									
+									<!-- Active state glow -->
+									{#if currentMode === mode}
+										<div class="absolute inset-0 bg-gradient-to-r {color} opacity-20 animate-pulse"></div>
 									{/if}
+									
+									<!-- Content -->
+									<div class="relative z-10 flex flex-col items-center justify-center h-full gap-1 p-2">
+										<span class="text-xl group-hover:animate-bounce transition-transform duration-300 {currentMode === mode ? 'scale-110' : ''}">{icon}</span>
+										<span class="font-medium text-xs text-white/90 group-hover:text-white transition-colors truncate max-w-full">{label}</span>
+									</div>
+									
+									<!-- Hover ripple effect -->
+									<div class="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 bg-gradient-to-r {color} rounded-2xl"></div>
 								</button>
 							{/each}
 						</div>
 						
-						<!-- Mode Description -->
-						<div class="mt-3 pt-3 border-t border-white/20">
-							<p class="text-xs text-white/70 text-center leading-relaxed">
-								{config.description}
-							</p>
+						<!-- Enhanced Mode Description -->
+						<div class="mt-4 pt-4 border-t border-white/10">
+							<div class="text-center">
+								<p class="text-xs text-white/70 leading-relaxed min-h-[2.5rem] flex items-center justify-center">
+									{#key currentMode}
+										<span in:fade={{ duration: 300 }}>
+											{modeSelectors.find(m => m.mode === currentMode)?.description || config.description}
+										</span>
+									{/key}
+								</p>
+								
+								<!-- Mode indicator dots -->
+								<div class="flex justify-center gap-1 mt-2">
+									{#each modeSelectors as { mode }}
+										<div class="w-1 h-1 rounded-full transition-all duration-300 {currentMode === mode ? 'bg-white/80 w-3' : 'bg-white/30'}"></div>
+									{/each}
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -1010,6 +1382,284 @@
 		100% { background-position: 0% 50%; }
 	}
 
+	/* Enhanced Neural Network Animations */
+	@keyframes neural-pulse-enhanced {
+		0% { 
+			transform: scale(1) translateY(0); 
+			opacity: 0.3; 
+			box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+		}
+		25% {
+			transform: scale(1.2) translateY(-5px);
+			opacity: 0.7;
+			box-shadow: 0 0 20px 5px rgba(16, 185, 129, 0.3);
+		}
+		50% { 
+			transform: scale(1.5) translateY(-10px); 
+			opacity: 0.9; 
+			box-shadow: 0 0 40px 15px rgba(16, 185, 129, 0.2);
+		}
+		75% {
+			transform: scale(1.3) translateY(-5px);
+			opacity: 0.6;
+			box-shadow: 0 0 25px 8px rgba(16, 185, 129, 0.3);
+		}
+		100% { 
+			transform: scale(1) translateY(0); 
+			opacity: 0.3; 
+			box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+		}
+	}
+
+	@keyframes neural-connection-flow {
+		0% { 
+			opacity: 0; 
+			transform: scaleX(0) scaleY(1);
+			filter: brightness(0.5);
+		}
+		20% { 
+			opacity: 0.8; 
+			transform: scaleX(0.3) scaleY(1.2);
+			filter: brightness(1.2);
+		}
+		50% { 
+			opacity: 1; 
+			transform: scaleX(1) scaleY(1);
+			filter: brightness(1.5);
+		}
+		80% { 
+			opacity: 0.6; 
+			transform: scaleX(0.8) scaleY(0.8);
+			filter: brightness(1);
+		}
+		100% { 
+			opacity: 0; 
+			transform: scaleX(0) scaleY(1);
+			filter: brightness(0.5);
+		}
+	}
+
+	@keyframes neural-data-flow {
+		0% {
+			transform: translateX(0) translateY(0) scale(0.5);
+			opacity: 0;
+		}
+		25% {
+			transform: translateX(50px) translateY(-20px) scale(1);
+			opacity: 1;
+		}
+		50% {
+			transform: translateX(100px) translateY(0) scale(1.2);
+			opacity: 0.8;
+		}
+		75% {
+			transform: translateX(150px) translateY(20px) scale(1);
+			opacity: 0.6;
+		}
+		100% {
+			transform: translateX(200px) translateY(0) scale(0.5);
+			opacity: 0;
+		}
+	}
+
+	/* Enhanced Parallax Animations */
+	@keyframes parallax-float {
+		0% { 
+			transform: translateY(0) translateX(0) scale(1) rotateZ(0deg);
+			opacity: 0.4;
+		}
+		25% { 
+			transform: translateY(-30px) translateX(15px) scale(1.1) rotateZ(90deg);
+			opacity: 0.7;
+		}
+		50% { 
+			transform: translateY(-50px) translateX(-10px) scale(1.2) rotateZ(180deg);
+			opacity: 0.9;
+		}
+		75% { 
+			transform: translateY(-30px) translateX(-25px) scale(1.1) rotateZ(270deg);
+			opacity: 0.6;
+		}
+		100% { 
+			transform: translateY(0) translateX(0) scale(1) rotateZ(360deg);
+			opacity: 0.4;
+		}
+	}
+
+	@keyframes parallax-trail {
+		0% {
+			transform: translateY(0) translateX(0) scale(1);
+			opacity: 0;
+		}
+		50% {
+			transform: translateY(-20px) translateX(-20px) scale(0.8);
+			opacity: 0.6;
+		}
+		100% {
+			transform: translateY(-40px) translateX(-40px) scale(0.5);
+			opacity: 0;
+		}
+	}
+
+	/* Enhanced Gradient Animations */
+	@keyframes gradient-morph {
+		0% { 
+			transform: scale(1) rotate(0deg);
+			border-radius: 50%;
+			filter: hue-rotate(0deg) blur(0px);
+		}
+		25% { 
+			transform: scale(1.3) rotate(90deg);
+			border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+			filter: hue-rotate(90deg) blur(1px);
+		}
+		50% { 
+			transform: scale(1.5) rotate(180deg);
+			border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+			filter: hue-rotate(180deg) blur(2px);
+		}
+		75% { 
+			transform: scale(1.2) rotate(270deg);
+			border-radius: 20% 80% 80% 20% / 20% 20% 80% 80%;
+			filter: hue-rotate(270deg) blur(1px);
+		}
+		100% { 
+			transform: scale(1) rotate(360deg);
+			border-radius: 50%;
+			filter: hue-rotate(360deg) blur(0px);
+		}
+	}
+
+	@keyframes gradient-flow {
+		0% {
+			transform: translateX(-100%) scaleX(0.5) scaleY(1);
+			opacity: 0;
+			filter: hue-rotate(0deg);
+		}
+		25% {
+			transform: translateX(-25%) scaleX(1) scaleY(1.5);
+			opacity: 0.8;
+			filter: hue-rotate(90deg);
+		}
+		50% {
+			transform: translateX(50%) scaleX(1.5) scaleY(1);
+			opacity: 1;
+			filter: hue-rotate(180deg);
+		}
+		75% {
+			transform: translateX(125%) scaleX(1) scaleY(0.8);
+			opacity: 0.6;
+			filter: hue-rotate(270deg);
+		}
+		100% {
+			transform: translateX(200%) scaleX(0.5) scaleY(1);
+			opacity: 0;
+			filter: hue-rotate(360deg);
+		}
+	}
+
+	@keyframes gradient-particle {
+		0% {
+			transform: scale(0) rotate(0deg);
+			opacity: 0;
+			filter: brightness(0.5);
+		}
+		25% {
+			transform: scale(1.2) rotate(90deg);
+			opacity: 0.8;
+			filter: brightness(1.5);
+		}
+		50% {
+			transform: scale(1) rotate(180deg);
+			opacity: 1;
+			filter: brightness(2);
+		}
+		75% {
+			transform: scale(0.8) rotate(270deg);
+			opacity: 0.6;
+			filter: brightness(1.2);
+		}
+		100% {
+			transform: scale(0) rotate(360deg);
+			opacity: 0;
+			filter: brightness(0.5);
+		}
+	}
+
+	/* Mouse-responsive animation enhancements */
+	@keyframes mouse-attraction {
+		0% {
+			transform: scale(1) translate(0, 0);
+			opacity: 0.5;
+		}
+		50% {
+			transform: scale(1.3) translate(var(--mouse-x, 0), var(--mouse-y, 0));
+			opacity: 0.9;
+		}
+		100% {
+			transform: scale(1) translate(0, 0);
+			opacity: 0.5;
+		}
+	}
+
+	@keyframes mouse-ripple {
+		0% {
+			transform: scale(0) translate(-50%, -50%);
+			opacity: 1;
+		}
+		100% {
+			transform: scale(4) translate(-50%, -50%);
+			opacity: 0;
+		}
+	}
+
+	@keyframes neural-impulse {
+		0% {
+			transform: scale(0.5) translate(-50%, -50%);
+			opacity: 1;
+			filter: brightness(2);
+		}
+		50% {
+			transform: scale(1) translate(-50%, -50%);
+			opacity: 0.8;
+			filter: brightness(1.5);
+		}
+		100% {
+			transform: scale(0.2) translate(-50%, -50%);
+			opacity: 0;
+			filter: brightness(1);
+		}
+	}
+
+	/* Performance optimized animations for mobile */
+	@media (max-width: 768px) {
+		.animate-neural-pulse-enhanced,
+		.animate-neural-connection-flow,
+		.animate-neural-data-flow,
+		.animate-parallax-float,
+		.animate-parallax-trail,
+		.animate-gradient-morph,
+		.animate-gradient-flow,
+		.animate-gradient-particle {
+			animation-duration: 150% !important;
+			will-change: transform, opacity;
+		}
+	}
+
+	/* Reduce motion for users who prefer it */
+	@media (prefers-reduced-motion: reduce) {
+		.animate-neural-pulse-enhanced,
+		.animate-neural-connection-flow,
+		.animate-neural-data-flow,
+		.animate-parallax-float,
+		.animate-parallax-trail,
+		.animate-gradient-morph,
+		.animate-gradient-flow,
+		.animate-gradient-particle {
+			animation: none !important;
+		}
+	}
+
 	.animate-matrix-rain { animation: matrix-rain linear infinite; }
 	.animate-cosmic-drift { animation: cosmic-drift ease-in-out infinite; }
 	.animate-particle-float { animation: particle-float ease-in-out infinite; }
@@ -1026,4 +1676,19 @@
 	.animate-crystalline-grow { animation: crystalline-grow 10s ease-in-out infinite; }
 	.animate-aurora-flow { animation: aurora-flow 12s ease-in-out infinite; }
 	.animate-gradient-shift { animation: gradient-shift 8s ease infinite; background-size: 200% 200%; }
+	
+	/* Enhanced Animation Classes */
+	.animate-neural-pulse-enhanced { animation: neural-pulse-enhanced 3s ease-in-out infinite; }
+	.animate-neural-connection-flow { animation: neural-connection-flow 4s ease-in-out infinite; }
+	.animate-neural-data-flow { animation: neural-data-flow 6s linear infinite; }
+	.animate-parallax-float { animation: parallax-float 8s ease-in-out infinite; }
+	.animate-parallax-trail { animation: parallax-trail 5s ease-out infinite; }
+	.animate-gradient-morph { animation: gradient-morph 6s ease-in-out infinite; }
+	.animate-gradient-flow { animation: gradient-flow 10s ease-in-out infinite; }
+	.animate-gradient-particle { animation: gradient-particle 4s ease-in-out infinite; }
+	
+	/* Mouse-responsive classes */
+	.animate-mouse-attraction { animation: mouse-attraction 2s ease-in-out infinite; }
+	.animate-mouse-ripple { animation: mouse-ripple 1s ease-out forwards; }
+	.animate-neural-impulse { animation: neural-impulse 3s ease-out forwards; }
 </style>
