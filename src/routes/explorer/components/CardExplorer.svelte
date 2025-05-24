@@ -10,13 +10,10 @@
     { name: 'Outlined', value: 'outlined' },
     { name: 'Glass', value: 'glass' },
     { name: 'Tilt', value: 'tilt' },
-    { name: 'Flip', value: 'flip' }
-  ];
+    { name: 'Flip', value: 'flip' }  ];
   
-  // Code examples
-  const basicExample = `<script>
-  import { Card } from 'svelte-ui-toolkit';
-</script>
+  // Code examples - simplified to avoid template literal conflicts
+  const basicExample = `import { Card } from 'svelte-ui-toolkit';
 
 <Card title="Card Title" subtitle="Card Subtitle">
   <p>Card content goes here...</p>
@@ -162,11 +159,10 @@
       </div>
     </ComponentPreview>
     
-    <!-- Card with Link -->
-    <ComponentPreview
+    <!-- Card with Link -->    <ComponentPreview
       title="Card with Link"
       description="Clickable card that navigates to a URL."
-      codeSnippet={`<Card title="Clickable Card" href="https://example.com">`}
+      codeSnippet={'<Card title="Clickable Card" href="https://example.com">'}
     >
       <div class="w-full max-w-sm">
         <Card 

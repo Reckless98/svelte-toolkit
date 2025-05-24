@@ -1,6 +1,5 @@
 <!-- Explorer Sidebar Component -->
-<script>
-  // Props
+<script>  // Props
   export let categories = [
     { id: 'buttons', name: 'Buttons' },
     { id: 'headers', name: 'Headers' },
@@ -8,6 +7,7 @@
     { id: 'cards', name: 'Cards' },
     { id: 'inputs', name: 'Inputs' },
     { id: 'modals', name: 'Modals' },
+    { id: 'navigation', name: 'Navigation' },
     { id: 'layouts', name: 'Layouts' },
     { id: 'animations', name: 'Animations' }
   ];

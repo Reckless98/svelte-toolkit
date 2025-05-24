@@ -20,61 +20,25 @@
     { text: 'About', href: '#about' },
     { text: 'Contact', href: '#contact' }
   ];
-  
-  // Demo CTA button
+    // Demo CTA button
   const demoCtaButton = {
     text: 'Sign Up',
     href: '#signup',
     variant: 'primary'
   };
-  
+    
   // Code examples
-  const basicExample = `<script>
-  import { Header } from 'svelte-ui-toolkit';
-</script>
+  const basicExample = '<Header title="Company Name" />';
+  
+  const withLinksExample = '<Header \n  title="Company Name"\n  links={[\n    { text: \'Home\', href: \'#\' },\n    { text: \'Features\', href: \'#features\' },\n    { text: \'Pricing\', href: \'#pricing\' },\n    { text: \'About\', href: \'#about\' }\n  ]}\n/>';
 
-<Header title="Company Name" />`;
+  const withSearchExample = '<Header \n  title="Company Name"\n  withSearch={true}\n  links={links}\n/>';
 
-  const withLinksExample = `<Header 
-  title="Company Name"
-  links={[
-    { text: 'Home', href: '#' },
-    { text: 'Features', href: '#features' },
-    { text: 'Pricing', href: '#pricing' },
-    { text: 'About', href: '#about' }
-  ]}
-/>`;
+  const ctaExample = '<Header \n  title="Company Name"\n  links={links}\n  ctaButton={{ \n    text: \'Sign Up\', \n    href: \'#signup\', \n    variant: \'primary\' \n  }}\n/>';
 
-  const withSearchExample = `<Header 
-  title="Company Name"
-  withSearch={true}
-  links={links}
-/>`;
+  const glassExample = '<Header \n  title="Company Name"\n  links={links}\n  variant="glass"\n  transparent={true}\n/>';
 
-  const ctaExample = `<Header 
-  title="Company Name"
-  links={links}
-  ctaButton={{ 
-    text: 'Sign Up', 
-    href: '#signup', 
-    variant: 'primary' 
-  }}
-/>`;
-
-  const glassExample = `<Header 
-  title="Company Name"
-  links={links}
-  variant="glass"
-  transparent={true}
-/>`;
-
-  const stickyExample = `<Header 
-  title="Company Name"
-  links={links}
-  sticky={true}
-  animated={true}
-/>`;
-</script>
+  const stickyExample = '<Header \n  title="Company Name"\n  links={links}\n  sticky={true}\n  animated={true}\n/>';</script>
 
 <section>
   <div class="max-w-4xl mx-auto">
@@ -130,8 +94,7 @@
       title="Header with CTA Button"
       description="Header with a call-to-action button."
       codeSnippet={ctaExample}
-    >
-      <div class="w-full">
+    >      <div class="w-full">
         <Header 
           title="Company Name"
           links={demoLinks}

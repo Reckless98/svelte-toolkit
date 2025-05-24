@@ -34,37 +34,14 @@
   const states = [
     { name: 'Normal', loading: false, disabled: false },
     { name: 'Loading', loading: true, disabled: false },
-    { name: 'Disabled', loading: false, disabled: true }
-  ];
-  
+    { name: 'Disabled', loading: false, disabled: true }  ];
+    
   // Code examples
-  const basicExample = `<script>
-  import { Button } from 'svelte-ui-toolkit';
-</script>
-
-<Button>Click Me</Button>`;
-
-  const variantsExample = `<Button variant="primary">Primary</Button>
-<Button variant="secondary">Secondary</Button>
-<Button variant="accent">Accent</Button>
-<Button variant="ghost">Ghost</Button>
-<Button variant="3d">3D</Button>
-<Button variant="gradient">Gradient</Button>
-<Button variant="glass">Glass</Button>`;
-
-  const sizesExample = `<Button size="sm">Small</Button>
-<Button size="md">Medium</Button>
-<Button size="lg">Large</Button>
-<Button size="xl">Extra Large</Button>`;
-
-  const animationsExample = `<Button animation="none">No Animation</Button>
-<Button animation="ripple">Ripple</Button>
-<Button animation="pulse">Pulse</Button>
-<Button animation="bounce">Bounce</Button>`;
-
-  const statesExample = `<Button>Normal</Button>
-<Button loading={true}>Loading</Button>
-<Button disabled={true}>Disabled</Button>`;
+  const basicExample = '<Button>Click Me</Button>';
+  const variantsExample = '<Button variant="primary">Primary</Button>\n<Button variant="secondary">Secondary</Button>\n<Button variant="accent">Accent</Button>\n<Button variant="ghost">Ghost</Button>\n<Button variant="3d">3D</Button>\n<Button variant="gradient">Gradient</Button>\n<Button variant="glass">Glass</Button>';
+  const sizesExample = '<Button size="sm">Small</Button>\n<Button size="md">Medium</Button>\n<Button size="lg">Large</Button>\n<Button size="xl">Extra Large</Button>';
+  const animationsExample = '<Button animation="none">No Animation</Button>\n<Button animation="ripple">Ripple</Button>\n<Button animation="pulse">Pulse</Button>\n<Button animation="bounce">Bounce</Button>';
+  const statesExample = '<Button>Normal</Button>\n<Button loading={true}>Loading</Button>\n<Button disabled={true}>Disabled</Button>';
 </script>
 
 <section>
@@ -145,11 +122,10 @@
       </div>
     </ComponentPreview>
     
-    <!-- With Icons -->
-    <ComponentPreview
+    <!-- With Icons -->    <ComponentPreview
       title="Buttons with Icons"
       description="Buttons that include icons."
-      codeSnippet={`<Button icon="<svg>...</svg>">With Icon</Button>`}
+      codeSnippet={'<Button icon="<svg>...</svg>">With Icon</Button>'}
     >
       <div class="flex flex-wrap gap-4">
         <Button 

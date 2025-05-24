@@ -1,10 +1,9 @@
 <!-- Reusable Input Component with multiple variants -->
 <script>
   import { createEventDispatcher } from 'svelte';
-  
-  // Props
+    // Props
   export let type = 'text'; // text, password, email, number, search, etc.
-  export let variant = 'standard'; // standard, outlined, filled, floating, glass, underlined
+  export let variant = 'standard'; // standard, outlined, filled, floating, glass, underlined, modern, neon
   export let value = '';
   export let placeholder = '';
   export let label = '';
@@ -18,13 +17,15 @@
   export let icon = '';
   export let iconPosition = 'left'; // left, right
   export let helper = '';
-  export let size = 'md'; // sm, md, lg
+  export let size = 'md'; // xs, sm, md, lg, xl
   export let min = '';
   export let max = '';
   export let step = '';
   export let autocomplete = '';
   export let width = 'w-full';
   export let loading = false;
+  export let rounded = 'md'; // none, sm, md, lg, xl, full
+  export let animation = 'none'; // none, pulse, glow, float
   
   // Internal state
   let focused = false;
@@ -58,30 +59,34 @@
     value = event.target.value;
     dispatch('input', event);
   }
-  
-  // Size classes
+    // Size classes
   $: sizeClasses = {
-    sm: 'px-2 py-1 text-sm',
-    md: 'px-3 py-2',
-    lg: 'px-4 py-3 text-lg'
+    xs: 'px-2 py-1 text-xs',
+    sm: 'px-2 py-1.5 text-sm',
+    md: 'px-3 py-2 text-base',
+    lg: 'px-4 py-3 text-lg',
+    xl: 'px-5 py-4 text-xl'
   };
   
   // Variant classes
   $: variantClasses = {
-    standard: 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md',
-    outlined: 'bg-transparent border border-gray-300 dark:border-gray-700 rounded-md',
-    filled: 'bg-gray-100 dark:bg-gray-900 border border-transparent rounded-md',
-    floating: 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md',
-    glass: 'backdrop-blur-md bg-white/30 dark:bg-gray-900/30 border border-white/20 dark:border-gray-800/20 rounded-md',
-    underlined: 'bg-transparent border-0 border-b-2 border-gray-300 dark:border-gray-700 rounded-none'
+    standard: `bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-${rounded}`,
+    outlined: `bg-transparent border-2 border-gray-300 dark:border-gray-700 rounded-${rounded} hover:border-blue-400 transition-colors`,
+    filled: `bg-gray-50 dark:bg-gray-900 border border-transparent rounded-${rounded} hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors`,
+    floating: `bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-${rounded}`,
+    glass: `backdrop-blur-md bg-white/20 dark:bg-gray-900/30 border border-white/30 dark:border-gray-800/30 rounded-${rounded} shadow-lg`,
+    underlined: 'bg-transparent border-0 border-b-2 border-gray-300 dark:border-gray-700 rounded-none px-0 focus:border-blue-500',
+    modern: `bg-gray-50 dark:bg-gray-900 border-2 border-transparent rounded-${rounded} shadow-sm hover:shadow-md transition-all duration-200`,
+    neon: `bg-gray-900 border-2 border-cyan-400 rounded-${rounded} text-cyan-100 shadow-lg shadow-cyan-400/20 focus:shadow-cyan-400/40`
   };
-  
-  // Focus classes
+    // Focus classes
   $: focusClasses = error 
-    ? 'focus:border-red-500 focus:ring focus:ring-red-200 dark:focus:ring-red-900' 
+    ? 'focus:border-red-500 focus:ring-2 focus:ring-red-200 dark:focus:ring-red-900' 
     : success 
-      ? 'focus:border-green-500 focus:ring focus:ring-green-200 dark:focus:ring-green-900' 
-      : 'focus:border-accent focus:ring focus:ring-accent/20';
+      ? 'focus:border-green-500 focus:ring-2 focus:ring-green-200 dark:focus:ring-green-900' 
+      : variant === 'neon'
+        ? 'focus:border-cyan-300 focus:ring-2 focus:ring-cyan-400/30'
+        : 'focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-900';
   
   // Error/Success classes
   $: statusClasses = error 
@@ -90,6 +95,14 @@
       ? 'border-green-500 text-green-900' 
       : '';
   
+  // Animation classes
+  $: animationClasses = {
+    none: '',
+    pulse: 'focus:animate-pulse',
+    glow: 'focus:shadow-lg focus:shadow-blue-500/25',
+    float: 'hover:-translate-y-0.5 transition-transform'
+  };
+  
   // Disabled classes
   $: disabledClasses = disabled 
     ? 'opacity-50 cursor-not-allowed' 
@@ -97,15 +110,17 @@
   
   // Combined classes
   $: inputClasses = [
-    'w-full focus:outline-none transition-colors',
+    'w-full focus:outline-none transition-all duration-200 transform-gpu',
     sizeClasses[size],
     variantClasses[variant],
     focusClasses,
     statusClasses,
     disabledClasses,
+    animationClasses[animation],
     icon && iconPosition === 'left' ? 'pl-10' : '',
-    icon && iconPosition === 'right' ? 'pr-10' : ''
-  ].join(' ');
+    icon && iconPosition === 'right' ? 'pr-10' : '',
+    variant === 'modern' ? 'focus:bg-white dark:focus:bg-gray-800' : ''
+  ].filter(Boolean).join(' ');
   
   // Floating label style
   $: labelFloating = variant === 'floating' && (focused || value);

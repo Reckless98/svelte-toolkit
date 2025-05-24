@@ -4,13 +4,10 @@
   import ComponentPreview from '../ComponentPreview.svelte';
   
   // Sample background images
-  const mountainImage = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80';
-  const cityImage = 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80';
+  const mountainImage = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80';  const cityImage = 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80';
   
-  // Code examples
-  const heroExample = `<script>
-  import { HeroLayout } from 'svelte-ui-toolkit';
-</script>
+  // Code examples - simplified to avoid template literal conflicts
+  const heroExample = `import { HeroLayout } from 'svelte-ui-toolkit';
 
 <HeroLayout 
   backgroundImage="/path/to/image.jpg"
@@ -25,9 +22,7 @@
   </div>
 </HeroLayout>`;
 
-  const parallaxExample = `<script>
-  import { ParallaxLayout } from 'svelte-ui-toolkit';
-</script>
+  const parallaxExample = `import { ParallaxLayout } from 'svelte-ui-toolkit';
 
 <ParallaxLayout
   backgroundImage="/path/to/image.jpg"

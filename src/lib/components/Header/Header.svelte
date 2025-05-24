@@ -2,9 +2,8 @@
 <script>
   import { onMount } from 'svelte';
   import { fade, slide, fly } from 'svelte/transition';
-  
-  // Props
-  export let variant = 'standard'; // standard, minimal, withSearch, animated, glass
+    // Props
+  export let variant = 'standard'; // standard, minimal, withSearch, animated, glass, gradient, floating
   export let logo = '';
   export let title = 'Brand';
   export let links = [
@@ -18,7 +17,11 @@
   export let dark = false;
   export let animated = false;
   export let withSearch = false;
-  export let ctaButton = null; // { text: 'Sign Up', href: '#signup', variant: 'primary' }
+  export let showBranding = true; // Show "Made by Reckless98" 
+  export let gradientDirection = 'to-r'; // Tailwind gradient directions
+  export let borderRadius = 'none'; // none, md, lg, xl, full
+  /** @type {{ text: string; href: string; variant?: string } | null} */
+  export let ctaButton = null;
   
   // Internal state
   let isOpen = false;
@@ -51,19 +54,31 @@
   function toggleMenu() {
     isOpen = !isOpen;
   }
-  
-  // Computed classes based on props and state
+    // Computed classes based on props and state
   $: headerClasses = [
-    'w-full z-50',
+    'w-full z-50 transition-all duration-300',
     sticky ? 'fixed top-0 left-0' : 'relative',
-    isScrolled ? 'shadow-md' : '',
-    transparent && !isScrolled ? 'bg-transparent' : variant === 'glass' ? 'backdrop-blur-md bg-white/20 border-b border-white/30' : dark ? 'bg-gray-900 text-white' : 'bg-white text-gray-800',
-    transparent && isScrolled ? 'bg-white/90 backdrop-blur-sm' : '',
-    animated ? 'transition-all duration-300' : ''
-  ].join(' ');
+    isScrolled ? 'shadow-lg' : '',
+    
+    // Border radius for floating variant
+    borderRadius !== 'none' && variant === 'floating' ? `rounded-${borderRadius}` : '',
+    variant === 'floating' ? 'mx-4 mt-4' : '',
+    
+    // Background variants
+    transparent && !isScrolled ? 'bg-transparent' : 
+    variant === 'glass' ? 'backdrop-blur-md bg-white/20 border-b border-white/30' : 
+    variant === 'gradient' ? `bg-gradient-${gradientDirection} from-blue-600 to-purple-600 text-white` :
+    variant === 'floating' ? 'bg-white/95 backdrop-blur-md shadow-xl border border-gray-200/20' :
+    dark ? 'bg-gray-900 text-white' : 'bg-white text-gray-800',
+    
+    transparent && isScrolled ? 'bg-white/95 backdrop-blur-sm' : '',
+    animated ? 'transform-gpu' : ''
+  ].filter(Boolean).join(' ');
   
-  // Define underline animation classes
-  $: linkClasses = animated ? 'relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-accent hover:after:w-full after:transition-all after:duration-300' : 'hover:text-accent transition-colors';
+  // Define enhanced link animation classes
+  $: linkClasses = animated ? 
+    'relative px-3 py-2 rounded-md transition-all duration-300 hover:bg-white/10 after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-0 after:bg-current hover:after:w-full after:transition-all after:duration-300 after:-translate-x-1/2' : 
+    'px-3 py-2 rounded-md transition-colors hover:text-blue-500 hover:bg-gray-50';
 </script>
 
 <header class={headerClasses}>
@@ -154,14 +169,27 @@
             />
           </form>
         {/if}
-        
-        {#if ctaButton}
+          {#if ctaButton}
           <div class="mt-4">
             <a 
               href={ctaButton.href} 
               class={`block text-center px-4 py-2 rounded-lg ${ctaButton.variant === 'primary' ? 'bg-accent text-white' : 'bg-gray-200 text-gray-800'}`}
             >
               {ctaButton.text}
+            </a>
+          </div>
+        {/if}
+
+        {#if showBranding}
+          <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 text-center">
+            <span class="text-xs opacity-60">Made with ❤️ by </span>
+            <a 
+              href="https://github.com/Reckless98" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="text-xs font-semibold text-blue-500 hover:text-blue-600 transition-colors hover:underline"
+            >
+              Reckless98
             </a>
           </div>
         {/if}

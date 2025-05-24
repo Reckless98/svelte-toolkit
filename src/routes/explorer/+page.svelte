@@ -1,8 +1,7 @@
 <!-- Component Explorer Main Page -->
 <script>
   import { onMount } from 'svelte';
-  import Sidebar from './Sidebar.svelte';
-  import ButtonExplorer from './components/ButtonExplorer.svelte';
+  import Sidebar from './Sidebar.svelte';  import ButtonExplorer from './components/ButtonExplorer.svelte';
   import HeaderExplorer from './components/HeaderExplorer.svelte';
   import FooterExplorer from './components/FooterExplorer.svelte';
   import CardExplorer from './components/CardExplorer.svelte';
@@ -10,6 +9,7 @@
   import AnimationExplorer from './components/AnimationExplorer.svelte';
   import InputExplorer from './components/InputExplorer.svelte';
   import ModalExplorer from './components/ModalExplorer.svelte';
+  import NavigationExplorer from './components/NavigationExplorer.svelte';
   
   // State
   let activeCategory = 'buttons';
@@ -23,9 +23,7 @@
     } else {
       document.documentElement.classList.remove('dark');
     }
-  }
-  
-  // Get the active component explorer based on category
+  }  // Get the active component explorer based on category
   $: ActiveExplorer = {
     'buttons': ButtonExplorer,
     'headers': HeaderExplorer,
@@ -33,6 +31,7 @@
     'cards': CardExplorer,
     'inputs': InputExplorer,
     'modals': ModalExplorer,
+    'navigation': NavigationExplorer,
     'layouts': LayoutExplorer,
     'animations': AnimationExplorer
   }[activeCategory];

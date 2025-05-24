@@ -2,16 +2,19 @@
 <script>
   import { onMount } from 'svelte';
   import { fade, fly, scale } from 'svelte/transition';
-  
-  // Props
-  export let variant = 'standard'; // standard, elevated, outlined, glass, parallax, tilt, flip
+    // Props
+  export let variant = 'standard'; // standard, elevated, outlined, glass, parallax, tilt, flip, gradient, neon, morphic
   export let image = '';
   export let title = '';
   export let subtitle = '';
   export let href = '';
   export let aspectRatio = '16/9'; // image aspect ratio
-  export let elevation = 'md'; // sm, md, lg
-  export let animation = 'none'; // none, fade, slide, scale
+  export let elevation = 'md'; // none, sm, md, lg, xl
+  export let animation = 'none'; // none, fade, slide, scale, bounce, float
+  export let rounded = 'lg'; // sm, md, lg, xl, full
+  export let gradientDirection = 'to-br'; // Tailwind gradient directions
+  export let hoverEffect = 'scale'; // scale, lift, glow, tilt, pulse
+  export let borderColor = 'gray-200'; // Border color for outlined variant
   
   // Internal state
   let card;
@@ -63,19 +66,38 @@
       isFlipped = !isFlipped;
     }
   }
-  
-  // Computed classes
+    // Computed classes
   $: containerClasses = [
-    'overflow-hidden',
-    variant === 'outlined' ? 'border border-gray-200' : '',
-    variant === 'glass' ? 'backdrop-blur-md bg-white/20 border border-white/30' : 'bg-white',
+    'overflow-hidden transition-all duration-300 transform-gpu',
+    `rounded-${rounded}`,
+    
+    // Variant styles
+    variant === 'outlined' ? `border border-${borderColor}` : '',
+    variant === 'glass' ? 'backdrop-blur-md bg-white/20 border border-white/30 shadow-lg' : '',
+    variant === 'gradient' ? `bg-gradient-${gradientDirection} from-blue-500 to-purple-600 text-white` : '',
+    variant === 'neon' ? 'bg-gray-900 border-2 border-cyan-400 shadow-lg shadow-cyan-400/20' : '',
+    variant === 'morphic' ? 'bg-gray-100 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]' : '',
+    variant === 'standard' || variant === 'elevated' || variant === 'parallax' || variant === 'tilt' ? 'bg-white' : '',
+    
+    // Elevation shadows
+    elevation === 'sm' && variant !== 'outlined' && variant !== 'morphic' ? 'shadow-sm' : '',
+    elevation === 'md' && variant !== 'outlined' && variant !== 'morphic' ? 'shadow-md' : '',
+    elevation === 'lg' && variant !== 'outlined' && variant !== 'morphic' ? 'shadow-lg' : '',
+    elevation === 'xl' && variant !== 'outlined' && variant !== 'morphic' ? 'shadow-xl' : '',
+    
+    // Hover effects
+    hoverEffect === 'scale' && variant !== 'tilt' && variant !== 'flip' ? 'hover:scale-105' : '',
+    hoverEffect === 'lift' && variant !== 'tilt' && variant !== 'flip' ? 'hover:-translate-y-2 hover:shadow-xl' : '',
+    hoverEffect === 'glow' && variant !== 'tilt' && variant !== 'flip' ? 'hover:shadow-2xl hover:shadow-blue-500/20' : '',
+    hoverEffect === 'pulse' && variant !== 'tilt' && variant !== 'flip' ? 'hover:animate-pulse' : '',
+    
+    // Special variant styles
     variant === 'flip' ? 'relative' : '',
-    elevation === 'sm' && variant !== 'outlined' ? 'shadow-sm' : 
-    elevation === 'md' && variant !== 'outlined' ? 'shadow-md' : 
-    elevation === 'lg' && variant !== 'outlined' ? 'shadow-lg' : '',
-    'rounded-lg transition-all duration-300',
-    variant !== 'parallax' && variant !== 'tilt' && variant !== 'flip' ? 'hover:shadow-xl' : ''
-  ].join(' ');
+    variant === 'tilt' ? 'hover:shadow-2xl' : '',
+    
+    // Interactive cursor
+    href || variant === 'flip' ? 'cursor-pointer' : ''
+  ].filter(Boolean).join(' ');
   
   // 3D transform styles for tilt effect
   $: tiltStyle = isTiltEnabled 

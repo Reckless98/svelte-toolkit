@@ -1,40 +1,10 @@
 <!-- Animation Component Explorer -->
 <script>
   import { ScrollReveal, Parallax } from '$lib/animations';
-  import ComponentPreview from '../ComponentPreview.svelte';
+  import ComponentPreview from '../ComponentPreview.svelte';    // Animation examples
+  const scrollRevealExample = '<ScrollReveal animation="fade" delay={0} duration={800}>\n  <div class="p-6 bg-white rounded-lg shadow-md">\n    Content that fades in when scrolled into view\n  </div>\n</ScrollReveal>';
   
-  // Animation examples
-  const scrollRevealExample = `<script>
-  import { ScrollReveal } from 'svelte-ui-toolkit';
-</script>
-
-<ScrollReveal animation="fade" delay={0} duration={800}>
-  <div class="p-6 bg-white rounded-lg shadow-md">
-    Content that fades in when scrolled into view
-  </div>
-</ScrollReveal>
-
-<ScrollReveal animation="fly" y={50} delay={200} duration={800}>
-  <div class="p-6 bg-white rounded-lg shadow-md">
-    Content that flies in from below
-  </div>
-</ScrollReveal>`;
-
-  const parallaxExample = `<script>
-  import { Parallax } from 'svelte-ui-toolkit';
-</script>
-
-<Parallax speed={0.5} direction="up">
-  <div class="p-6 bg-white rounded-lg shadow-md">
-    Content that moves slower than the scroll
-  </div>
-</Parallax>
-
-<Parallax speed={0.2} direction="down">
-  <div class="p-6 bg-white rounded-lg shadow-md">
-    Content that moves faster than the scroll
-  </div>
-</Parallax>`;
+  const parallaxExample = '<Parallax speed={0.5} direction="up">\n  <div class="p-6 bg-white rounded-lg shadow-md">\n    Content that moves slower than the scroll\n  </div>\n</Parallax>';
 </script>
 
 <section>

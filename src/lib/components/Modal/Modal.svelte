@@ -2,15 +2,14 @@
 <script>
   import { createEventDispatcher, onMount, onDestroy } from 'svelte';
   import { fade, fly, scale, slide } from 'svelte/transition';
-  
-  // Props
+    // Props
   export let open = false;
-  export let variant = 'standard'; // standard, fullscreen, slide, centered, minimal, glass
+  export let variant = 'standard'; // standard, fullscreen, slide, centered, minimal, glass, modern, neon, floating
   export let title = '';
   export let closeButton = true;
   export let closeOnEsc = true;
   export let closeOnClickOutside = true;
-  export let animation = 'fade'; // fade, fly, scale, slide
+  export let animation = 'fade'; // fade, fly, scale, slide, bounce, zoom
   export let duration = 300;
   export let width = 'max-w-lg'; // CSS class for width
   export let height = ''; // CSS class for height (empty for auto)
@@ -18,6 +17,8 @@
   export let backdrop = true;
   export let backdropBlur = false;
   export let zIndex = 'z-50';
+  export let rounded = 'lg'; // sm, md, lg, xl, full
+  export let shadow = 'xl'; // sm, md, lg, xl, 2xl, none
   
   // Internal state
   let modalElement;
@@ -53,16 +54,19 @@
       document.removeEventListener('keydown', handleKeydown);
     };
   });
-  
-  // Set animation properties based on selected animation and position
+    // Set animation properties based on selected animation and position
   $: {
     if (animation === 'fade') {
       animationProps = { duration };
     } else if (animation === 'scale') {
-      animationProps = { duration, start: 0.95 };
+      animationProps = { duration, start: 0.8 };
+    } else if (animation === 'bounce') {
+      animationProps = { duration, start: 0.5 };
+    } else if (animation === 'zoom') {
+      animationProps = { duration, start: 1.1 };
     } else if (animation === 'fly') {
-      const y = position === 'top' ? -20 : position === 'bottom' ? 20 : 0;
-      const x = position === 'left' ? -20 : position === 'right' ? 20 : 0;
+      const y = position === 'top' ? -50 : position === 'bottom' ? 50 : 0;
+      const x = position === 'left' ? -50 : position === 'right' ? 50 : 0;
       animationProps = { duration, y, x };
     } else if (animation === 'slide') {
       animationProps = { duration };
@@ -71,19 +75,22 @@
   
   // Position classes
   $: positionClass = 
-    position === 'top' ? 'items-start' :
-    position === 'bottom' ? 'items-end' :
-    position === 'left' ? 'items-center justify-start' :
-    position === 'right' ? 'items-center justify-end' :
+    position === 'top' ? 'items-start pt-20' :
+    position === 'bottom' ? 'items-end pb-20' :
+    position === 'left' ? 'items-center justify-start pl-20' :
+    position === 'right' ? 'items-center justify-end pr-20' :
     'items-center justify-center'; // default center
   
   // Variant specific classes
   $: variantClass = 
-    variant === 'standard' ? 'bg-white dark:bg-gray-800 rounded-lg shadow-xl' :
-    variant === 'minimal' ? 'bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700' :
+    variant === 'standard' ? `bg-white dark:bg-gray-800 rounded-${rounded} shadow-${shadow}` :
+    variant === 'minimal' ? `bg-white dark:bg-gray-800 rounded-${rounded} shadow-${shadow} border border-gray-200 dark:border-gray-700` :
     variant === 'fullscreen' ? 'bg-white dark:bg-gray-800 w-screen h-screen max-w-none' :
-    variant === 'glass' ? 'backdrop-blur-lg bg-white/30 dark:bg-gray-900/30 border border-white/20 dark:border-gray-800/20 rounded-lg shadow-xl' :
-    'bg-white dark:bg-gray-800 rounded-lg shadow-xl'; // default
+    variant === 'glass' ? `backdrop-blur-lg bg-white/20 dark:bg-gray-900/20 border border-white/30 dark:border-gray-800/30 rounded-${rounded} shadow-${shadow}` :
+    variant === 'modern' ? `bg-white dark:bg-gray-800 rounded-${rounded} shadow-2xl border border-gray-100 dark:border-gray-700` :
+    variant === 'neon' ? `bg-gray-900 border-2 border-cyan-400 rounded-${rounded} shadow-lg shadow-cyan-400/25` :
+    variant === 'floating' ? `bg-white dark:bg-gray-800 rounded-${rounded} shadow-2xl transform hover:scale-105 transition-transform` :
+    `bg-white dark:bg-gray-800 rounded-${rounded} shadow-${shadow}`; // default
 </script>
 
 {#if open}
