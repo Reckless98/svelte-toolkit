@@ -192,7 +192,7 @@
               <div>
                 <h4 class="text-sm font-medium mb-3 capitalize text-gray-700 dark:text-gray-300">{variant}</h4>
                 <Accordion 
-                  {variant}
+                  variant={variant}
                   items={basicItems.slice(0, 2)} 
                   bind:openItems
                 />
@@ -249,15 +249,13 @@
 
   <!-- Custom Icons & Rich Content -->
   <section class="space-y-6">
-    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Custom Icons & Rich Content</h2>
+    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Rich Content</h2>
     
     <ComponentPreview
-      title="Custom Icons & Rich Content"
-      description="Accordion with custom expand/collapse icons and rich HTML content"
+      title="Rich Content"
+      description="Accordion with rich HTML content"
       codeSnippet={`<Accordion 
   items={basicItems.slice(0, 2)}
-  expandIcon="▼"
-  collapseIcon="▲"
   bind:openItems
 />
 <Accordion 
@@ -282,34 +280,32 @@
   bind:openItems
 />`}
     >
-      <svelte:fragment slot="preview">
-<div class="p-6 space-y-8">
-  <Accordion 
-    items={basicItems.slice(0, 2)}
-    expandIcon="▼"
-    collapseIcon="▲"
-    bind:openItems
-  />
-  
-  <Accordion 
-    items={[
-      {
-        id: 'rich1',
-        title: 'Rich Content Example',
-        content: `<div class="space-y-3">
-          <p class="text-gray-600">This accordion supports rich HTML content including:</p>
-          <ul class="list-disc list-inside space-y-1 text-sm">
-            <li>Formatted text and lists</li>
-            <li>Images and media</li>
-            <li>Interactive elements</li>
-            <li>Custom styling</li>
-          </ul>
-          <div class="mt-4 p-3 bg-blue-50 dark:bg-blue-900 rounded-lg">
-            <p class="text-sm text-blue-800 dark:text-blue-200">💡 Tip: You can include any HTML content here!</p>
-          </div>
-        </div>`
-      }
-    ]}
-    bind:openItems
-  />
+      <div class="p-6 space-y-8">
+        <Accordion 
+          items={basicItems.slice(0, 2)}
+          bind:openItems
+        />
+        <Accordion 
+          items={[
+            {
+              id: 'rich1',
+              title: 'Rich Content Example',
+              content: `<div class="space-y-3">
+                <p class="text-gray-600">This accordion supports rich HTML content including:</p>
+                <ul class="list-disc list-inside space-y-1 text-sm">
+                  <li>Formatted text and lists</li>
+                  <li>Images and media</li>
+                  <li>Interactive elements</li>
+                  <li>Custom styling</li>
+                </ul>
+                <div class="mt-4 p-3 bg-blue-50 dark:bg-blue-900 rounded-lg">
+                  <p class="text-sm text-blue-800 dark:text-blue-200">💡 Tip: You can include any HTML content here!</p>
+                </div>
+              </div>`
+            }
+          ]}
+        />
+      </div>
+    </ComponentPreview>
+  </section>
 </div>

@@ -55,6 +55,16 @@
 		}
 	}
 
+	// Handle keyboard events on backdrop
+	function handleBackdropKeydown(event: KeyboardEvent): void {
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+			if (closeOnClickOutside) {
+				close();
+			}
+		}
+	}
+
 	// Add event listeners
 	onMount(() => {
 		document.addEventListener('keydown', handleKeydown);
@@ -115,17 +125,16 @@
 {#if open}
 	<!-- Modal backdrop -->
 	{#if backdrop}
-		<div
-			class="fixed inset-0 {zIndex} {backdropBlur ? 'backdrop-blur-sm' : ''}"
+		<button
+			type="button"
+			class="fixed inset-0 {zIndex} {backdropBlur ? 'backdrop-blur-sm' : ''} p-0 border-0 cursor-default"
 			transition:fade={{ duration: duration / 2 }}
-			role="button"
-			tabindex="-1"
 			aria-label="Close modal"
 			on:click={handleOutsideClick}
-			on:keydown={(e) => e.key === 'Enter' && handleOutsideClick(e)}
+			on:keydown={handleBackdropKeydown}
 		>
 			<div class="absolute inset-0 bg-black opacity-50"></div>
-		</div>
+		</button>
 	{/if}
 
 	<!-- Modal container -->
@@ -144,7 +153,6 @@
 			role="dialog"
 			aria-modal="true"
 			aria-labelledby={title ? 'modal-title' : undefined}
-			on:click|stopPropagation
 		>
 			{#if animation === 'fade'}
 				<div transition:fade={animationProps} class="w-full h-full flex flex-col">

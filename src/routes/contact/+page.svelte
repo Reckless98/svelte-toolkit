@@ -1,6 +1,11 @@
-<script>
+<script lang="ts">
 	import { onMount } from 'svelte';
 	import { theme } from '$lib/stores/theme.js';
+
+	interface FormStatus {
+		type: 'success' | 'error';
+		message: string;
+	}
 
 	let mounted = false;
 	let formData = {
@@ -9,7 +14,7 @@
 		subject: '',
 		message: '',
 	};
-	let formStatus = null;
+	let formStatus: FormStatus | null = null;
 
 	onMount(() => {
 		mounted = true;

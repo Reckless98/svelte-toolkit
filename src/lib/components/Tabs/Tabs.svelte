@@ -44,7 +44,7 @@
 	function updateIndicator() {
 		if (!activeIndicator || variant !== 'underline') return;
 		
-		const activeButton = tabsContainer?.querySelector(`[data-tab="${activeTab}"]`);
+		const activeButton = tabsContainer?.querySelector(`[data-tab="${activeTab}"]`) as HTMLElement;
 		if (activeButton) {
 			const rect = activeButton.getBoundingClientRect();
 			const containerRect = tabsContainer.getBoundingClientRect();

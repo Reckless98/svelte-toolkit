@@ -1,7 +1,7 @@
 <!-- Reusable Dropdown Component -->
 <script lang="ts">
 	import { createEventDispatcher, onMount, onDestroy } from 'svelte';
-	import { fade, fly, scale } from 'svelte/transition';
+	import { fade, fly, scale, slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 
 	// TypeScript types
@@ -111,10 +111,33 @@
 				};
 			case 'fade':
 				return { duration: 150 };
+			case 'slide':
+				return {
+					duration: 200,
+					easing: quintOut
+				};
 			default:
 				return { duration: 0 };
 		}
 	}
+
+	// Get the appropriate transition function
+	function getTransition(anim: DropdownAnimation) {
+		switch (anim) {
+			case 'fly':
+				return fly;
+			case 'scale':
+				return scale;
+			case 'fade':
+				return fade;
+			case 'slide':
+				return slide;
+			default:
+				return fade;
+		}
+	}
+
+	$: transitionFn = getTransition(animation);
 
 	// Show dropdown
 	function show(): void {
@@ -290,11 +313,11 @@
 	});
 </script>
 
-<!-- Trigger wrapper -->
+<!-- Trigger element -->
 <div
 	bind:this={triggerElement}
-	class="relative inline-block"
 	on:click={trigger === 'click' ? toggle : undefined}
+	on:keydown={(e) => trigger === 'click' && (e.key === 'Enter' || e.key === ' ') ? (e.preventDefault(), toggle()) : undefined}
 	on:mouseenter={trigger === 'hover' ? show : undefined}
 	on:mouseleave={trigger === 'hover' ? hide : undefined}
 	role="button"
@@ -314,10 +337,9 @@
 		class="fixed z-50 rounded-lg {variantClasses[variant]} {sizeClasses[size]} {maxHeight} overflow-y-auto"
 		style={dropdownStyle}
 		role="menu"
+		tabindex="-1"
 		aria-orientation="vertical"
-		transition:fade={animation === 'fade' ? animationProps : undefined}
-		transition:fly={animation === 'fly' ? animationProps : undefined}
-		transition:scale={animation === 'scale' ? animationProps : undefined}
+		transition:transitionFn={animationProps}
 		on:mouseenter={trigger === 'hover' ? () => {} : undefined}
 		on:mouseleave={trigger === 'hover' ? hide : undefined}
 	>

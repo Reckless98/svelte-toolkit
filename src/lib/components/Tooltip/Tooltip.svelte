@@ -14,7 +14,6 @@
 	export let position: TooltipPosition = 'top';
 	export let variant: TooltipVariant = 'default';
 	export let size: TooltipSize = 'md';
-	export let animation: TooltipAnimation = 'fade';
 	export let delay: number = 200;
 	export let duration: number = 200;
 	export let disabled: boolean = false;
@@ -239,14 +238,17 @@
 	on:mouseenter={trigger === 'hover' ? show : undefined}
 	on:mouseleave={trigger === 'hover' ? hide : undefined}
 	on:click={trigger === 'click' ? toggle : undefined}
-	on:keydown={(e) => {
-		if (trigger === 'click' && (e.key === 'Enter' || e.key === ' ')) {
-			e.preventDefault();
-			toggle();
+	on:keydown={trigger === 'click'
+		? (e) => {
+			if (e.key === 'Enter' || e.key === ' ') {
+				e.preventDefault();
+				toggle();
+			}
 		}
-	}}
-	role={trigger === 'click' ? 'button' : undefined}
-	tabindex={trigger === 'click' ? 0 : undefined}
+		: undefined
+	}
+	role="button"
+	tabindex="0"
 	aria-describedby={showTooltip ? 'tooltip' : undefined}
 >
 	<slot />

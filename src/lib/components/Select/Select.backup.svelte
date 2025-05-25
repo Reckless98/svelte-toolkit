@@ -278,7 +278,14 @@
                   class:disabled={option.disabled}
                   role="option"
                   aria-selected={isSelected}
+                  tabindex={option.disabled ? -1 : 0}
                   on:click={() => selectOption(option)}
+                  on:keydown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      selectOption(option);
+                    }
+                  }}
                 >
                   {#if multiple}
                     <div class="checkbox-indicator" class:checked={isSelected}>
@@ -329,7 +336,7 @@
 
 <input type="hidden" {name} value={Array.isArray(value) ? value.join(',') : value} />
 
-<style>
+<style lang="postcss">
   .select-wrapper {
     @apply relative w-full;
   }

@@ -137,111 +137,116 @@
 			{emptyMessage}
 		</div>
 	{:else}
-		<div class="space-y-0 {variant === 'cards' ? 'space-y-4' : ''}">
+		<ul class="space-y-0 {variant === 'cards' ? 'space-y-4' : ''}" role="list">
 			{#each paginatedItems as item, i (item.id)}
-				<div
-					class="group transition-all duration-200 {variant === 'cards' 
-						? 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md' 
-						: variant === 'compact'
-							? 'py-2 px-3'
-							: 'py-3 px-4'
-					} {selectable ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800' : ''}
-					{selectedItems.has(item.id) ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800' : ''}
-					{dividers && variant !== 'cards' && i < paginatedItems.length - 1 ? 'border-b border-gray-200 dark:border-gray-700' : ''}"
-					on:click={() => handleSelect(item)}
-					transition:fade={{ duration: 150 }}
-				>
-					<div class="flex items-center gap-3">
-						{#if selectable}
-							<input
-								type="checkbox"
-								checked={selectedItems.has(item.id)}
-								class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-								on:click|stopPropagation
-							/>
-						{/if}
+				<li role="listitem">
+					<button
+						type="button"
+						tabindex="0"
+						class="group transition-all duration-200 {variant === 'cards' 
+							? 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md' 
+							: variant === 'compact'
+								? 'py-2 px-3'
+								: 'py-3 px-4'
+						} {selectable ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800' : ''}
+						{selectedItems.has(item.id) ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800' : ''}
+						{dividers && variant !== 'cards' && i < paginatedItems.length - 1 ? 'border-b border-gray-200 dark:border-gray-700' : ''}"
+						on:click={() => handleSelect(item)}
+						on:keydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { handleSelect(item); e.preventDefault(); } }}
+						transition:fade={{ duration: 150 }}
+					>
+						<div class="flex items-center gap-3">
+							{#if selectable}
+								<input
+									type="checkbox"
+									checked={selectedItems.has(item.id)}
+									class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+									on:click|stopPropagation
+								/>
+							{/if}
 
-						{#if item.avatar}
-							<img
-								src={item.avatar}
-								alt={item.title}
-								class="w-10 h-10 rounded-full object-cover flex-shrink-0"
-							/>
-						{:else if item.icon}
-							<div class="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center flex-shrink-0">
-								<span class="text-lg">{item.icon}</span>
-							</div>
-						{/if}
-
-						<div class="flex-1 min-w-0">
-							<div class="flex items-start justify-between">
-								<div class="min-w-0 flex-1">
-									{#if item.href}
-										<a
-											href={item.href}
-											class="font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400"
-											on:click|stopPropagation
-										>
-											{item.title}
-										</a>
-									{:else}
-										<h3 class="font-medium text-gray-900 dark:text-gray-100 truncate">
-											{item.title}
-										</h3>
-									{/if}
-									
-									{#if item.subtitle}
-										<p class="text-sm text-gray-600 dark:text-gray-400 truncate">
-											{item.subtitle}
-										</p>
-									{/if}
-									
-									{#if item.description && variant !== 'compact'}
-										<p class="text-sm text-gray-500 dark:text-gray-500 mt-1">
-											{item.description}
-										</p>
-									{/if}
+							{#if item.avatar}
+								<img
+									src={item.avatar}
+									alt={item.title}
+									class="w-10 h-10 rounded-full object-cover flex-shrink-0"
+								/>
+							{:else if item.icon}
+								<div class="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center flex-shrink-0">
+									<span class="text-lg">{item.icon}</span>
 								</div>
+							{/if}
 
-								<div class="flex items-center gap-2 ml-4">
-									{#if item.status}
-										<span class="px-2 py-1 text-xs font-medium rounded-full {getStatusColor(item.status)}">
-											{item.status}
-										</span>
-									{/if}
+							<div class="flex-1 min-w-0">
+								<div class="flex items-start justify-between">
+									<div class="min-w-0 flex-1">
+										{#if item.href}
+											<a
+												href={item.href}
+												class="font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400"
+												on:click|stopPropagation
+											>
+												{item.title}
+											</a>
+										{:else}
+											<h3 class="font-medium text-gray-900 dark:text-gray-100 truncate">
+												{item.title}
+											</h3>
+										{/if}
+										
+										{#if item.subtitle}
+											<p class="text-sm text-gray-600 dark:text-gray-400 truncate">
+												{item.subtitle}
+											</p>
+										{/if}
+										
+										{#if item.description && variant !== 'compact'}
+											<p class="text-sm text-gray-500 dark:text-gray-500 mt-1">
+												{item.description}
+											</p>
+										{/if}
+									</div>
 
-									{#if item.meta}
-										<span class="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
-											{item.meta}
-										</span>
-									{/if}
+									<div class="flex items-center gap-2 ml-4">
+										{#if item.status}
+											<span class="px-2 py-1 text-xs font-medium rounded-full {getStatusColor(item.status)}">
+												{item.status}
+											</span>
+										{/if}
 
-									{#if item.actions && item.actions.length > 0}
-										<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-											{#each item.actions as action}
-												<button
-													type="button"
-													class="px-2 py-1 text-xs font-medium rounded 
-														   {action.variant === 'primary' 
-															? 'bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-300'
-															: action.variant === 'danger'
-																? 'bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-300'
-																: 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300'
-														   } transition-colors"
-													on:click|stopPropagation={() => handleAction(action.action, item)}
-												>
-													{action.label}
-												</button>
-											{/each}
-										</div>
-									{/if}
+										{#if item.meta}
+											<span class="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
+												{item.meta}
+											</span>
+										{/if}
+
+										{#if item.actions && item.actions.length > 0}
+											<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+												{#each item.actions as action}
+													<button
+														type="button"
+														class="px-2 py-1 text-xs font-medium rounded 
+															   {action.variant === 'primary' 
+																? 'bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-300'
+																: action.variant === 'danger'
+																	? 'bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-300'
+																	: 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300'
+															   } transition-colors"
+														on:click|stopPropagation={() => handleAction(action.action, item)}
+													>
+														{action.label}
+													</button>
+												{/each}
+											</div>
+										{/if}
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
+					</button>
+				</li>
 			{/each}
-		</div>
+		</ul>
 
 		{#if itemsPerPage > 0 && totalPages > 1}
 			<div class="mt-6 flex items-center justify-between">
