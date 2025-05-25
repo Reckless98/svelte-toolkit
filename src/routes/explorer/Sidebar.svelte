@@ -15,9 +15,9 @@
 				{ name: 'Floating Action', path: '/explorer#fab', icon: '🎯' },
 				{ name: 'Badge', path: '/explorer#badge', icon: '🏷️' },
 				{ name: 'Chip', path: '/explorer#chip', icon: '🏷️' },
-				{ name: 'Avatar', path: '/explorer#avatar', icon: '👤' },
+				{ name: 'Avatar', path: '/explorer/avatar', icon: '👤' },
 				{ name: 'Avatar Group', path: '/explorer#avatar-group', icon: '👥' },
-				{ name: 'Divider', path: '/explorer#divider', icon: '➖' },
+				{ name: 'Divider', path: '/explorer/divider', icon: '➖' },
 				{ name: 'Skeleton', path: '/explorer#skeleton', icon: '💀' },
 				{ name: 'Spinner', path: '/explorer#spinner', icon: '🔄' }
 			]
@@ -55,7 +55,7 @@
 				{ name: 'Flex Layout', path: '/explorer#flex', icon: '📏' },
 				{ name: 'Stack', path: '/explorer#stack', icon: '📚' },
 				{ name: 'Spacer', path: '/explorer#spacer', icon: '↔️' },
-				{ name: 'Accordion', path: '/explorer#accordion', icon: '📋' },
+				{ name: 'Accordion', path: '/explorer/accordion', icon: '📋' },
 				{ name: 'Collapsible', path: '/explorer#collapsible', icon: '📁' },
 				{ name: 'Stepper', path: '/explorer#stepper', icon: '📊' },
 				{ name: 'Timeline', path: '/explorer#timeline', icon: '⏰' },
@@ -76,7 +76,7 @@
 				{ name: 'Tabs', path: '/explorer#tabs', icon: '📑' },
 				{ name: 'Tab Variants', path: '/explorer#tab-variants', icon: '📑' },
 				{ name: 'Menu', path: '/explorer#menu', icon: '🍔' },
-				{ name: 'Dropdown', path: '/explorer#dropdown', icon: '⬇️' },
+				{ name: 'Dropdown', path: '/explorer/dropdown', icon: '⬇️' },
 				{ name: 'Context Menu', path: '/explorer#context-menu', icon: '📋' },
 				{ name: 'Footer', path: '/explorer#footer', icon: '📋' },
 				{ name: 'Footer Variants', path: '/explorer#footer-variants', icon: '📋' }
@@ -129,7 +129,7 @@
 				{ name: 'Dialog', path: '/explorer#dialog', icon: '💬' },
 				{ name: 'Drawer', path: '/explorer#drawer', icon: '📄' },
 				{ name: 'Popover', path: '/explorer#popover', icon: '💭' },
-				{ name: 'Tooltip', path: '/explorer#tooltip', icon: '💡' },
+				{ name: 'Tooltip', path: '/explorer/tooltip', icon: '💡' },
 				{ name: 'Confirmation', path: '/explorer#confirmation', icon: '❓' },
 				{ name: 'Alert Dialog', path: '/explorer#alert-dialog', icon: '⚠️' },
 				{ name: 'Sheet', path: '/explorer#sheet', icon: '📄' },

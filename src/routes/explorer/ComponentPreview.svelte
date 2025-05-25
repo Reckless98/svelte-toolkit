@@ -1,5 +1,5 @@
 <!-- Enhanced Component Preview Container with Individual Theme Control -->
-<script>
+<script lang="ts">
 	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import Prism from 'prismjs';
@@ -10,7 +10,7 @@
 	export let codeSnippet = '';
 	export let controls = false; // Show prop controls
 	export let complexity = 'Basic'; // Basic, Intermediate, Advanced
-	export let features = []; // Array of feature strings
+	export let features: string[] = []; // Array of feature strings
 
 	// Internal state
 	let showCode = false;
@@ -44,10 +44,12 @@
 	}
 
 	// Copy code to clipboard
-	function copyCode() {
+	function copyCode(event: MouseEvent) {
 		navigator.clipboard.writeText(codeSnippet);
 		// Simple feedback without alert
-		const button = event.target;
+		const button = event.currentTarget as HTMLButtonElement;
+		if (!button) return;
+		
 		const originalText = button.textContent;
 		button.textContent = 'Copied!';
 		button.classList.add('bg-green-100', 'text-green-800');
@@ -58,7 +60,7 @@
 	}
 
 	// Get complexity color
-	const getComplexityColor = (level) => {
+	const getComplexityColor = (level: string) => {
 		switch (level) {
 			case 'Basic': return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300';
 			case 'Intermediate': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300';

@@ -472,10 +472,26 @@
 		>
 			<div class="absolute top-1/6 left-1/6 w-96 h-96 bg-gradient-to-br from-white/10 to-white/5 rounded-full blur-3xl animate-pulse-slow"></div>
 			<div class="absolute bottom-1/6 right-1/6 w-80 h-80 bg-gradient-to-br from-white/8 to-white/3 rounded-full blur-2xl animate-float"></div>
+			
 			{#if currentMode === HOME_MODES.PARALLAX}
 				<div class="absolute top-1/3 left-1/2 w-64 h-64 bg-gradient-to-br from-emerald-300/20 to-transparent rounded-full blur-2xl animate-parallax-dimensional"></div>
 				<div class="absolute bottom-1/2 right-1/3 w-48 h-48 bg-gradient-to-br from-teal-300/25 to-transparent rounded-full blur-xl animate-parallax-field"></div>
 				<div class="absolute top-3/4 left-1/4 w-32 h-32 bg-gradient-to-br from-cyan-300/30 to-transparent rounded-full blur-lg animate-parallax-fragment"></div>
+			{:else if currentMode === HOME_MODES.AURORA}
+				<!-- Aurora background curtains -->
+				<div class="absolute top-0 left-1/4 w-96 h-screen bg-gradient-to-b from-cyan-400/15 via-purple-400/10 via-pink-400/12 to-transparent blur-2xl animate-aurora-curtain-slow"></div>
+				<div class="absolute top-0 right-1/3 w-80 h-screen bg-gradient-to-b from-green-400/12 via-cyan-400/8 via-blue-400/10 to-transparent blur-xl animate-aurora-curtain-slow" style="animation-delay: 1.5s;"></div>
+				<div class="absolute top-0 left-2/3 w-64 h-screen bg-gradient-to-b from-purple-400/10 via-pink-400/15 via-cyan-400/8 to-transparent blur-3xl animate-aurora-curtain-slow" style="animation-delay: 3s;"></div>
+			{:else if currentMode === HOME_MODES.CRYSTALLINE}
+				<!-- Crystal background formations -->
+				<div class="absolute top-1/4 left-1/5 w-72 h-72 bg-gradient-conic from-violet-400/20 via-purple-400/15 via-fuchsia-400/18 to-violet-400/20 rounded-full blur-2xl animate-crystal-rotation"></div>
+				<div class="absolute bottom-1/3 right-1/4 w-56 h-56 bg-gradient-radial from-purple-400/25 via-violet-400/12 to-transparent blur-xl animate-crystal-pulse" style="animation-delay: 2s;"></div>
+				<div class="absolute top-2/3 left-1/2 w-64 h-32 bg-gradient-to-r from-transparent via-fuchsia-400/20 to-transparent blur-lg animate-crystal-beam" style="animation-delay: 1s;"></div>
+			{:else if currentMode === HOME_MODES.COSMIC}
+				<!-- Cosmic background nebulae -->
+				<div class="absolute top-1/6 left-1/4 w-80 h-80 bg-gradient-radial from-blue-400/15 via-purple-400/20 via-pink-400/10 to-transparent rounded-full blur-3xl animate-cosmic-nebula-drift"></div>
+				<div class="absolute bottom-1/4 right-1/5 w-96 h-64 bg-gradient-to-br from-purple-400/12 via-blue-400/18 to-transparent blur-2xl animate-cosmic-cloud-flow" style="animation-delay: 2.5s;"></div>
+				<div class="absolute top-1/2 right-1/2 w-48 h-48 bg-gradient-conic from-cyan-400/20 via-blue-400/15 to-purple-400/20 rounded-full blur-xl animate-cosmic-vortex" style="animation-delay: 1.2s;"></div>
 			{/if}
 		</div>
 		
@@ -486,10 +502,26 @@
 		>
 			<div class="absolute top-1/3 right-1/4 w-64 h-64 bg-gradient-to-br from-white/12 to-white/6 rounded-full blur-xl animate-float-delayed"></div>
 			<div class="absolute bottom-1/3 left-1/3 w-48 h-48 bg-gradient-to-br from-white/10 to-white/4 rounded-full blur-lg animate-bounce-slow"></div>
+			
 			{#if currentMode === HOME_MODES.PARALLAX}
 				<div class="absolute top-2/3 left-1/4 w-56 h-56 bg-gradient-to-br from-cyan-300/25 to-transparent rounded-full blur-2xl animate-parallax-dimensional"></div>
 				<div class="absolute bottom-1/4 right-2/3 w-32 h-32 bg-gradient-to-br from-emerald-400/30 to-transparent rounded-full blur-lg animate-parallax-field"></div>
 				<div class="absolute top-1/6 left-3/5 w-24 h-24 bg-gradient-to-br from-teal-400/35 to-transparent rounded-full blur-md animate-parallax-rift"></div>
+			{:else if currentMode === HOME_MODES.AURORA}
+				<!-- Aurora background waves -->
+				<div class="absolute top-1/4 left-1/6 w-full h-32 bg-gradient-to-r from-transparent via-cyan-400/15 via-purple-400/20 via-green-400/12 to-transparent blur-lg animate-aurora-wave-flow"></div>
+				<div class="absolute bottom-1/3 right-1/4 w-80 h-80 bg-gradient-radial from-pink-400/18 via-purple-400/10 to-transparent rounded-full blur-2xl animate-aurora-glow" style="animation-delay: 1s;"></div>
+				<div class="absolute top-2/3 left-1/2 w-64 h-16 bg-gradient-to-r from-transparent via-blue-400/25 to-transparent blur-md animate-aurora-streak" style="animation-delay: 2.5s;"></div>
+			{:else if currentMode === HOME_MODES.CRYSTALLINE}
+				<!-- Crystal background refractions -->
+				<div class="absolute top-1/5 right-1/3 w-48 h-96 bg-gradient-to-b from-violet-400/20 via-transparent via-purple-400/15 to-transparent blur-lg animate-crystal-refraction-beam"></div>
+				<div class="absolute bottom-1/4 left-1/5 w-72 h-24 bg-gradient-to-r from-transparent via-fuchsia-400/25 via-violet-400/15 to-transparent blur-md animate-crystal-light-ray" style="animation-delay: 1.5s;"></div>
+				<div class="absolute top-1/2 right-1/6 w-40 h-40 bg-gradient-conic from-purple-400/20 to-violet-400/25 rounded-full blur-xl animate-crystal-facet-shine" style="animation-delay: 0.8s;"></div>
+			{:else if currentMode === HOME_MODES.COSMIC}
+				<!-- Cosmic background streams -->
+				<div class="absolute top-1/3 left-1/8 w-full h-24 bg-gradient-to-r from-transparent via-blue-400/15 via-purple-400/20 via-cyan-400/12 to-transparent blur-lg animate-cosmic-stream-flow"></div>
+				<div class="absolute bottom-1/5 right-1/3 w-64 h-64 bg-gradient-radial from-purple-400/20 via-blue-400/15 to-transparent rounded-full blur-2xl animate-cosmic-energy-pulse" style="animation-delay: 1.8s;"></div>
+				<div class="absolute top-3/4 left-1/3 w-48 h-12 bg-gradient-to-r from-transparent via-cyan-400/25 to-transparent blur-sm animate-cosmic-light-trail" style="animation-delay: 0.5s;"></div>
 			{/if}
 		</div>
 		
@@ -501,10 +533,26 @@
 			<div class="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-white/15 to-white/8 rounded-full blur-3xl animate-float"></div>
 			<div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-white/12 to-white/5 rounded-full blur-2xl animate-float-delayed"></div>
 			<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-white/8 to-transparent rounded-full blur-2xl animate-pulse-slow"></div>
+			
 			{#if currentMode === HOME_MODES.PARALLAX}
 				<div class="absolute top-1/6 right-1/5 w-40 h-40 bg-gradient-to-br from-teal-400/35 to-transparent rounded-full blur-xl animate-parallax-dimensional"></div>
 				<div class="absolute bottom-1/6 left-2/3 w-28 h-28 bg-gradient-to-br from-emerald-500/30 to-transparent rounded-full blur-md animate-parallax-fragment"></div>
 				<div class="absolute top-1/2 right-1/4 w-20 h-20 bg-gradient-to-br from-cyan-400/40 to-transparent rounded-full blur-sm animate-parallax-rift"></div>
+			{:else if currentMode === HOME_MODES.AURORA}
+				<!-- Aurora background shimmer -->
+				<div class="absolute top-1/6 left-1/3 w-56 h-56 bg-gradient-radial from-cyan-400/25 via-purple-400/15 to-transparent rounded-full blur-xl animate-aurora-shimmer-bg" style="animation-delay: 0.5s;"></div>
+				<div class="absolute bottom-1/5 right-1/5 w-full h-20 bg-gradient-to-r from-transparent via-green-400/20 via-blue-400/15 to-transparent blur-lg animate-aurora-ripple" style="animation-delay: 2s;"></div>
+				<div class="absolute top-3/5 left-1/8 w-32 h-64 bg-gradient-to-b from-pink-400/20 via-purple-400/10 to-transparent blur-md animate-aurora-column" style="animation-delay: 1.2s;"></div>
+			{:else if currentMode === HOME_MODES.CRYSTALLINE}
+				<!-- Crystal background prismatic effects -->
+				<div class="absolute top-1/3 left-1/6 w-20 h-80 bg-gradient-to-b from-violet-400/30 via-purple-400/20 via-fuchsia-400/25 to-transparent blur-sm animate-crystal-prism-bg"></div>
+				<div class="absolute bottom-1/6 right-1/4 w-64 h-32 bg-gradient-to-r from-transparent via-violet-400/25 via-purple-400/15 to-transparent blur-lg animate-crystal-spectrum" style="animation-delay: 1.8s;"></div>
+				<div class="absolute top-2/5 right-1/3 w-48 h-48 bg-gradient-conic from-fuchsia-400/20 via-violet-400/25 via-purple-400/15 to-fuchsia-400/20 rounded-full blur-2xl animate-crystal-kaleidoscope" style="animation-delay: 0.3s;"></div>
+			{:else if currentMode === HOME_MODES.COSMIC}
+				<!-- Cosmic background stellar fields -->
+				<div class="absolute top-1/5 right-1/6 w-72 h-72 bg-gradient-radial from-blue-400/20 via-purple-400/25 via-cyan-400/15 to-transparent rounded-full blur-2xl animate-cosmic-stellar-field"></div>
+				<div class="absolute bottom-1/3 left-1/4 w-full h-16 bg-gradient-to-r from-transparent via-purple-400/20 via-blue-400/25 via-pink-400/15 to-transparent blur-md animate-cosmic-galaxy-arm" style="animation-delay: 1.5s;"></div>
+				<div class="absolute top-2/3 right-1/8 w-40 h-40 bg-gradient-conic from-cyan-400/25 via-blue-400/20 to-purple-400/25 rounded-full blur-lg animate-cosmic-pulsar" style="animation-delay: 0.8s;"></div>
 			{/if}
 		</div>
 		
@@ -516,11 +564,30 @@
 			<div class="absolute top-3/4 left-1/5 w-32 h-32 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-xl animate-float"></div>
 			<div class="absolute top-1/5 right-1/5 w-40 h-40 bg-gradient-to-br from-white/8 to-transparent rounded-full blur-2xl animate-bounce-slow"></div>
 			<div class="absolute bottom-2/3 left-2/3 w-24 h-24 bg-gradient-to-br from-white/12 to-transparent rounded-full blur-lg animate-float-delayed"></div>
+			
 			{#if currentMode === HOME_MODES.PARALLAX}
 				<div class="absolute top-1/5 left-3/4 w-16 h-16 bg-gradient-to-br from-emerald-300/40 to-transparent rounded-full blur-sm animate-parallax-dimensional"></div>
 				<div class="absolute bottom-1/5 right-1/6 w-20 h-20 bg-gradient-to-br from-teal-300/35 to-transparent rounded-full blur-md animate-parallax-field"></div>
 				<div class="absolute top-2/3 left-1/6 w-12 h-12 bg-gradient-to-br from-cyan-300/45 to-transparent rounded-full blur-sm animate-parallax-rift"></div>
 				<div class="absolute bottom-1/3 right-1/3 w-18 h-18 bg-gradient-to-br from-emerald-400/40 to-transparent rounded-full blur-md animate-parallax-fragment"></div>
+			{:else if currentMode === HOME_MODES.AURORA}
+				<!-- Aurora background particles -->
+				<div class="absolute top-1/8 right-1/3 w-24 h-24 bg-gradient-radial from-cyan-400/30 to-transparent rounded-full blur-lg animate-aurora-particle-float" style="animation-delay: 0.8s;"></div>
+				<div class="absolute bottom-1/4 left-1/4 w-16 h-16 bg-gradient-radial from-purple-400/35 to-transparent rounded-full blur-md animate-aurora-particle-drift" style="animation-delay: 2.2s;"></div>
+				<div class="absolute top-1/2 right-1/8 w-20 h-20 bg-gradient-radial from-green-400/25 to-transparent rounded-full blur-sm animate-aurora-particle-dance" style="animation-delay: 1.5s;"></div>
+				<div class="absolute bottom-2/3 left-1/2 w-12 h-12 bg-gradient-radial from-pink-400/40 to-transparent rounded-full blur-xs animate-aurora-particle-glow" style="animation-delay: 3s;"></div>
+			{:else if currentMode === HOME_MODES.CRYSTALLINE}
+				<!-- Crystal background fragments -->
+				<div class="absolute top-1/6 left-1/8 w-16 h-16 bg-gradient-conic from-violet-400/35 to-purple-400/25 rounded-full blur-sm animate-crystal-fragment-spin" style="animation-delay: 1.2s;"></div>
+				<div class="absolute bottom-1/3 right-1/4 w-20 h-20 bg-gradient-radial from-fuchsia-400/30 to-transparent rounded-full blur-md animate-crystal-fragment-pulse" style="animation-delay: 0.5s;"></div>
+				<div class="absolute top-2/3 left-1/3 w-12 h-12 bg-gradient-to-br from-purple-400/40 to-violet-400/25 blur-xs animate-crystal-fragment-drift" style="animation-delay: 2.8s;"></div>
+				<div class="absolute bottom-1/6 right-1/8 w-18 h-18 bg-gradient-conic from-violet-400/25 via-purple-400/35 to-fuchsia-400/30 rounded-full blur-sm animate-crystal-fragment-shimmer" style="animation-delay: 1.8s;"></div>
+			{:else if currentMode === HOME_MODES.COSMIC}
+				<!-- Cosmic background dust -->
+				<div class="absolute top-1/4 left-1/6 w-20 h-20 bg-gradient-radial from-blue-400/30 to-transparent rounded-full blur-lg animate-cosmic-dust-drift" style="animation-delay: 1s;"></div>
+				<div class="absolute bottom-1/5 right-1/3 w-16 h-16 bg-gradient-radial from-purple-400/35 to-transparent rounded-full blur-md animate-cosmic-dust-swirl" style="animation-delay: 2.5s;"></div>
+				<div class="absolute top-3/5 left-1/2 w-12 h-12 bg-gradient-radial from-cyan-400/40 to-transparent rounded-full blur-sm animate-cosmic-dust-sparkle" style="animation-delay: 0.3s;"></div>
+				<div class="absolute bottom-2/3 right-1/6 w-24 h-24 bg-gradient-conic from-blue-400/25 via-purple-400/30 to-pink-400/20 rounded-full blur-xl animate-cosmic-dust-nebula" style="animation-delay: 1.8s;"></div>
 			{/if}
 		</div>
 	</div>
@@ -1210,243 +1277,6 @@
 									scale({0.5 + Math.abs(mouseVelocityX) * 0.001});
 								animation: geometric-burst 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 								filter: 
-									drop-shadow(0 0 {Math.abs(mouseVelocityX) * 0.02}px {element.color}
-									brightness({1.1 + Math.abs(mouseVelocityX) * 0.0005});
-							"
-						></div>
-					{/if}
-				{/each}
-				
-			{:else if currentMode === HOME_MODES.WAVES}
-				{#each animationElements as element (element.id)}
-					<!-- Elegant fluid wave with minimal mouse response -->
-					<div
-						class="absolute animate-wave-motion mouse-interactive"
-						style="
-							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 3 * element.speed : 0)}%;
-							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 1.5 * Math.sin(Date.now() * 0.0008 + element.id * 0.3) : 0)}%;
-							width: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.04, 2) : 0)}px;
-							height: {element.size / 3 + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.02, 1) : 0)}px;
-							background: linear-gradient(
-								{isMouseActive ? 90 + Math.sin(mouseVelocityX * 0.002) * 8 : 90}deg, 
-								transparent 0%, 
-								{element.color}20 10%, 
-								{element.color}80 25%, 
-								{element.color} 50%, 
-								{element.color}80 75%, 
-								{element.color}20 90%, 
-								transparent 100%
-							);
-							animation-delay: {element.delay}s;
-							animation-duration: {Math.max(element.duration - (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.0002, 0.3) : 0), 0.8)}s;
-							opacity: {Math.min(element.opacity + (isMouseActive ? 0.08 : 0), 0.9)};
-							transform-origin: center;
-							transform: 
-								rotate({isMouseActive ? Math.sin(mouseVelocityX * 0.002) * 0.5 : 0}deg)
-								scale({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.00003, 0.05) : 0)});
-							filter: 
-								blur({Math.max(0.6 - (isMouseActive ? Math.abs(mouseVelocityX) * 0.0002 : 0), 0.1)}px)
-								brightness({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.00008, 0.06) : 0)});
-							border-radius: {element.size / 4}px;
-							box-shadow: 
-								0 0 {element.size / 3}px {element.color}50,
-								0 0 {element.size / 1.5}px {element.color}25,
-								0 0 {element.size}px {element.color}10;
-							transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-						"
-					></div>
-					
-					<!-- Enhanced wave ripples with fluid motion -->
-					{#if element.id % 4 === 0}
-						<div
-							class="absolute animate-wave-ripple"
-							style="
-								left: {element.x + 15 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 18 : 0)}%;
-								top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 9 * Math.cos(Date.now() * 0.0008 + element.id) : 0)}%;							width: {element.size * 2.5 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.08, 5) : 0)}px;
-							height: {element.size / 6 + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.015, 1) : 0)}px;
-							background: linear-gradient(
-								{isMouseActive ? 90 + Math.cos(mouseVelocityX * 0.003) * 15 : 90}deg, 
-								transparent 0%, 
-								{element.color}70 30%, 
-								{element.color}40 70%, 
-								transparent 100%
-							);
-							animation-delay: {element.delay + 0.3}s;
-							animation-duration: {element.duration * 1.8}s;
-							opacity: {Math.min(element.opacity * 0.7 + (isMouseActive ? 0.1 : 0), 0.9)};
-								border-radius: {element.size / 3}px;
-								transform: 
-									rotate({isMouseActive ? Math.cos(mouseVelocityY * 0.01) * 10 : 0}deg)
-									scaleX({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.003, 0.4) : 0)});
-								filter: blur({Math.max(1.2 - (isMouseActive ? Math.abs(mouseVelocityX) * 0.02 : 0), 0.2)}px);
-								transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-							"
-						></div>
-					{/if}
-					
-					<!-- MINIMAL WAVE CURSOR ANIMATIONS: Gentle and Aesthetic -->
-					
-					<!-- Subtle Wave Ripples - Only appears on gentle movement -->
-					{#if isMouseActive && Math.abs(mouseVelocityX + mouseVelocityY) > 8 && element.id % 8 === 0}
-						<div
-							class="absolute pointer-events-none"
-							style="
-								left: {(mouseX / innerWidth) * 100}%;
-								top: {(mouseY / innerHeight) * 100}%;
-								width: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.6 + 12, 30)}px;
-								height: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.6 + 12, 30)}px;
-								background: radial-gradient(
-									circle,
-									transparent 20%,
-									{element.color}08 40%,
-									transparent 60%,
-									{element.color}04 80%,
-									transparent 100%
-								);
-								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.003, 0.3)};
-								border-radius: 50%;
-								transform: translate(-50%, -50%) scale({0.5 + Math.abs(mouseVelocityX + mouseVelocityY) * 0.008});
-								animation: minimal-wave-ripple 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-								filter: blur(0.5px);
-							"
-						></div>
-					{/if}
-					
-					<!-- Gentle Wave Trail - Minimal particles -->
-					{#if isMouseActive && Math.abs(mouseVelocityX + mouseVelocityY) > 15 && element.id % 12 === 0}
-						<div
-							class="absolute pointer-events-none"
-							style="
-								left: {(mouseX / innerWidth) * 100}%;
-								top: {(mouseY / innerHeight) * 100}%;
-								width: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.2 + 4, 8)}px;
-								height: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.2 + 4, 8)}px;
-								background: radial-gradient(
-									circle,
-									{element.color}12 0%,
-									{element.color}06 50%,
-									transparent 100%
-								);
-								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.002, 0.2)};
-								border-radius: 50%;
-								transform: translate(-50%, -50%) scale({0.5 + Math.abs(mouseVelocityX + mouseVelocityY) * 0.003});
-								animation: gentle-wave-drift 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-								filter: blur(0.3px);
-							"
-						></div>
-					{/if}
-					
-					<!-- Ambient wave glow effects -->
-					{#if element.id % 10 === 0}
-						<div
-							class="absolute pointer-events-none animate-wave-glow"
-							style="
-								left: {element.x + (isMouseActive ? (mouseVelocityX / 0.5) * 10 : 0)}%;
-								top: {element.y + (isMouseActive ? (mouseVelocityY / 0.5) * 5 : 0)}%;
-								width: {element.size * 3}px;
-								height: {element.size / 2}px;
-								background: radial-gradient(
-									ellipse, 
-									{element.color}30 0%, 
-									{element.color}15 40%, 
-									transparent 70%
-								);
-								animation-delay: {element.delay + 1}s;
-								animation-duration: {element.duration * 2.5}s;
-								opacity: {element.opacity * 0.4 + (isMouseActive ? 0.2 : 0)};
-								border-radius: 50%;
-								filter: blur({2 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.02 : 0)}px);
-								transition: all 0.3s ease-out;
-							"
-						></div>
-					{/if}
-				{/each}
-				
-			{:else if currentMode === HOME_MODES.GEOMETRIC}
-				{#each animationElements as element (element.id)}
-					<!-- Elegant geometric shape with minimal mouse response -->
-					<div
-						class="absolute animate-geometric-spin mouse-interactive"
-						style="
-							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 1.5 : 0)}%;
-							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 1.2 : 0)}%;
-							width: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.003, 1.5) : 0)}px;
-							height: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.003, 1.5) : 0)}px;
-							background: linear-gradient(
-								{element.id * 45 + (isMouseActive ? mouseVelocityX * 0.002 : 0)}deg, 
-								{element.color} 0%, 
-								{element.color}CC 40%, 
-								{element.color}88 70%, 
-								{element.color}40 100%
-							);
-							clip-path: {
-								element.id % 4 === 0 ? 'polygon(50% 0%, 0% 100%, 100% 100%)' :
-								element.id % 4 === 1 ? 'polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%)' :
-								element.id % 4 === 2 ? 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' :
-								'polygon(50% 0%, 85% 25%, 100% 50%, 85% 75%, 50% 100%, 15% 75%, 0% 50%, 15% 25%)'
-							};
-							animation-delay: {element.delay}s;
-							animation-duration: {Math.max(element.duration - (isMouseActive ? Math.abs(mouseVelocityX) * 0.0001 : 0), 2)}s;
-							opacity: {Math.min(element.opacity * 0.8 + (isMouseActive ? 0.02 : 0), 0.9)};
-							transform-origin: center;
-							transform: 
-								rotate({element.id * 15 + (isMouseActive ? mouseVelocityX * 0.001 : 0)}deg)
-								scale({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.00003, 0.05) : 0)});
-							filter: 
-								drop-shadow(0 0 {element.size / 4}px {element.color}40)
-								brightness({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00004 : 0)})
-								saturate({1.1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00002 : 0)});
-							transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-						"
-					></div>
-					
-					<!-- Subtle geometric outline -->
-					{#if element.id % 3 === 0}
-						<div
-							class="absolute animate-geometric-orbit"
-							style="
-								left: {element.x + 2 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 0.8 : 0)}%;
-								top: {element.y + 2 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.6 : 0)}%;
-								width: {element.size * 1.2 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.01 : 0)}px;
-								height: {element.size * 1.2 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.01 : 0)}px;
-								background: transparent;
-								border: {1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.002 : 0)}px solid {element.color}30;
-								clip-path: {
-									element.id % 4 === 0 ? 'polygon(50% 0%, 0% 100%, 100% 100%)' :
-									element.id % 4 === 1 ? 'polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%)' :
-									element.id % 4 === 2 ? 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' :
-									'polygon(50% 0%, 85% 25%, 100% 50%, 85% 75%, 50% 100%, 15% 75%, 0% 50%, 15% 25%)'
-								};
-								animation-delay: {element.delay + 0.8}s;
-								animation-duration: {element.duration * 2}s;
-								opacity: {element.opacity * 0.4 + (isMouseActive ? 0.01 : 0)};
-								transform: 
-									rotate({-element.id * 8 + (isMouseActive ? -mouseVelocityX * 0.0002 : 0)}deg)
-									scale({0.95 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.000003 : 0)});
-								filter: blur({0.3 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0002 : 0)}px);
-								transition: all 0.4s ease-out;
-							"
-						></div>
-					{/if}
-					
-					<!-- Minimal mouse-triggered particles (higher threshold) -->
-					{#if isMouseActive && Math.abs(mouseVelocityX) > 40 && element.id % 12 === 0}
-						<div
-							class="absolute pointer-events-none"
-							style="
-								left: {(mouseX / innerWidth) * 100}%;
-								top: {(mouseY / innerHeight) * 100}%;
-								width: {Math.abs(mouseVelocityX) * 0.006 + 3}px;
-								height: {Math.abs(mouseVelocityX) * 0.006 + 3}px;
-								background: {element.color}80;
-								clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-								opacity: {Math.min(Math.abs(mouseVelocityX) * 0.002, 0.4)};
-								transform: 
-									translate(-50%, -50%) 
-									rotate({mouseVelocityX * 0.2}deg)
-									scale({0.5 + Math.abs(mouseVelocityX) * 0.001});
-								animation: geometric-burst 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-								filter: 
 									drop-shadow(0 0 {Math.abs(mouseVelocityX) * 0.02}px {element.color})
 									brightness({1.1 + Math.abs(mouseVelocityX) * 0.0005});
 							"
@@ -1454,132 +1284,431 @@
 					{/if}
 				{/each}
 				
-			{:else if currentMode === HOME_MODES.CRYSTALLINE}
+			{:else if currentMode === HOME_MODES.GRADIENT}
 				{#each animationElements as element (element.id)}
-					<!-- Elegant crystalline core with ultra-minimal mouse response -->
+					<!-- Enhanced gradient morphing orb with dynamic color transitions -->
 					<div
-						class="absolute animate-crystal-refraction mouse-interactive"
+						class="absolute animate-gradient-morph mouse-interactive"
 						style="
-							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 0.75 * element.speed : 0)}%;
-							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.5 : 0)}%;
-							width: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.001, 1.2) : 0)}px;
-							height: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.0001, 1.2) : 0)}px;
-							background: linear-gradient(
-								{45 + (isMouseActive ? mouseVelocityX * 0.0002 : 0)}deg, 
+							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 2.5 * element.speed : 0)}%;
+							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 1.8 * Math.sin(Date.now() * 0.001 + element.id) : 0)}%;
+							width: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.015, 8) : 0)}px;
+							height: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.015, 8) : 0)}px;
+							background: radial-gradient(
+								circle, 
 								{element.color} 0%, 
-								{element.color}80 15%, 
-								{element.color}60 30%, 
-								{element.color}40 50%, 
-								{element.color}60 70%, 
-								{element.color}80 85%, 
-								{element.color} 100%
+								{element.color}E6 25%, 
+								{element.color}CC 50%, 
+								{element.color}80 75%, 
+								transparent 100%
 							);
-							clip-path: polygon(50% 0%, 85% 15%, 100% 50%, 85% 85%, 50% 100%, 15% 85%, 0% 50%, 15% 15%);
 							animation-delay: {element.delay}s;
-							animation-duration: {Math.max(element.duration - (isMouseActive ? Math.abs(mouseVelocityX) * 0.000004 : 0), 1)}s;
-							opacity: {Math.min(element.opacity + (isMouseActive ? 0.0025 : 0), 0.9)};
+							animation-duration: {Math.max(element.duration * 1.5 - (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.001, 0.8) : 0), 2)}s;
+							opacity: {Math.min(element.opacity * 0.8 + (isMouseActive ? 0.025 : 0), 0.9)};
+							border-radius: 50%;
 							transform-origin: center;
 							transform: 
-								rotate({element.id * 20 + (isMouseActive ? mouseVelocityX * 0.002 : 0)}deg)
-								scale({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.00002, 0.03) : 0)});
+								rotate({element.id * 15 + (isMouseActive ? mouseVelocityX * 0.008 : 0)}deg)
+								scale({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.0002, 0.15) : 0)});
+							box-shadow: 
+								0 0 {element.size}px {element.color}40,
+								0 0 {element.size * 2}px {element.color}25,
+								0 0 {element.size * 3}px {element.color}15;
 							filter: 
-								drop-shadow(0 0 {element.size / 3}px {element.color}90)
-								drop-shadow(0 0 {element.size / 1.5}px {element.color}50)
-								drop-shadow(0 0 {element.size}px {element.color}25)
-								brightness({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.000025 : 0)})
-								contrast({1.05 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.000015 : 0)});
-							transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+								brightness({1.2 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.0001 : 0)})
+								saturate({1.4 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00003 : 0)})
+								blur({0.5 - (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.002, 0.3) : 0)}px);
+							transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 						"
 					></div>
 					
-					<!-- Crystal facet reflections with ultra-minimal mouse response -->
+					<!-- Dynamic gradient flow streamers -->
 					{#if element.id % 3 === 0}
 						<div
-							class="absolute animate-crystal-shimmer"
+							class="absolute animate-gradient-flow"
 							style="
-								left: {element.x + 3 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 0.3 : 0)}%;
-								top: {element.y + 3 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.2 : 0)}%;
-								width: {element.size * 0.7 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.005 : 0)}px;
-								height: {element.size * 0.7 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.005 : 0)}px;
+								left: {element.x + 2 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 1.5 : 0)}%;
+								top: {element.y - 10 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.8 : 0)}%;
+								width: {element.size * 2.5 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.02 : 0)}px;
+								height: {element.size / 2 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.01 : 0)}px;
 								background: linear-gradient(
-									{135 + (isMouseActive ? mouseVelocityX * 0.01 : 0)}deg, 
+									{element.id * 30 + (isMouseActive ? mouseVelocityX * 0.005 : 0)}deg, 
 									transparent 0%, 
-									{element.color}60 30%, 
+									{element.color}60 20%, 
 									{element.color}90 50%, 
-									{element.color}60 70%, 
+									{element.color}60 80%, 
 									transparent 100%
 								);
-								clip-path: polygon(50% 0%, 75% 25%, 100% 50%, 75% 75%, 50% 100%, 25% 75%, 0% 50%, 25% 25%);
-								animation-delay: {element.delay + 0.3}s;
-								animation-duration: {element.duration * 1.5}s;
-								opacity: {element.opacity * 0.7 + (isMouseActive ? 0.0125 : 0)};
+								animation-delay: {element.delay + 0.5}s;
+								animation-duration: {element.duration * 2.2}s;
+								opacity: {element.opacity * 0.6 + (isMouseActive ? 0.02 : 0)};
+								border-radius: 8px;
 								transform: 
-									rotate({-element.id * 15 + (isMouseActive ? -mouseVelocityX * 0.015 : 0)}deg)
-									scale({0.8 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00015 : 0)});
+									rotate({element.id * 20 + (isMouseActive ? mouseVelocityX * 0.003 : 0)}deg)
+									scaleX({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0008 : 0)});
 								filter: 
-									blur({0.5 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0004 : 0)}px)
-									brightness({1.3 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00015 : 0)});
-								transition: all 0.25s ease-out;
+									blur({1 + (isMouseActive ? -Math.abs(mouseVelocityX) * 0.008 : 0)}px)
+									brightness({1.1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0001 : 0)});
+								transition: all 0.3s ease-out;
 							"
 						></div>
 					{/if}
 					
-					<!-- Crystal light refractions with ultra-minimal mouse response -->
-					{#if element.id % 4 === 0}
+					<!-- Gradient color particles with interactive dispersion -->
+					{#if element.id % 5 === 0}
 						<div
-							class="absolute animate-crystal-refract"
+							class="absolute animate-gradient-particle"
 							style="
-								left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 0.2 : 0)}%;
-								top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.15 : 0)}%;
-								width: {element.size * 1.5}px;
-								height: {element.size / 8 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.001 : 0)}px;
-								background: linear-gradient(
-									{90 + (isMouseActive ? Math.sin(mouseVelocityX) * 0.01 : 0)}deg, 
-									transparent 0%, 
-									{element.color}80 50%, 
-									transparent 100%
+								left: {element.x + Math.random() * 10 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 3 : 0)}%;
+								top: {element.y + Math.random() * 10 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 2 : 0)}%;
+								width: {element.size * 0.4}px;
+								height: {element.size * 0.4}px;
+								background: radial-gradient(
+									circle, 
+									{element.color} 0%, 
+									{element.color}CC 40%, 
+									transparent 80%
 								);
-								animation-delay: {element.delay + 0.7}s;
-								animation-duration: {element.duration * 2}s;
+								animation-delay: {element.delay + Math.random() * 2}s;
+								animation-duration: {element.duration * 3}s;
 								opacity: {element.opacity * 0.5 + (isMouseActive ? 0.015 : 0)};
+								border-radius: 50%;
 								transform: 
-									rotate({element.id * 30 + (isMouseActive ? mouseVelocityX * 0.001 : 0)}deg)
-									scaleX({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00025 : 0)});
+									scale({0.8 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.0005 : 0)})
+									translate({(isMouseActive ? mouseVelocityX * 0.02 : 0)}px, {(isMouseActive ? mouseVelocityY * 0.02 : 0)}px);
 								filter: 
-									blur({1 - (isMouseActive ? Math.abs(mouseVelocityX) * 0.01 : 0)}px)
-									brightness({1.5 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0002 : 0)});
-								border-radius: 2px;
+									brightness({1.3 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0001 : 0)})
+									blur({0.2 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.001 : 0)}px);
 								transition: all 0.2s ease-out;
 							"
 						></div>
 					{/if}
 					
-					<!-- Ultra-minimal mouse-triggered crystal burst -->
-					{#if isMouseActive && Math.abs(mouseVelocityX) > 50 && element.id % 6 === 0}
+					<!-- Gradient mouse interaction effects -->
+					{#if isMouseActive && Math.abs(mouseVelocityX + mouseVelocityY) > 12 && element.id % 8 === 0}
 						<div
 							class="absolute pointer-events-none"
 							style="
 								left: {(mouseX / innerWidth) * 100}%;
 								top: {(mouseY / innerHeight) * 100}%;
-								width: {Math.abs(mouseVelocityX) * 0.025 + 6}px;
-								height: {Math.abs(mouseVelocityX) * 0.025 + 6}px;
+								width: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.8 + 15, 40)}px;
+								height: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.8 + 15, 40)}px;
+								background: conic-gradient(
+									from {mouseVelocityX * 0.05}deg,
+									{element.color}50 0deg,
+									{element.color}80 60deg,
+									{element.color}60 120deg,
+									{element.color}90 180deg,
+									{element.color}70 240deg,
+									{element.color}50 300deg,
+									{element.color}50 360deg
+								);
+								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.003, 0.4)};
+								border-radius: 50%;
+								transform: 
+									translate(-50%, -50%) 
+									scale({0.6 + Math.abs(mouseVelocityX + mouseVelocityY) * 0.006})
+									rotate({mouseVelocityX * 0.1}deg);
+								animation: gradient-ripple 2.5s ease-out forwards;
+								filter: blur(1px);
+							"
+						></div>
+					{/if}
+				{/each}
+				
+			{:else if currentMode === HOME_MODES.NEURAL}
+				{#each animationElements as element (element.id)}
+					<!-- Neural network node with synaptic connections -->
+					<div
+						class="absolute animate-neural-pulse-enhanced mouse-interactive"
+						style="
+							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 1.8 * element.speed : 0)}%;
+							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 1.2 : 0)}%;
+							width: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.012, 4) : 0)}px;
+							height: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.012, 4) : 0)}px;
+							background: radial-gradient(
+								circle, 
+								{element.color} 0%, 
+								{element.color}DD 30%, 
+								{element.color}AA 60%, 
+								{element.color}60 80%, 
+								transparent 100%
+							);
+							animation-delay: {element.delay}s;
+							animation-duration: {Math.max(element.duration * 2 - (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.0008, 1) : 0), 1.5)}s;
+							opacity: {Math.min(element.opacity * 0.7 + (isMouseActive ? 0.03 : 0), 0.85)};
+							border-radius: 50%;
+							transform: 
+								scale({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.0003, 0.08) : 0)});
+							box-shadow: 
+								0 0 {element.size * 0.8}px {element.color}50,
+								0 0 {element.size * 1.5}px {element.color}30,
+								0 0 {element.size * 2.5}px {element.color}15;
+							filter: 
+								brightness({1.1 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.00008 : 0)})
+								contrast({1.2 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00005 : 0)});
+							transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+						"
+					></div>
+					
+					<!-- Neural connection lines between nodes -->
+					{#if element.id % 2 === 0 && element.id < animationElements.length - 1}
+						<div
+							class="absolute animate-neural-connection-flow"
+							style="
+								left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 0.8 : 0)}%;
+								top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.5 : 0)}%;
+								width: {Math.abs(animationElements[element.id + 1].x - element.x) * 0.8}%;
+								height: 2px;
+								background: linear-gradient(
+									90deg, 
+									transparent 0%, 
+									{element.color}80 20%, 
+									{element.color} 50%, 
+									{element.color}80 80%, 
+									transparent 100%
+								);
+								animation-delay: {element.delay + 0.3}s;
+								animation-duration: {element.duration * 1.8}s;
+								opacity: {element.opacity * 0.4 + (isMouseActive ? 0.02 : 0)};
+								transform-origin: left center;
+								transform: 
+									rotate({Math.atan2(animationElements[element.id + 1].y - element.y, animationElements[element.id + 1].x - element.x) * 180 / Math.PI}deg)
+									scaleX({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0005 : 0)});
+								filter: 
+									blur({0.5 - (isMouseActive ? Math.abs(mouseVelocityX) * 0.005 : 0)}px)
+									brightness({1.2 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0001 : 0)});
+								transition: all 0.25s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- Neural data flow packets -->
+					{#if element.id % 4 === 0}
+						<div
+							class="absolute animate-neural-data-flow"
+							style="
+								left: {element.x + 2 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 2 : 0)}%;
+								top: {element.y + 2 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 1.5 : 0)}%;
+								width: {element.size * 0.3}px;
+								height: {element.size * 0.3}px;
 								background: radial-gradient(
 									circle, 
 									{element.color} 0%, 
-									{element.color}AA 40%, 
-									transparent 70%
+									{element.color}EE 50%, 
+									transparent 80%
 								);
-								opacity: {Math.min(Math.abs(mouseVelocityX) * 0.001, 0.8)};
+								animation-delay: {element.delay + Math.random() * 1.5}s;
+								animation-duration: {element.duration * 1.2}s;
+								opacity: {element.opacity * 0.6 + (isMouseActive ? 0.025 : 0)};
+								border-radius: 50%;
+								transform: 
+									scale({0.9 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.0008 : 0)});
+								filter: 
+									brightness({1.4 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0001 : 0)})
+									blur({0.1 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.002 : 0)}px);
+								transition: all 0.2s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- Neural synapse flashes on interaction -->
+					{#if isMouseActive && Math.abs(mouseVelocityX + mouseVelocityY) > 10 && element.id % 6 === 0}
+						<div
+							class="absolute pointer-events-none"
+							style="
+								left: {element.x + (mouseX / innerWidth - 0.5) * 4}%;
+								top: {element.y + (mouseY / innerHeight - 0.5) * 3}%;
+								width: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.5 + 8, 25)}px;
+								height: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.5 + 8, 25)}px;
+								background: radial-gradient(
+									circle,
+									{element.color} 0%,
+									{element.color}CC 30%,
+									{element.color}80 60%,
+									transparent 90%
+								);
+								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.004, 0.6)};
+								border-radius: 50%;
 								transform: 
 									translate(-50%, -50%) 
-									rotate({mouseVelocityX * 0.15}deg)
-									scale({0.5 + Math.abs(mouseVelocityX) * 0.0004});
-								animation: crystal-explosion 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-								clip-path: polygon(50% 0%, 85% 15%, 100% 50%, 85% 75%, 50% 100%, 15% 75%, 0% 50%, 15% 25%);
+									scale({0.4 + Math.abs(mouseVelocityX + mouseVelocityY) * 0.008});
+								animation: neural-synapse-flash 1.5s ease-out forwards;
 								filter: 
-									drop-shadow(0 0 {Math.abs(mouseVelocityX) * 0.015}px {element.color})
-									brightness({1.4 + Math.abs(mouseVelocityX) * 0.00025})
-									saturate({1.2 + Math.abs(mouseVelocityX) * 0.00015});
+									brightness({1.8 + Math.abs(mouseVelocityX) * 0.002})
+									blur(0.5px);
+							"
+						></div>
+					{/if}
+					
+					<!-- Neural network cluster connections -->
+					{#if element.id % 7 === 0}
+						<div
+							class="absolute animate-neural-cluster-flow"
+							style="
+								left: {element.x - 5}%;
+								top: {element.y - 5}%;
+								width: {element.size * 3}px;
+								height: {element.size * 3}px;
+								background: conic-gradient(
+									from {element.id * 51.43}deg,
+									transparent 0deg,
+									{element.color}20 45deg,
+									transparent 90deg,
+									{element.color}30 135deg,
+									transparent 180deg,
+									{element.color}25 225deg,
+									transparent 270deg,
+									{element.color}20 315deg,
+									transparent 360deg
+								);
+								animation-delay: {element.delay + 1}s;
+								animation-duration: {element.duration * 4}s;
+								opacity: {element.opacity * 0.3 + (isMouseActive ? 0.015 : 0)};
+								border-radius: 50%;
+								transform: 
+									rotate({element.id * 10 + (isMouseActive ? mouseVelocityX * 0.002 : 0)}deg)
+									scale({0.8 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.0002 : 0)});
+								filter: 
+									blur({2 - (isMouseActive ? Math.abs(mouseVelocityX) * 0.01 : 0)}px)
+									brightness({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00008 : 0)});
+								transition: all 0.4s ease-out;
+							"
+						></div>
+					{/if}
+				{/each}
+				
+			{:else if currentMode === HOME_MODES.CRYSTALLINE}
+				{#each animationElements as element (element.id)}
+					<!-- Crystalline structure with prismatic effects -->
+					<div
+						class="absolute animate-crystal-refraction mouse-interactive"
+						style="
+							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 2 * element.speed : 0)}%;
+							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 1.5 * element.speed : 0)}%;
+							width: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.01, 2) : 0)}px;
+							height: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.01, 2) : 0)}px;
+							background: conic-gradient(
+								from {element.id * 60}deg at 50% 50%,
+								{element.color}40 0deg,
+								{element.color}80 60deg,
+								{element.color}60 120deg,
+								{element.color}90 180deg,
+								{element.color}50 240deg,
+								{element.color}70 300deg,
+								{element.color}40 360deg
+							);
+							animation-delay: {element.delay}s;
+							animation-duration: {Math.max(element.duration * 2.5 - (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.001, 0.5) : 0), 2)}s;
+							opacity: {Math.min(element.opacity * 0.8 + (isMouseActive ? 0.05 : 0), 0.9)};
+							clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+							transform: 
+								rotate({element.id * 30 + (isMouseActive ? mouseVelocityX * 0.15 : 0)}deg)
+								scale({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.0005, 0.1) : 0)});
+							box-shadow: 
+								0 0 {element.size * 0.5}px {element.color}60,
+								0 0 {element.size}px {element.color}40,
+								0 0 {element.size * 2}px {element.color}20,
+								inset 0 0 {element.size * 0.3}px {element.color}30;
+							filter: 
+								brightness({1.2 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.0002 : 0)})
+								contrast(1.3)
+								hue-rotate({element.id * 10 + (isMouseActive ? mouseVelocityX * 0.5 : 0)}deg);
+							transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+						"
+					></div>
+					
+					<!-- Crystal facet reflections -->
+					{#if element.id % 3 === 0}
+						<div
+							class="absolute animate-crystal-facet"
+							style="
+								left: {element.x + 8 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 3 : 0)}%;
+								top: {element.y - 5 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 2 : 0)}%;
+								width: {element.size * 1.5}px;
+								height: {element.size * 0.8}px;
+								background: linear-gradient(
+									{120 + element.id * 15}deg,
+									transparent 0%,
+									{element.color}20 25%,
+									{element.color}60 50%,
+									{element.color}20 75%,
+									transparent 100%
+								);
+								animation-delay: {element.delay + 0.5}s;
+								animation-duration: {element.duration * 3}s;
+								opacity: {Math.min(element.opacity * 0.6 + (isMouseActive ? 0.1 : 0), 0.7)};
+								clip-path: polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%);
+								transform: 
+									rotate({element.id * 45 + (isMouseActive ? mouseVelocityX * 0.2 : 0)}deg)
+									scale({0.8 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.003 : 0)});
+								filter: 
+									blur({0.5 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.01 : 0)}px)
+									brightness({1.5 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0003 : 0)});
+								transition: all 0.5s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- Prismatic light rays -->
+					{#if element.id % 4 === 0}
+						<div
+							class="absolute animate-crystal-prism"
+							style="
+								left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 1.5 : 0)}%;
+								top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 1 : 0)}%;
+								width: {element.size * 0.3}px;
+								height: {element.size * 4}px;
+								background: linear-gradient(
+									180deg,
+									transparent 0%,
+									{element.color}40 20%,
+									{element.color}80 50%,
+									{element.color}40 80%,
+									transparent 100%
+								);
+								animation-delay: {element.delay + 1}s;
+								animation-duration: {element.duration * 2}s;
+								opacity: {Math.min(element.opacity * 0.5 + (isMouseActive ? 0.15 : 0), 0.6)};
+								transform: 
+									rotate({element.id * 20 + (isMouseActive ? mouseVelocityX * 0.1 : 0)}deg)
+									scaleY({0.7 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.004 : 0)});
+								filter: 
+									blur({0.2 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.005 : 0)}px)
+									brightness({1.3 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0002 : 0)});
+								transition: all 0.3s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- Crystal formations -->
+					{#if element.id % 6 === 0}
+						<div
+							class="absolute animate-crystal-formation"
+							style="
+								left: {element.x - 3 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 2.5 : 0)}%;
+								top: {element.y - 3 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 2 : 0)}%;
+								width: {element.size * 2}px;
+								height: {element.size * 2}px;
+								background: radial-gradient(
+									ellipse at 30% 30%,
+									{element.color}30 0%,
+									{element.color}60 25%,
+									{element.color}40 50%,
+									{element.color}20 75%,
+									transparent 100%
+								);
+								animation-delay: {element.delay + 2}s;
+								animation-duration: {element.duration * 4}s;
+								opacity: {Math.min(element.opacity * 0.4 + (isMouseActive ? 0.08 : 0), 0.5)};
+								clip-path: polygon(50% 0%, 80% 20%, 100% 50%, 80% 80%, 50% 100%, 20% 80%, 0% 50%, 20% 20%);
+								transform: 
+									rotate({element.id * 90 + (isMouseActive ? mouseVelocityX * 0.05 : 0)}deg)
+									scale({0.6 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.0008 : 0)});
+								filter: 
+									brightness({1.1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0001 : 0)})
+									saturate(1.5);
+								transition: all 0.6s ease-out;
 							"
 						></div>
 					{/if}
@@ -1587,139 +1716,140 @@
 				
 			{:else if currentMode === HOME_MODES.AURORA}
 				{#each animationElements as element (element.id)}
-					<!-- Enhanced aurora main band with ultra-minimal mouse response -->
+					<!-- Aurora borealis streams -->
 					<div
-						class="absolute animate-aurora-dance mouse-interactive"
+						class="absolute animate-aurora-flow mouse-interactive"
 						style="
-							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 1.0 * element.speed : 0)}%;
-							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.4 * Math.sin(Date.now() * 0.0008 + element.id) : 0)}%;
-							width: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.015, 0.75) : 0)}px;
-							height: {element.size / 2.5 + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.005, 0.3) : 0)}px;
+							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 3 * element.speed : 0)}%;
+							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 2 * Math.sin(Date.now() * 0.001 + element.id) : 0)}%;
+							width: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.02, 5) : 0)}px;
+							height: {element.size * 6 + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.1, 20) : 0)}px;
 							background: linear-gradient(
-								{85 + (isMouseActive ? Math.sin(mouseVelocityX * 0.0005) * 1 : 0)}deg, 
-								transparent 0%, 
-								{element.color}30 15%, 
-								{element.color} 40%, 
-								{element.color}AA 60%, 
-								{element.color}30 85%, 
+								{180 + element.id * 10 + (isMouseActive ? mouseVelocityX * 0.3 : 0)}deg,
+								transparent 0%,
+								{element.color}20 15%,
+								{element.color}60 35%,
+								{element.color}90 50%,
+								{element.color}60 65%,
+								{element.color}20 85%,
 								transparent 100%
 							);
-							filter: 
-								blur({2.5 - (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.001, 0.075) : 0)}px)
-								brightness({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0003 : 0)})
-								saturate({1.2 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0002 : 0)});
 							animation-delay: {element.delay}s;
-							animation-duration: {Math.max(element.duration * 3 - (isMouseActive ? Math.abs(mouseVelocityX) * 0.001 : 0), 2)}s;
-							opacity: {Math.min(element.opacity * 0.8 + (isMouseActive ? 0.015 : 0), 1)};
-							transform-origin: center;
+							animation-duration: {Math.max(element.duration * 4 - (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.002, 1) : 0), 3)}s;
+							opacity: {Math.min(element.opacity * 0.7 + (isMouseActive ? 0.1 : 0), 0.8)};
+							border-radius: 50% 50% 0% 0%;
 							transform: 
-								rotate({isMouseActive ? Math.sin(mouseVelocityX * 0.0004) * 0.4 : 0}deg)
-								scaleX({1 + (isMouseActive ? Math.sin(mouseVelocityX) * 0.00025 : 0)})
-								scaleY({1 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.0001 : 0)});
-							border-radius: {element.size / 8}px;
-							box-shadow: 
-								0 0 {element.size / 3}px {element.color}40,
-								0 0 {element.size}px {element.color}20,
-								0 0 {element.size * 2}px {element.color}10;
-							transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+								rotate({element.id * 5 + (isMouseActive ? mouseVelocityX * 0.05 : 0)}deg)
+								scaleX({0.8 + Math.sin(Date.now() * 0.001 + element.id) * 0.3 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.002 : 0)})
+								scaleY({1 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.005 : 0)});
+							filter: 
+								blur({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.02 : 0)}px)
+								brightness({1.1 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.0003 : 0)})
+								contrast(1.2);
+							transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 						"
 					></div>
 					
-					<!-- Aurora shimmer layers with ultra-minimal mouse response -->
-					{#if element.id % 3 === 0}
+					<!-- Aurora curtain waves -->
+					{#if element.id % 2 === 0}
+						<div
+							class="absolute animate-aurora-curtain"
+							style="
+								left: {element.x - 10 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 4 : 0)}%;
+								top: {element.y - 20 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 3 : 0)}%;
+								width: {element.size * 8}px;
+								height: {element.size * 12}px;
+								background: radial-gradient(
+									ellipse at 50% 0%,
+									{element.color}30 0%,
+									{element.color}50 20%,
+									{element.color}30 40%,
+									{element.color}15 60%,
+									{element.color}05 80%,
+									transparent 100%
+								);
+								animation-delay: {element.delay + 0.8}s;
+								animation-duration: {element.duration * 5}s;
+								opacity: {Math.min(element.opacity * 0.5 + (isMouseActive ? 0.08 : 0), 0.6)};
+								border-radius: 50% 50% 30% 30%;
+								transform: 
+									rotate({element.id * 3 + (isMouseActive ? mouseVelocityX * 0.02 : 0)}deg)
+									scaleX({0.6 + Math.sin(Date.now() * 0.0008 + element.id * 0.5) * 0.4 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.003 : 0)})
+									scaleY({1 + Math.cos(Date.now() * 0.0006 + element.id * 0.3) * 0.2});
+								filter: 
+									blur({2 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.03 : 0)}px)
+									brightness({1.05 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0002 : 0)});
+								transition: all 0.8s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- Aurora particle shimmer -->
+					{#if element.id % 5 === 0}
 						<div
 							class="absolute animate-aurora-shimmer"
 							style="
-								left: {element.x + 10 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 0.6 : 0)}%;
-								top: {element.y - 5 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.2 : 0)}%;
-								width: {element.size * 1.5 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.01 : 0)}px;
-								height: {element.size / 5 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.0025 : 0)}px;
-								background: linear-gradient(
-									{90 + (isMouseActive ? Math.cos(mouseVelocityX * 0.0005) * 0.75 : 0)}deg, 
-									transparent 0%, 
-									{element.color}60 30%, 
-									{element.color}40 70%, 
-									transparent 100%
-								);
-								filter: 
-									blur({3 - (isMouseActive ? Math.abs(mouseVelocityX) * 0.00075 : 0)}px)
-									brightness({1.2 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00015 : 0)});
-								animation-delay: {element.delay + 0.8}s;
-								animation-duration: {element.duration * 4}s;
-								opacity: {element.opacity * 0.5 + (isMouseActive ? 0.01 : 0)};
-								transform: 
-									rotate({isMouseActive ? Math.cos(mouseVelocityY * 0.000015) * 0.25 : 0}deg)
-									scaleX({1.2 + (isMouseActive ? Math.sin(mouseVelocityX) * 0.00015 : 0)});
-								border-radius: {element.size / 6}px;
-								transition: all 0.3s ease-out;
-							"
-						></div>
-					{/if}
-					
-					<!-- Aurora particle effects with ultra-minimal mouse response -->
-					{#if element.id % 5 === 0}
-						<div
-							class="absolute animate-aurora-particles"
-							style="
-								left: {element.x + 20 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 0.4 : 0)}%;
-								top: {element.y + 10 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.15 : 0)}%;
-								width: {element.size / 4 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0025 : 0)}px;
-								height: {element.size / 4 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.0025 : 0)}px;
+								left: {element.x + 5 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 2 : 0)}%;
+								top: {element.y + 10 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 1.5 : 0)}%;
+								width: {element.size * 0.8}px;
+								height: {element.size * 0.8}px;
 								background: radial-gradient(
-									circle, 
-									{element.color} 0%, 
-									{element.color}80 30%, 
-									transparent 70%
+									circle,
+									{element.color}80 0%,
+									{element.color}60 30%,
+									{element.color}40 60%,
+									transparent 90%
 								);
-								filter: 
-									blur({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0005 : 0)}px)
-									brightness({1.5 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00025 : 0)});
-								animation-delay: {element.delay + 1.5}s;
-								animation-duration: {element.duration * 2}s;
-								opacity: {element.opacity * 0.8 + (isMouseActive ? 0.015 : 0)};
+								animation-delay: {element.delay + Math.random() * 2}s;
+								animation-duration: {element.duration * 1.5}s;
+								opacity: {Math.min(element.opacity * 0.8 + (isMouseActive ? 0.12 : 0), 0.9)};
 								border-radius: 50%;
+								transform: 
+									scale({0.5 + Math.sin(Date.now() * 0.002 + element.id) * 0.5 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.001 : 0)});
 								box-shadow: 
-									0 0 {element.size / 6}px {element.color},
-									0 0 {element.size / 3}px {element.color}50;
-								transition: all 0.25s ease-out;
+									0 0 {element.size}px {element.color}40,
+									0 0 {element.size * 2}px {element.color}20;
+								filter: 
+									brightness({1.3 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0005 : 0)})
+									blur({0.3 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.008 : 0)}px);
+								transition: all 0.4s ease-out;
 							"
 						></div>
 					{/if}
 					
-					<!-- Ultra-minimal mouse-triggered aurora streaks (higher threshold) -->
-					{#if isMouseActive && Math.abs(mouseVelocityX) > 25 && element.id % 8 === 0}
+					<!-- Aurora magnetic field lines -->
+					{#if element.id % 7 === 0}
 						<div
-							class="absolute pointer-events-none"
+							class="absolute animate-aurora-field"
 							style="
-								left: {(mouseX / innerWidth) * 100}%;
-								top: {(mouseY / innerHeight) * 100}%;
-								width: {Math.abs(mouseVelocityX) * 0.075 + 12.5}px;
-								height: {3 + Math.abs(mouseVelocityY) * 0.0015}px;
+								left: {element.x - 5 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 2.5 : 0)}%;
+								top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 2 : 0)}%;
+								width: {element.size * 10}px;
+								height: {element.size * 0.5}px;
 								background: linear-gradient(
-									{85 + mouseVelocityX * 0.015}deg, 
-									transparent 0%, 
-									{element.color} 20%, 
-									{element.color}CC 50%, 
-									{element.color} 80%, 
+									90deg,
+									transparent 0%,
+									{element.color}15 20%,
+									{element.color}40 50%,
+									{element.color}15 80%,
 									transparent 100%
 								);
-								opacity: {Math.min(Math.abs(mouseVelocityX) * 0.001, 0.045)};
+								animation-delay: {element.delay + 1.5}s;
+								animation-duration: {element.duration * 6}s;
+								opacity: {Math.min(element.opacity * 0.3 + (isMouseActive ? 0.05 : 0), 0.4)};
+								border-radius: 50px;
 								transform: 
-									translate(-50%, -50%) 
-									rotate({mouseVelocityX * 0.01}deg)
-									scaleX({1 + Math.abs(mouseVelocityX) * 0.00025});
-								animation: aurora-streak 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+									rotate({element.id * 8 + Math.sin(Date.now() * 0.0005 + element.id) * 20 + (isMouseActive ? mouseVelocityX * 0.03 : 0)}deg)
+									scaleX({1 + Math.sin(Date.now() * 0.0007 + element.id * 0.8) * 0.3});
 								filter: 
-									blur({2 - Math.abs(mouseVelocityX) * 0.0005}px)
-									brightness({1.3 + Math.abs(mouseVelocityX) * 0.0002});
-								border-radius: {Math.abs(mouseVelocityX) * 0.004 + 0.5}px;
-								box-shadow: 
-									0 0 {Math.abs(mouseVelocityX) * 0.02 + 2.5}px {element.color}60,
-									0 0 {Math.abs(mouseVelocityX) * 0.04 + 5}px {element.color}30;
+									blur({0.8 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.015 : 0)}px)
+									brightness({1.02 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0001 : 0)});
+								transition: all 0.7s ease-out;
 							"
 						></div>
 					{/if}
 				{/each}
+				
 			{/if}
 		</div>
 	{/if}
@@ -2687,6 +2817,506 @@
 		100% {
 			transform: translate(-50%, -50%) scale(1.5);
 			opacity: 0;
+		}
+	}
+
+	/* New Gradient Animation Keyframes */
+	@keyframes gradient-ripple {
+		0% {
+			transform: translate(-50%, -50%) scale(0.3);
+			opacity: 0.4;
+		}
+		50% {
+			transform: translate(-50%, -50%) scale(1.2);
+			opacity: 0.2;
+		}
+		100% {
+			transform: translate(-50%, -50%) scale(1.8);
+			opacity: 0;
+		}
+	}
+
+	@keyframes neural-synapse-flash {
+		0%, 90%, 100% {
+			opacity: 0.3;
+			transform: scale(1);
+		}
+		5%, 15% {
+			opacity: 1;
+			transform: scale(1.3);
+		}
+	}
+
+	@keyframes neural-cluster-flow {
+		0% {
+			transform: rotate(0deg) scale(0.8);
+			opacity: 0.3;
+		}
+		50% {
+			transform: rotate(180deg) scale(1);
+			opacity: 0.4;
+		}
+		100% {
+			transform: rotate(360deg) scale(0.8);
+			opacity: 0.3;
+		}
+	}
+
+	/* Aurora Background Animations */
+	@keyframes aurora-curtain-slow {
+		0%, 100% {
+			transform: translateX(0) scaleY(1);
+			opacity: 0.15;
+		}
+		33% {
+			transform: translateX(10px) scaleY(1.1);
+			opacity: 0.25;
+		}
+		66% {
+			transform: translateX(-8px) scaleY(0.9);
+			opacity: 0.2;
+		}
+	}
+
+	@keyframes aurora-wave-flow {
+		0% {
+			transform: translateX(-100%) scaleX(0.8);
+			opacity: 0.1;
+		}
+		50% {
+			transform: translateX(0) scaleX(1.2);
+			opacity: 0.3;
+		}
+		100% {
+			transform: translateX(100%) scaleX(0.8);
+			opacity: 0.1;
+		}
+	}
+
+	@keyframes aurora-glow {
+		0%, 100% {
+			transform: scale(0.9);
+			opacity: 0.15;
+		}
+		50% {
+			transform: scale(1.1);
+			opacity: 0.25;
+		}
+	}
+
+	@keyframes aurora-streak {
+		0% {
+			transform: translateX(-50%) scaleX(0);
+			opacity: 0;
+		}
+		50% {
+			transform: translateX(0) scaleX(1);
+			opacity: 0.3;
+		}
+		100% {
+			transform: translateX(50%) scaleX(0);
+			opacity: 0;
+		}
+	}
+
+	@keyframes aurora-shimmer-bg {
+		0%, 100% {
+			transform: scale(1) rotate(0deg);
+			opacity: 0.2;
+		}
+		50% {
+			transform: scale(1.05) rotate(180deg);
+			opacity: 0.3;
+		}
+	}
+
+	@keyframes aurora-ripple {
+		0% {
+			transform: scaleY(0.5) translateX(-100%);
+			opacity: 0;
+		}
+		50% {
+			transform: scaleY(1) translateX(0);
+			opacity: 0.25;
+		}
+		100% {
+			transform: scaleY(0.5) translateX(100%);
+			opacity: 0;
+		}
+	}
+
+	@keyframes aurora-column {
+		0%, 100% {
+			transform: translateY(0) scaleY(1);
+			opacity: 0.18;
+		}
+		50% {
+			transform: translateY(-20px) scaleY(1.2);
+			opacity: 0.28;
+		}
+	}
+
+	@keyframes aurora-particle-float {
+		0%, 100% {
+			transform: translateY(0) scale(1);
+			opacity: 0.25;
+		}
+		50% {
+			transform: translateY(-15px) scale(1.1);
+			opacity: 0.35;
+		}
+	}
+
+	@keyframes aurora-particle-drift {
+		0% {
+			transform: translateX(0) rotate(0deg);
+			opacity: 0.3;
+		}
+		100% {
+			transform: translateX(30px) rotate(360deg);
+			opacity: 0.1;
+		}
+	}
+
+	@keyframes aurora-particle-dance {
+		0%, 100% {
+			transform: translate(0, 0) scale(1);
+			opacity: 0.2;
+		}
+		33% {
+			transform: translate(10px, -8px) scale(1.1);
+			opacity: 0.3;
+		}
+		66% {
+			transform: translate(-5px, 12px) scale(0.9);
+			opacity: 0.25;
+		}
+	}
+
+	@keyframes aurora-particle-glow {
+		0%, 100% {
+			transform: scale(0.8);
+			opacity: 0.35;
+		}
+		50% {
+			transform: scale(1.2);
+			opacity: 0.45;
+		}
+	}
+
+	/* Crystal Background Animations */
+	@keyframes crystal-rotation {
+		0% {
+			transform: rotate(0deg) scale(1);
+			opacity: 0.2;
+		}
+		100% {
+			transform: rotate(360deg) scale(1.05);
+			opacity: 0.15;
+		}
+	}
+
+	@keyframes crystal-pulse {
+		0%, 100% {
+			transform: scale(0.95);
+			opacity: 0.2;
+		}
+		50% {
+			transform: scale(1.05);
+			opacity: 0.3;
+		}
+	}
+
+	@keyframes crystal-beam {
+		0%, 100% {
+			transform: scaleX(0.5) translateX(-50%);
+			opacity: 0;
+		}
+		50% {
+			transform: scaleX(1) translateX(0);
+			opacity: 0.25;
+		}
+	}
+
+	@keyframes crystal-refraction-beam {
+		0%, 100% {
+			transform: translateY(0) scaleY(1) skewX(0deg);
+			opacity: 0.18;
+		}
+		50% {
+			transform: translateY(-10px) scaleY(1.1) skewX(2deg);
+			opacity: 0.28;
+		}
+	}
+
+	@keyframes crystal-light-ray {
+		0% {
+			transform: translateX(-100%) scaleX(0);
+			opacity: 0;
+		}
+		50% {
+			transform: translateX(0) scaleX(1);
+			opacity: 0.3;
+		}
+		100% {
+			transform: translateX(100%) scaleX(0);
+			opacity: 0;
+		}
+	}
+
+	@keyframes crystal-facet-shine {
+		0%, 100% {
+			transform: rotate(0deg) scale(1);
+			opacity: 0.2;
+		}
+		50% {
+			transform: rotate(180deg) scale(1.1);
+			opacity: 0.3;
+		}
+	}
+
+	@keyframes crystal-prism-bg {
+		0%, 100% {
+			transform: translateY(0) scaleY(1) skewY(0deg);
+			opacity: 0.25;
+		}
+		50% {
+			transform: translateY(-15px) scaleY(1.2) skewY(1deg);
+			opacity: 0.35;
+		}
+	}
+
+	@keyframes crystal-spectrum {
+		0% {
+			transform: translateX(-50%) scaleX(0);
+			opacity: 0;
+		}
+		50% {
+			transform: translateX(0) scaleX(1);
+			opacity: 0.3;
+		}
+		100% {
+			transform: translateX(50%) scaleX(0);
+			opacity: 0;
+		}
+	}
+
+	@keyframes crystal-kaleidoscope {
+		0% {
+			transform: rotate(0deg) scale(1);
+			opacity: 0.15;
+		}
+		100% {
+			transform: rotate(360deg) scale(1.1);
+			opacity: 0.25;
+		}
+	}
+
+	@keyframes crystal-fragment-spin {
+		0% {
+			transform: rotate(0deg) scale(1);
+			opacity: 0.3;
+		}
+		100% {
+			transform: rotate(360deg) scale(1.1);
+			opacity: 0.2;
+		}
+	}
+
+	@keyframes crystal-fragment-pulse {
+		0%, 100% {
+			transform: scale(0.9);
+			opacity: 0.25;
+		}
+		50% {
+			transform: scale(1.1);
+			opacity: 0.35;
+		}
+	}
+
+	@keyframes crystal-fragment-drift {
+		0%, 100% {
+			transform: translate(0, 0) rotate(0deg);
+			opacity: 0.35;
+		}
+		50% {
+			transform: translate(8px, -12px) rotate(180deg);
+			opacity: 0.25;
+		}
+	}
+
+	@keyframes crystal-fragment-shimmer {
+		0%, 100% {
+			transform: rotate(0deg) scale(1);
+			opacity: 0.2;
+		}
+		50% {
+			transform: rotate(180deg) scale(1.05);
+			opacity: 0.4;
+		}
+	}
+
+	/* Cosmic Background Animations */
+	@keyframes cosmic-nebula-drift {
+		0%, 100% {
+			transform: translate(0, 0) scale(1) rotate(0deg);
+			opacity: 0.15;
+		}
+		50% {
+			transform: translate(15px, -10px) scale(1.05) rotate(180deg);
+			opacity: 0.25;
+		}
+	}
+
+	@keyframes cosmic-cloud-flow {
+		0% {
+			transform: translateX(-20%) scaleX(0.8);
+			opacity: 0.1;
+		}
+		50% {
+			transform: translateX(0) scaleX(1.2);
+			opacity: 0.2;
+		}
+		100% {
+			transform: translateX(20%) scaleX(0.8);
+			opacity: 0.1;
+		}
+	}
+
+	@keyframes cosmic-vortex {
+		0% {
+			transform: rotate(0deg) scale(1);
+			opacity: 0.18;
+		}
+		100% {
+			transform: rotate(360deg) scale(1.1);
+			opacity: 0.25;
+		}
+	}
+
+	@keyframes cosmic-stream-flow {
+		0% {
+			transform: translateX(-100%) scaleX(0.5);
+			opacity: 0;
+		}
+		50% {
+			transform: translateX(0) scaleX(1);
+			opacity: 0.2;
+		}
+		100% {
+			transform: translateX(100%) scaleX(0.5);
+			opacity: 0;
+		}
+	}
+
+	@keyframes cosmic-energy-pulse {
+		0%, 100% {
+			transform: scale(0.9);
+			opacity: 0.18;
+		}
+		50% {
+			transform: scale(1.1);
+			opacity: 0.28;
+		}
+	}
+
+	@keyframes cosmic-light-trail {
+		0% {
+			transform: translateX(-100%) scaleX(0);
+			opacity: 0;
+		}
+		50% {
+			transform: translateX(0) scaleX(1);
+			opacity: 0.3;
+		}
+		100% {
+			transform: translateX(100%) scaleX(0);
+			opacity: 0;
+		}
+	}
+
+	@keyframes cosmic-stellar-field {
+		0%, 100% {
+			transform: rotate(0deg) scale(1);
+			opacity: 0.2;
+		}
+		50% {
+			transform: rotate(180deg) scale(1.05);
+			opacity: 0.3;
+		}
+	}
+
+	@keyframes cosmic-galaxy-arm {
+		0% {
+			transform: translateX(-50%) rotate(-5deg);
+			opacity: 0;
+		}
+		50% {
+			transform: translateX(0) rotate(0deg);
+			opacity: 0.25;
+		}
+		100% {
+			transform: translateX(50%) rotate(5deg);
+			opacity: 0;
+		}
+	}
+
+	@keyframes cosmic-pulsar {
+		0%, 100% {
+			transform: rotate(0deg) scale(1);
+			opacity: 0.2;
+		}
+		50% {
+			transform: rotate(180deg) scale(1.2);
+			opacity: 0.35;
+		}
+	}
+
+	@keyframes cosmic-dust-drift {
+		0%, 100% {
+			transform: translate(0, 0) rotate(0deg);
+			opacity: 0.25;
+		}
+		50% {
+			transform: translate(10px, -8px) rotate(180deg);
+			opacity: 0.35;
+		}
+	}
+
+	@keyframes cosmic-dust-swirl {
+		0% {
+			transform: rotate(0deg) scale(1);
+			opacity: 0.3;
+		}
+		100% {
+			transform: rotate(360deg) scale(1.1);
+			opacity: 0.2;
+		}
+	}
+
+	@keyframes cosmic-dust-sparkle {
+		0%, 100% {
+			transform: scale(0.8);
+			opacity: 0.35;
+		}
+		50% {
+			transform: scale(1.2);
+			opacity: 0.45;
+		}
+	}
+
+	@keyframes cosmic-dust-nebula {
+		0%, 100% {
+			transform: rotate(0deg) scale(1);
+			opacity: 0.15;
+		}
+		33% {
+			transform: rotate(120deg) scale(1.05);
+			opacity: 0.25;
+		}
+		66% {
+			transform: rotate(240deg) scale(0.95);
+			opacity: 0.2;
 		}
 	}
 

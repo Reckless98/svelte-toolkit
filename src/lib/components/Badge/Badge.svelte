@@ -1,16 +1,49 @@
+<script context="module" lang="ts">
+	// Type definitions
+	export type BadgeVariant = 'default' | 'success' | 'warning' | 'error' | 'info';
+	export type BadgeSize = 'sm' | 'md' | 'lg';
+</script>
+
 <script lang="ts">
-	export let variant: 'default' | 'success' | 'warning' | 'error' | 'info' = 'default';
-	export let size: 'sm' | 'md' | 'lg' = 'md';
+	import { createEventDispatcher } from 'svelte';
+
+	// Props
+	export let variant: BadgeVariant = 'default';
+	export let size: BadgeSize = 'md';
 	export let outline: boolean = false;
 	export let removable: boolean = false;
 	export let icon: string = '';
 	export let href: string = '';
+	export let ariaLabel: string = '';
+	
+	// Allow custom CSS classes
+	let className: string = '';
+	export { className as class };
 
-	const handleRemove = () => {
+	// Event dispatcher
+	const dispatch = createEventDispatcher<{
+		remove: void;
+		click: MouseEvent | KeyboardEvent;
+	}>();
+
+	const handleRemove = (event: MouseEvent) => {
+		event.preventDefault();
+		event.stopPropagation();
 		if (removable) {
-			// Dispatch custom event for parent to handle
-			const event = new CustomEvent('remove');
-			document.dispatchEvent(event);
+			dispatch('remove');
+		}
+	};
+
+	const handleClick = (event: MouseEvent) => {
+		if (!href) {
+			dispatch('click', event);
+		}
+	};
+
+	const handleKeydown = (event: KeyboardEvent) => {
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+			dispatch('click', event);
 		}
 	};
 
@@ -36,51 +69,70 @@
 		sm: 'px-2 py-0.5 text-xs',
 		md: 'px-2.5 py-1 text-sm',
 		lg: 'px-3 py-1.5 text-base'
-	};
-
-	$: badgeClasses = `
+	};	$: badgeClasses = `
 		inline-flex items-center gap-1 font-medium rounded-full transition-all duration-200
 		${variantClasses[variant]}
 		${sizeClasses[size]}
 		${outline ? 'border' : ''}
-		${href ? 'hover:scale-105 cursor-pointer' : ''}
+		${href ? 'hover:scale-105 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2' : ''}
 		${removable ? 'pr-1' : ''}
+		${className}
 	`.trim();
+
+	// Generate unique ID for accessibility
+	const badgeId = `badge-${Math.random().toString(36).substr(2, 9)}`;
 </script>
 
 {#if href}
-	<a {href} class={badgeClasses}>
+	<a 
+		{href} 
+		class={badgeClasses}
+		id={badgeId}
+		aria-label={ariaLabel || undefined}
+		on:click={handleClick}
+		tabindex="0"
+	>
 		{#if icon}
-			<span class="text-current">{icon}</span>
+			<span class="text-current" aria-hidden="true">{icon}</span>
 		{/if}
 		<slot />
 		{#if removable}
 			<button
 				type="button"
-				class="ml-1 p-0.5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
-				on:click|preventDefault={handleRemove}
+				class="ml-1 p-0.5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors focus:outline-none focus:ring-1 focus:ring-white"
+				on:click={handleRemove}
 				aria-label="Remove badge"
+				tabindex="0"
 			>
-				<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+				<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
 					<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
 				</svg>
 			</button>
 		{/if}
 	</a>
 {:else}
-	<span class={badgeClasses}>
+	<span 
+		class={badgeClasses}
+		id={badgeId}
+		aria-label={ariaLabel || undefined}
+		on:click={handleClick}
+		on:keydown={handleKeydown}
+		role={removable || $$restProps.onclick ? 'button' : 'status'}
+		tabindex={removable || $$restProps.onclick ? 0 : -1}
+	>
 		{#if icon}
-			<span class="text-current">{icon}</span>
+			<span class="text-current" aria-hidden="true">{icon}</span>
 		{/if}
 		<slot />
 		{#if removable}
 			<button
 				type="button"
-				class="ml-1 p-0.5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
+				class="ml-1 p-0.5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors focus:outline-none focus:ring-1 focus:ring-current"
 				on:click={handleRemove}
 				aria-label="Remove badge"
+				tabindex="0"
 			>
-				<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+				<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
 					<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
 				</svg>
 			</button>

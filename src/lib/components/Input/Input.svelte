@@ -34,6 +34,10 @@
 	export let loading: boolean = false;
 	export let rounded: InputRounded = 'md';
 	export let animation: InputAnimation = 'none';
+	
+	// Allow custom CSS classes
+	let className: string = '';
+	export { className as class };
 
 	// Internal state
 	let focused: boolean = false;
@@ -129,6 +133,7 @@
 		icon && iconPosition === 'left' ? 'pl-10' : '',
 		icon && iconPosition === 'right' ? 'pr-10' : '',
 		variant === 'modern' ? 'focus:bg-white dark:focus:bg-gray-800' : '',
+		className
 	]
 		.filter(Boolean)
 		.join(' ');

@@ -791,7 +791,7 @@
 					<div id="tabs" class="p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
 						<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">📑 Tabs</h3>
 						<div class="space-y-6">
-							<Tabs bind:activeTabId tabs={tabsData} />
+							<Tabs bind:activeTab={activeTabId} tabs={tabsData} />
 							
 							<!-- Pill Style Tabs -->
 							<div>
@@ -924,7 +924,7 @@
 
 					<div id="stats" class="p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
 						<h3 class="text-2xl font-semibent {isDark ? 'text-white' : 'text-gray-900'} mb-6">📈 Statistics</h3>
-						<Stats data={statsData} />
+						<Stats stats={statsData} />
 					</div>				</div>
 
 				<!-- Code Display & JSON -->
@@ -1181,7 +1181,6 @@ console.log(message);`}</code></pre>
 							<Search 
 								bind:value={searchValue}
 								placeholder="Search components..."
-								showIcon={true}
 							/>
 							
 							<!-- Advanced Search -->

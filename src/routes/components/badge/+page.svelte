@@ -6,6 +6,24 @@
 	let currentTheme = 'light';
 	theme.subscribe((value) => (currentTheme = value));
 	$: isDark = currentTheme === 'dark';
+
+	// Demo state for removable badges
+	let techTags = ['JavaScript', 'TypeScript', 'Svelte', 'React'];
+	let projectTags = ['Responsive', 'Dark Mode', 'Accessible'];
+	
+	// Handle badge removal
+	const removeTechTag = (tagToRemove: string) => {
+		techTags = techTags.filter(tag => tag !== tagToRemove);
+	};
+	
+	const removeProjectTag = (tagToRemove: string) => {
+		projectTags = projectTags.filter(tag => tag !== tagToRemove);
+	};
+
+	// Handle badge clicks
+	const handleBadgeClick = (event: CustomEvent) => {
+		console.log('Badge clicked:', event);
+	};
 </script>
 
 <svelte:head>
@@ -75,16 +93,45 @@
 						<Badge icon="🔥" variant="error">Hot</Badge>
 					</div>
 				</div>
-			</Card>
-
-			<!-- Removable Badges -->
-			<Card title="Removable Badges" description="Interactive badges that can be removed">
+			</Card>			<!-- Removable Badges -->
+			<Card title="Removable Badges" description="Interactive badges with proper event handling">
 				<div class="space-y-4">
-					<div class="flex flex-wrap gap-2">
-						<Badge removable variant="info">JavaScript</Badge>
-						<Badge removable variant="success">TypeScript</Badge>
-						<Badge removable variant="warning">Svelte</Badge>
-						<Badge removable variant="error">React</Badge>
+					<div>
+						<h4 class="font-medium text-gray-900 dark:text-white mb-2">Technology Stack</h4>
+						<div class="flex flex-wrap gap-2">
+							{#each techTags as tag}
+								<Badge 
+									removable 
+									variant="info" 
+									on:remove={() => removeTechTag(tag)}
+									on:click={handleBadgeClick}
+								>
+									{tag}
+								</Badge>
+							{/each}
+						</div>
+						{#if techTags.length === 0}
+							<p class="text-sm text-gray-500 mt-2">All tags removed! Refresh to reset.</p>
+						{/if}
+					</div>
+					
+					<div>
+						<h4 class="font-medium text-gray-900 dark:text-white mb-2">Project Features</h4>
+						<div class="flex flex-wrap gap-2">
+							{#each projectTags as tag}
+								<Badge 
+									removable 
+									outline 
+									variant="success" 
+									on:remove={() => removeProjectTag(tag)}
+								>
+									{tag}
+								</Badge>
+							{/each}
+						</div>
+						{#if projectTags.length === 0}
+							<p class="text-sm text-gray-500 mt-2">All features removed! Refresh to reset.</p>
+						{/if}
 					</div>
 				</div>
 			</Card>
@@ -100,8 +147,41 @@
 				</div>
 			</Card>
 
-			<!-- Complex Examples -->
-			<Card title="Complex Usage" description="Real-world badge usage examples">
+			<!-- Accessibility Features -->
+			<Card title="Accessibility Features" description="Badges with enhanced accessibility support">
+				<div class="space-y-4">
+					<div>
+						<h4 class="font-medium text-gray-900 dark:text-white mb-2">Screen Reader Friendly</h4>
+						<div class="flex flex-wrap gap-2">
+							<Badge variant="error" ariaLabel="3 unread notifications">3</Badge>
+							<Badge variant="success" ariaLabel="User is currently online" icon="🟢">Online</Badge>
+							<Badge variant="warning" ariaLabel="Account pending verification" icon="⚠">Pending</Badge>
+						</div>
+					</div>
+					
+					<div>
+						<h4 class="font-medium text-gray-900 dark:text-white mb-2">Keyboard Navigation</h4>
+						<p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+							Removable badges and clickable badges support keyboard navigation (Tab, Enter, Space)
+						</p>
+						<div class="flex flex-wrap gap-2">
+							<Badge removable variant="info" on:remove={() => console.log('Badge removed via keyboard')}>
+								Keyboard Accessible
+							</Badge>
+							<Badge 
+								variant="success" 
+								on:click={() => console.log('Badge clicked via keyboard')}
+								tabindex="0"
+							>
+								Clickable Badge
+							</Badge>
+						</div>
+					</div>
+				</div>
+			</Card>
+
+			<!-- Advanced Examples -->
+			<Card title="Advanced Examples" description="Real-world badge usage examples">
 				<div class="space-y-6">
 					<!-- Status indicators -->
 					<div>
@@ -161,11 +241,23 @@
 						<li><strong>removable:</strong> boolean - Show remove button</li>
 						<li><strong>icon:</strong> string - Icon to display</li>
 						<li><strong>href:</strong> string - Make badge a link</li>
+					</ul>					<h3>Enhanced Features</h3>
+					<ul>
+						<li><strong>Improved Event Handling:</strong> Uses Svelte's event dispatcher for better component isolation</li>
+						<li><strong>Better Accessibility:</strong> Enhanced ARIA labels, keyboard navigation, and focus management</li>
+						<li><strong>TypeScript Support:</strong> Complete type definitions for better development experience</li>
+						<li><strong>Proper Focus Management:</strong> Focus rings and keyboard navigation support</li>
 					</ul>
 
 					<h3>Events</h3>
 					<ul>
-						<li><strong>remove:</strong> Fired when removable badge is removed</li>
+						<li><strong>remove:</strong> Fired when removable badge is removed (using Svelte's event dispatcher)</li>
+						<li><strong>click:</strong> Fired when badge is clicked (supports both mouse and keyboard events)</li>
+					</ul>
+
+					<h3>New Props</h3>
+					<ul>
+						<li><strong>ariaLabel:</strong> string - Custom ARIA label for accessibility</li>
 					</ul>
 				</div>
 			</Card>
