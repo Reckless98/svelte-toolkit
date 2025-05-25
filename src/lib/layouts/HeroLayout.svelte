@@ -88,8 +88,8 @@
 				const distance = Math.sqrt(dx * dx + dy * dy);
 				if (distance < 100) {
 					const force = (100 - distance) / 100;
-					newX -= (dx / distance) * force * 2;
-					newY -= (dy / distance) * force * 2;
+					newX -= (dx / distance) * force * 0.3;
+					newY -= (dy / distance) * force * 0.3;
 				}
 			}
 

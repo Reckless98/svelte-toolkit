@@ -56,9 +56,19 @@
 	let mouseVelocityY = 0;
 	let lastMouseX = 0;
 	let lastMouseY = 0;
+	let lastMouseUpdate = 0;
+	let mouseAcceleration = 0;
+	let mouseTrail: Array<{x: number, y: number, time: number}> = [];
+	let interactionIntensity = 0;
 
-	// Component count - actual components in the project
-	const componentCount = 19; // Alert, Badge, Button, Card, Documentation, Footer, Header, Input, List, Modal, Navigation, Progress, Search, Stats, Table, Tabs, Toast, HeroLayout, ParallaxLayout
+	// Dynamic component count - actual components in the project
+	const componentLibrary = [
+		'Alert', 'Badge', 'Button', 'Card', 'Checkbox', 'Documentation', 
+		'Footer', 'Header', 'Input', 'List', 'Modal', 'Navigation', 
+		'Progress', 'Search', 'Select', 'Stats', 'Table', 'Tabs', 
+		'Textarea', 'Toast', 'Toggle', 'HeroLayout', 'ParallaxLayout'
+	];
+	const componentCount = componentLibrary.length;
 
 	// Animation particles for different modes
 	let animationElements: AnimationElement[] = [];
@@ -74,27 +84,54 @@
 		mounted = true;
 		createAnimationElements();
 		
-		// Enhanced mouse tracking with velocity calculation
+		// Simplified smooth mouse tracking for subtle effects
 		const handleMouseMove = (e: MouseEvent) => {
 			if (mouseTrackingFrame) {
 				cancelAnimationFrame(mouseTrackingFrame);
 			}
 			
 			mouseTrackingFrame = requestAnimationFrame(() => {
-				// Calculate mouse velocity for enhanced effects
-				mouseVelocityX = e.clientX - lastMouseX;
-				mouseVelocityY = e.clientY - lastMouseY;
+				// Ultra-gentle velocity calculation for extremely minimal effects
+				const newVelocityX = e.clientX - lastMouseX;
+				const newVelocityY = e.clientY - lastMouseY;
+				const deltaTime = Date.now() - lastMouseUpdate;
+				
+				if (deltaTime > 0) {
+					// Ultra-reduced velocity with maximum dampening
+					mouseVelocityX = mouseVelocityX * 0.98 + (newVelocityX / deltaTime * 1000) * 0.01;
+					mouseVelocityY = mouseVelocityY * 0.98 + (newVelocityY / deltaTime * 1000) * 0.01;
+				}
+				
+				// Ultra-minimal acceleration for barely perceptible effects
+				mouseAcceleration = (Math.abs(mouseVelocityX) + Math.abs(mouseVelocityY)) * 0.01;
+				
 				lastMouseX = mouseX;
 				lastMouseY = mouseY;
-				
 				mouseX = e.clientX;
 				mouseY = e.clientY;
 				isMouseActive = true;
+				lastMouseUpdate = Date.now();
+				
+				// Barely noticeable interaction intensity
+				const targetIntensity = Math.min(mouseAcceleration * 0.0005, 0.02);
+				interactionIntensity = interactionIntensity * 0.99 + targetIntensity * 0.01;
+				
+				// Reduced mouse trail with fewer points
+				mouseTrail = [...mouseTrail.slice(-2), { x: mouseX, y: mouseY, time: Date.now() }];
 			});
 		};
 
 		const handleMouseLeave = () => {
 			isMouseActive = false;
+			// Very smooth fade-out transitions
+			setTimeout(() => {
+				mouseVelocityX *= 0.95;
+				mouseVelocityY *= 0.95;
+				mouseAcceleration *= 0.95;
+				interactionIntensity *= 0.95;
+			}, 16);
+			// Gentle trail fade
+			setTimeout(() => { mouseTrail = []; }, 500);
 		};
 
 		document.addEventListener('mousemove', handleMouseMove);
@@ -272,55 +309,55 @@
 
 	$: config = modeConfig[currentMode];
 
-	// Enhanced features array
+	// Enhanced features array with updated content
 	const features: Feature[] = [
 		{
-			title: '19+ Components',
-			subtitle: 'Production Ready',
-			description: 'Buttons, Cards, Modals, Forms, Tables, and many more components ready for production use',
+			title: `${componentCount}+ Components`,
+			subtitle: 'Production Ready Library',
+			description: 'Comprehensive collection including Buttons, Cards, Modals, Forms, Tables, Navigation, and advanced layouts - all optimized for real-world applications',
 			variant: 'gradient',
 			delay: 0,
 			icon: '🎨'
 		},
 		{
-			title: 'Fully Responsive',
-			subtitle: 'Mobile First',
-			description: 'Every component works perfectly across all device sizes with mobile-first design principles',
-			variant: 'glass',
-			delay: 100,
-			icon: '📱'
-		},
-		{
-			title: 'Dark Mode',
-			subtitle: 'Built-in Support',
-			description: 'Seamless light and dark theme switching with system preference detection',
+			title: 'Interactive Animations',
+			subtitle: 'Mouse-Responsive Effects',
+			description: `${Object.keys(HOME_MODES).length} unique animation modes with mouse tracking, velocity-based interactions, and smooth transitions that respond to user input`,
 			variant: 'neon',
-			delay: 200,
-			icon: '🌙'
-		},
-		{
-			title: 'TypeScript Ready',
-			subtitle: 'Type Safe',
-			description: 'Full TypeScript support with comprehensive type definitions for better DX',
-			variant: 'morphic',
-			delay: 300,
-			icon: '⚡'
-		},
-		{
-			title: 'Animation System',
-			subtitle: 'Smooth Transitions',
-			description: 'Built-in animation system with customizable transitions and effects',
-			variant: 'gradient',
-			delay: 400,
+			delay: 100,
 			icon: '✨'
 		},
 		{
-			title: 'Accessibility First',
-			subtitle: 'WCAG Compliant',
-			description: 'All components follow accessibility best practices and WCAG guidelines',
+			title: 'Fully Responsive',
+			subtitle: 'Mobile-First Design',
+			description: 'Every component adapts seamlessly across all device sizes with optimized touch interactions and performance-conscious mobile implementations',
+			variant: 'glass',
+			delay: 200,
+			icon: '📱'
+		},
+		{
+			title: 'Advanced Theme System',
+			subtitle: 'Dark Mode & Customization',
+			description: 'Intelligent theme switching with system preference detection, custom color schemes, and per-component theme overrides for maximum flexibility',
+			variant: 'morphic',
+			delay: 300,
+			icon: '🌙'
+		},
+		{
+			title: 'TypeScript Enhanced',
+			subtitle: 'Type-Safe Development',
+			description: 'Complete TypeScript support with intelligent autocompletion, strict type checking, and comprehensive interface definitions for enhanced developer experience',
+			variant: 'gradient',
+			delay: 400,
+			icon: '⚡'
+		},
+		{
+			title: 'Performance Optimized',
+			subtitle: 'Zero-Dependency Core',
+			description: 'Lightweight components with tree-shaking support, lazy loading capabilities, and performance monitoring to ensure optimal bundle sizes and runtime speed',
 			variant: 'glass',
 			delay: 500,
-			icon: '♿'
+			icon: '🚀'
 		},
 	];
 
@@ -436,8 +473,9 @@
 			<div class="absolute top-1/6 left-1/6 w-96 h-96 bg-gradient-to-br from-white/10 to-white/5 rounded-full blur-3xl animate-pulse-slow"></div>
 			<div class="absolute bottom-1/6 right-1/6 w-80 h-80 bg-gradient-to-br from-white/8 to-white/3 rounded-full blur-2xl animate-float"></div>
 			{#if currentMode === HOME_MODES.PARALLAX}
-				<div class="absolute top-1/3 left-1/2 w-64 h-64 bg-gradient-to-br from-emerald-300/15 to-transparent rounded-full blur-2xl animate-parallax-float"></div>
-				<div class="absolute bottom-1/2 right-1/3 w-48 h-48 bg-gradient-to-br from-teal-300/20 to-transparent rounded-full blur-xl animate-parallax-trail"></div>
+				<div class="absolute top-1/3 left-1/2 w-64 h-64 bg-gradient-to-br from-emerald-300/20 to-transparent rounded-full blur-2xl animate-parallax-dimensional"></div>
+				<div class="absolute bottom-1/2 right-1/3 w-48 h-48 bg-gradient-to-br from-teal-300/25 to-transparent rounded-full blur-xl animate-parallax-field"></div>
+				<div class="absolute top-3/4 left-1/4 w-32 h-32 bg-gradient-to-br from-cyan-300/30 to-transparent rounded-full blur-lg animate-parallax-fragment"></div>
 			{/if}
 		</div>
 		
@@ -449,8 +487,9 @@
 			<div class="absolute top-1/3 right-1/4 w-64 h-64 bg-gradient-to-br from-white/12 to-white/6 rounded-full blur-xl animate-float-delayed"></div>
 			<div class="absolute bottom-1/3 left-1/3 w-48 h-48 bg-gradient-to-br from-white/10 to-white/4 rounded-full blur-lg animate-bounce-slow"></div>
 			{#if currentMode === HOME_MODES.PARALLAX}
-				<div class="absolute top-2/3 left-1/4 w-56 h-56 bg-gradient-to-br from-cyan-300/20 to-transparent rounded-full blur-2xl animate-float"></div>
-				<div class="absolute bottom-1/4 right-2/3 w-32 h-32 bg-gradient-to-br from-emerald-400/25 to-transparent rounded-full blur-lg animate-parallax-float"></div>
+				<div class="absolute top-2/3 left-1/4 w-56 h-56 bg-gradient-to-br from-cyan-300/25 to-transparent rounded-full blur-2xl animate-parallax-dimensional"></div>
+				<div class="absolute bottom-1/4 right-2/3 w-32 h-32 bg-gradient-to-br from-emerald-400/30 to-transparent rounded-full blur-lg animate-parallax-field"></div>
+				<div class="absolute top-1/6 left-3/5 w-24 h-24 bg-gradient-to-br from-teal-400/35 to-transparent rounded-full blur-md animate-parallax-rift"></div>
 			{/if}
 		</div>
 		
@@ -463,8 +502,9 @@
 			<div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-white/12 to-white/5 rounded-full blur-2xl animate-float-delayed"></div>
 			<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-br from-white/8 to-transparent rounded-full blur-2xl animate-pulse-slow"></div>
 			{#if currentMode === HOME_MODES.PARALLAX}
-				<div class="absolute top-1/6 right-1/5 w-40 h-40 bg-gradient-to-br from-teal-400/30 to-transparent rounded-full blur-xl animate-parallax-trail"></div>
-				<div class="absolute bottom-1/6 left-2/3 w-28 h-28 bg-gradient-to-br from-emerald-500/25 to-transparent rounded-full blur-md animate-parallax-float"></div>
+				<div class="absolute top-1/6 right-1/5 w-40 h-40 bg-gradient-to-br from-teal-400/35 to-transparent rounded-full blur-xl animate-parallax-dimensional"></div>
+				<div class="absolute bottom-1/6 left-2/3 w-28 h-28 bg-gradient-to-br from-emerald-500/30 to-transparent rounded-full blur-md animate-parallax-fragment"></div>
+				<div class="absolute top-1/2 right-1/4 w-20 h-20 bg-gradient-to-br from-cyan-400/40 to-transparent rounded-full blur-sm animate-parallax-rift"></div>
 			{/if}
 		</div>
 		
@@ -477,324 +517,938 @@
 			<div class="absolute top-1/5 right-1/5 w-40 h-40 bg-gradient-to-br from-white/8 to-transparent rounded-full blur-2xl animate-bounce-slow"></div>
 			<div class="absolute bottom-2/3 left-2/3 w-24 h-24 bg-gradient-to-br from-white/12 to-transparent rounded-full blur-lg animate-float-delayed"></div>
 			{#if currentMode === HOME_MODES.PARALLAX}
-				<div class="absolute top-1/5 left-3/4 w-16 h-16 bg-gradient-to-br from-emerald-300/35 to-transparent rounded-full blur-sm animate-parallax-float"></div>
-				<div class="absolute bottom-1/5 right-1/6 w-20 h-20 bg-gradient-to-br from-teal-300/30 to-transparent rounded-full blur-md animate-parallax-trail"></div>
-				<div class="absolute top-2/3 left-1/6 w-12 h-12 bg-gradient-to-br from-cyan-300/40 to-transparent rounded-full blur-sm animate-bounce-slow"></div>
+				<div class="absolute top-1/5 left-3/4 w-16 h-16 bg-gradient-to-br from-emerald-300/40 to-transparent rounded-full blur-sm animate-parallax-dimensional"></div>
+				<div class="absolute bottom-1/5 right-1/6 w-20 h-20 bg-gradient-to-br from-teal-300/35 to-transparent rounded-full blur-md animate-parallax-field"></div>
+				<div class="absolute top-2/3 left-1/6 w-12 h-12 bg-gradient-to-br from-cyan-300/45 to-transparent rounded-full blur-sm animate-parallax-rift"></div>
+				<div class="absolute bottom-1/3 right-1/3 w-18 h-18 bg-gradient-to-br from-emerald-400/40 to-transparent rounded-full blur-md animate-parallax-fragment"></div>
 			{/if}
 		</div>
 	</div>
 
-	<!-- Enhanced Mode-specific animations -->
+	<!-- Enhanced Mode-specific animations moved to background -->
 	{#if mounted}
-		<div class="absolute inset-0 pointer-events-none z-10">
+		<div class="absolute inset-0 pointer-events-none z-0">
 			{#if currentMode === HOME_MODES.MATRIX}
 				{#each animationElements as element (element.id)}
+					<!-- Enhanced matrix rainfall - Primary falling blocks with character-like appearance -->
 					<div
-						class="absolute bg-green-400 animate-matrix-rain"
+						class="absolute animate-matrix-rainfall-primary mouse-interactive"
 						style="
-							left: {element.x}%;
-							width: {element.size}px;
-							height: {element.size * 30}px;
-							animation-delay: {element.delay}s;
-							animation-duration: {element.duration}s;
-							opacity: {element.opacity};
-							background: linear-gradient(to bottom, transparent, {element.color}, transparent);
+							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 1.5 * element.speed : 0)}%;
+							top: {-20 + (element.id % 3) * -15}%;
+							width: {Math.max(element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.008, 0.4) : 0), 10)}px;
+							height: {Math.max(element.size * 1.5 + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.008, 0.4) : 0), 15)}px;
+							--animation-delay: {element.delay}s;
+							animation-duration: {Math.max(element.duration - (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.0003, 0.15) : 0), 2)}s;
+							opacity: {Math.min(element.opacity + (isMouseActive ? 0.03 : 0), 0.9)};
+							background: linear-gradient(180deg, {element.color} 0%, {element.color}EE 20%, {element.color}CC 60%, {element.color}88 90%, transparent 100%);
+							filter: 
+								brightness({1.5 + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.001, 0.1) : 0)})
+								contrast({1.4 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0005 : 0)})
+								saturate({1.8 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.002 : 0)})
+								drop-shadow(0 0 {element.size * 0.8}px {element.color}CC);
+							box-shadow: 
+								0 0 {element.size * 2}px {element.color}80,
+								0 0 {element.size * 4}px {element.color}40,
+								0 2px {element.size}px {element.color}60,
+								inset 0 1px {element.size * 0.2}px {element.color}AA,
+								inset 0 -1px {element.size * 0.1}px {element.color}66;
+							border-radius: 1px;
+							border: 0.5px solid {element.color}EE;
+							transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+							font-family: 'Courier New', monospace;
+							font-size: {Math.max(element.size * 0.8, 8)}px;
+							color: {element.color};
+							text-shadow: 0 0 {element.size * 0.5}px {element.color}CC;
+							line-height: 1;
 						"
-					></div>
+						data-content="{['0','1','ア','カ','サ','タ','ナ','ハ','マ','ヤ','ラ','ワ','Z','X','C','V','B','N','M'][element.id % 19]}"
+					>
+						{['0','1','ア','カ','サ','タ','ナ','ハ','マ','ヤ','ラ','ワ','Z','X','C','V','B','N','M'][element.id % 19]}
+					</div>
+					
+					<!-- Secondary rainfall droplets with trailing effects -->
+					{#if element.id % 2 === 0}
+						<div
+							class="absolute animate-matrix-rainfall-secondary"
+							style="
+								left: {element.x + Math.random() * 8 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 1.2 : 0)}%;
+								top: {-30 + (element.id % 4) * -12}%;
+								width: {6 + Math.random() * 4}px;
+								height: {16 + Math.random() * 12}px;
+								--animation-delay: {element.delay + Math.random() * 1.5}s;
+								animation-duration: {3.5 + Math.random() * 2}s;
+								background: linear-gradient(180deg, 
+									{element.color}CC 0%, 
+									{element.color}AA 20%, 
+									{element.color}88 40%, 
+									{element.color}66 60%, 
+									{element.color}44 80%, 
+									transparent 100%);
+								opacity: {0.6 + Math.random() * 0.3 + (isMouseActive ? 0.05 : 0)};
+								filter: 
+									brightness({1.2 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.0008 : 0)})
+									blur({0.1 + Math.random() * 0.2}px)
+									drop-shadow(0 0 {3 + Math.random() * 2}px {element.color}80);
+								border-radius: 1px;
+								border: 0.5px solid {element.color}AA;
+								box-shadow: 
+									0 0 {4 + Math.random() * 3}px {element.color}60,
+									inset 0 1px {2}px {element.color}80;
+								transition: all 0.25s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- Matrix code trail effects -->
+					{#if element.id % 3 === 0}
+						<div
+							class="absolute animate-matrix-rainfall-trail"
+							style="
+								left: {element.x + 1 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 0.8 : 0)}%;
+								top: {-15 + (element.id % 6) * -8}%;
+								width: {3 + Math.random() * 2}px;
+								height: {25 + Math.random() * 20}px;
+								--animation-delay: {element.delay + 0.3}s;
+								animation-duration: {element.duration * 1.5}s;
+								background: linear-gradient(180deg, 
+									transparent 0%,
+									{element.color}40 15%, 
+									{element.color}80 35%, 
+									{element.color}60 55%, 
+									{element.color}40 75%, 
+									{element.color}20 90%, 
+									transparent 100%);
+								opacity: {element.opacity * 0.7 + (isMouseActive ? 0.03 : 0)};
+								border-radius: 0.5px;
+								filter: 
+									blur({0.3 + Math.random() * 0.2}px)
+									drop-shadow(0 0 {2}px {element.color}60);
+								transition: all 0.2s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- Enhanced mouse-triggered matrix burst -->
+					{#if isMouseActive && Math.abs(mouseVelocityX + mouseVelocityY) > 20 && element.id % 6 === 0}
+						<div
+							class="absolute pointer-events-none animate-matrix-rainfall-burst"
+							style="
+								left: {(mouseX / innerWidth) * 100}%;
+								top: {(mouseY / innerHeight) * 100}%;
+								width: {10 + Math.random() * 8}px;
+								height: {10 + Math.random() * 8}px;
+								--animation-delay: 0s;
+								animation-duration: 1.5s;
+								background: radial-gradient(circle, {element.color} 0%, {element.color}DD 30%, {element.color}AA 60%, transparent 85%);
+								box-shadow: 
+									0 0 {Math.abs(mouseVelocityX) * 0.03}px {element.color}DD,
+									0 0 {Math.abs(mouseVelocityX) * 0.06}px {element.color}88,
+									0 0 {Math.abs(mouseVelocityY) * 0.04}px {element.color}99;
+								opacity: {Math.min(Math.abs(mouseVelocityY) * 0.004, 0.5)};
+								transform: 
+									translate(-50%, -50%) 
+									rotate({mouseVelocityX * 0.08}deg)
+									scale({0.9 + Math.abs(mouseVelocityX) * 0.0004});
+								filter: 
+									brightness({2 + Math.abs(mouseVelocityX) * 0.001})
+									blur({Math.max(0.1 - Math.abs(mouseVelocityX) * 0.0008, 0)}px)
+									drop-shadow(0 0 {Math.abs(mouseVelocityX) * 0.02}px {element.color}CC);
+								border-radius: 1px;
+								border: 0.5px solid {element.color}EE;
+							"
+						></div>
+					{/if}
+					
+					<!-- Matrix impact ripples -->
+					{#if element.id % 5 === 0}
+						<div
+							class="absolute animate-matrix-rainfall-splash"
+							style="
+								left: {element.x + Math.random() * 12}%;
+								top: {92 + Math.random() * 6}%;
+								width: {8 + Math.random() * 12}px;
+								height: {3 + Math.random() * 4}px;
+								--animation-delay: {element.delay + Math.random() * 2.5}s;
+								animation-duration: {1.5 + Math.random() * 1}s;
+								background: radial-gradient(
+									ellipse, 
+									{element.color}AA 0%, 
+									{element.color}88 25%, 
+									{element.color}66 50%, 
+									{element.color}44 75%, 
+									transparent 90%
+								);
+								opacity: {0.6 + Math.random() * 0.4};
+								border-radius: 50%;
+								filter: 
+									blur({0.15 + Math.random() * 0.2}px)
+									drop-shadow(0 0 {2 + Math.random() * 2}px {element.color}80);
+								border: 0.5px solid {element.color}66;
+							"
+						></div>
+					{/if}
+					
+					<!-- Matrix data accumulation streams -->
+					{#if element.id % 8 === 0}
+						<div
+							class="absolute animate-matrix-rainfall-accumulation"
+							style="
+								left: {element.x + Math.random() * 15}%;
+								top: {90 + Math.random() * 8}%;
+								width: {12 + Math.random() * 18}px;
+								height: {2 + Math.random() * 3}px;
+								--animation-delay: {element.delay + Math.random() * 4}s;
+								animation-duration: {4 + Math.random() * 3}s;
+								background: linear-gradient(
+									90deg, 
+									transparent 0%, 
+									{element.color}50 15%, 
+									{element.color}80 30%, 
+									{element.color}90 50%, 
+									{element.color}80 70%, 
+									{element.color}50 85%, 
+									transparent 100%
+								);
+								opacity: {0.4 + Math.random() * 0.3};
+								border-radius: 1px;
+								filter: 
+									blur({0.2 + Math.random() * 0.15}px)
+									drop-shadow(0 0 {1.5}px {element.color}70);
+								border: 0.5px solid {element.color}60;
+							"
+						></div>
+					{/if}
 				{/each}
 				
 			{:else if currentMode === HOME_MODES.COSMIC}
 				{#each animationElements as element (element.id)}
+					<!-- Enhanced cosmic star with refined aesthetic and minimal interaction -->
 					<div
-						class="absolute rounded-full animate-cosmic-drift"
+						class="absolute animate-cosmic-stellar mouse-interactive"
 						style="
-							left: {element.x}%;
-							top: {element.y}%;
-							width: {element.size}px;
-							height: {element.size}px;
-							background: radial-gradient(circle, {element.color}, transparent);
+							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 1.2 * element.speed : 0)}%;
+							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.8 * element.speed : 0)}%;
+							width: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.008, 0.5) : 0)}px;
+							height: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.008, 0.5) : 0)}px;
+							background: radial-gradient(
+								circle, 
+								{element.color}40 0%, 
+								{element.color}20 40%, 
+								{element.color}08 70%, 
+								transparent 100%
+							);
 							animation-delay: {element.delay}s;
-							animation-duration: {element.duration * 2}s;
-							opacity: {element.opacity};
+							animation-duration: {Math.max(element.duration * 3 - (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.001, 0.2) : 0), 2)}s;
+							opacity: {Math.min(element.opacity * 0.6 + (isMouseActive ? 0.02 : 0), 0.8)};
+							border-radius: 50%;
+							transform-origin: center;
+							transform: 
+								rotate({element.id * 20 + (isMouseActive ? mouseVelocityX * 0.02 : 0)}deg)
+								scale({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.0001, 0.02) : 0)});
+							box-shadow: 
+								0 0 {element.size}px {element.color}20,
+								0 0 {element.size * 2}px {element.color}10,
+								0 0 {element.size * 3}px {element.color}05;
+							filter: 
+								brightness({1 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.0001 : 0)})
+								saturate({1.1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00002 : 0)});
+							transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 						"
 					></div>
+					
+					<!-- Refined cosmic nebula wisps -->
+					{#if element.id % 3 === 0}
+						<div
+							class="absolute animate-cosmic-nebula"
+							style="
+								left: {element.x + 15 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 5 : 0)}%;
+								top: {element.y - 10 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 3 : 0)}%;
+								width: {element.size * 2 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.08 : 0)}px;
+								height: {element.size * 0.6 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.04 : 0)}px;
+								background: linear-gradient(
+									{45 + (isMouseActive ? Math.sin(mouseVelocityX * 0.005) * 30 : 0)}deg, 
+									transparent 0%, 
+									{element.color}12 30%, 
+									{element.color}20 50%, 
+									{element.color}12 70%, 
+									transparent 100%
+								);
+								animation-delay: {element.delay + 0.8}s;
+								animation-duration: {element.duration * 4}s;
+								opacity: {Math.min(element.opacity * 0.4 + (isMouseActive ? 0.1 : 0), 0.5)};
+								border-radius: 50% 20% 50% 20%;
+								transform: 
+									rotate({element.id * 10 + (isMouseActive ? mouseVelocityX * 0.1 : 0)}deg)
+									scale({0.9 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.002 : 0)});
+								filter: 
+									blur({1.5 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.008 : 0)}px)
+									brightness({1.05 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.002 : 0)});
+								transition: all 0.5s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- Subtle cosmic stardust trails -->
+					{#if element.id % 5 === 0}
+						<div
+							class="absolute animate-cosmic-stardust"
+							style="
+								left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 2 : 0)}%;
+								top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 1.5 : 0)}%;
+								width: {element.size * 0.25 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.008 : 0)}px;
+								height: {element.size * 0.25 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.008 : 0)}px;
+								background: {element.color}30;
+								animation-delay: {element.delay + 2}s;
+								animation-duration: {element.duration * 2.5}s;
+								opacity: {Math.min(element.opacity * 0.5 + (isMouseActive ? 0.15 : 0), 0.7)};
+								border-radius: 50%;
+								box-shadow: 
+									0 0 {element.size * 0.5}px {element.color}15,
+									0 0 {element.size}px {element.color}08;
+								filter: brightness({1.02 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0003 : 0)});
+								transition: all 0.6s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- MINIMAL COSMIC CURSOR ANIMATIONS: Elegant and Subtle -->
+					
+					<!-- Gentle Cosmic Sparkle - Only on movement -->
+					{#if isMouseActive && Math.abs(mouseVelocityX + mouseVelocityY) > 10 && element.id % 10 === 0}
+						<div
+							class="absolute pointer-events-none"
+							style="
+								left: {(mouseX / innerWidth) * 100}%;
+								top: {(mouseY / innerHeight) * 100}%;
+								width: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.15 + 3, 6)}px;
+								height: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.15 + 3, 6)}px;
+								background: radial-gradient(
+									circle, 
+									{element.color}20 0%, 
+									{element.color}08 40%, 
+									transparent 80%
+								);
+								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.002, 0.15)};
+								border-radius: 50%;
+								transform: 
+									translate(-50%, -50%) 
+									scale({0.3 + Math.abs(mouseVelocityX + mouseVelocityY) * 0.004});
+								animation: gentle-cosmic-sparkle 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+								filter: blur(0.2px);
+							"
+						></div>
+					{/if}
+					
+					<!-- Subtle Cosmic Trail - Minimal stardust -->
+					{#if isMouseActive && Math.abs(mouseVelocityX + mouseVelocityY) > 20 && element.id % 15 === 0}
+						<div
+							class="absolute pointer-events-none"
+							style="
+								left: {(mouseX / innerWidth) * 100}%;
+								top: {(mouseY / innerHeight) * 100}%;
+								width: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.08 + 2, 4)}px;
+								height: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.08 + 2, 4)}px;
+								background: {element.color}10;
+								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.001, 0.1)};
+								border-radius: 50%;
+								transform: 
+									translate(-50%, -50%) 
+									scale({0.2 + Math.abs(mouseVelocityX + mouseVelocityY) * 0.002});
+								animation: minimal-cosmic-dust 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+								filter: blur(0.1px);
+							"
+						></div>
+					{/if}
+					
+					<!-- Cosmic gravitational lensing effect -->
+					{#if element.id % 7 === 0}
+						<div
+							class="absolute animate-cosmic-lens"
+							style="
+								left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 4 : 0)}%;
+								top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 3 : 0)}%;
+								width: {element.size * 3}px;
+								height: {element.size * 3}px;
+								background: transparent;
+								border: 1px solid {element.color}20;
+								border-radius: 50%;
+								animation-delay: {element.delay + 2}s;
+								animation-duration: {element.duration * 4}s;
+								opacity: {element.opacity * 0.3 + (isMouseActive ? 0.1 : 0)};
+								transform: scale({0.8 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0005 : 0)});
+								box-shadow: 
+									inset 0 0 {element.size}px {element.color}10,
+									0 0 {element.size * 2}px {element.color}05;
+								transition: all 0.6s ease-out;
+							"
+						></div>
+					{/if}
 				{/each}
 				
 			{:else if currentMode === HOME_MODES.PARTICLES}
 				{#each animationElements as element (element.id)}
+					<!-- Enhanced primary particle with sophisticated glow and physics - NO CONNECTION LINES -->
 					<div
-						class="absolute rounded-full animate-particle-float"
+						class="absolute animate-particle-physics mouse-interactive"
 						style="
-							left: {element.x}%;
-							top: {element.y}%;
-							width: {element.size}px;
-							height: {element.size}px;
-							background: {element.color};
-							box-shadow: 0 0 {element.size * 2}px {element.color};
+							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 16 * element.speed : 0)}%;
+							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 12 * element.speed : 0)}%;
+							width: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.012, 6) : 0)}px;
+							height: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.012, 6) : 0)}px;
+							background: radial-gradient(
+								circle, 
+								{element.color} 0%, 
+								{element.color}CC 40%, 
+								{element.color}60 70%, 
+								transparent 100%
+							);
 							animation-delay: {element.delay}s;
-							animation-duration: {element.duration}s;
-							opacity: {element.opacity};
+							animation-duration: {Math.max(element.duration - (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.008, 2) : 0), 0.8)}s;
+							opacity: {Math.min(element.opacity + (isMouseActive ? 0.4 : 0), 1)};
+							border-radius: 50%;
+							transform-origin: center;
+							transform: 
+								scale({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.003, 0.5) : 0)})
+								rotate({element.id * 45 + (isMouseActive ? mouseVelocityX * 0.3 : 0)}deg);
+							box-shadow: 
+								0 0 {element.size * 3}px {element.color}80,
+								0 0 {element.size * 6}px {element.color}40,
+								0 0 {element.size * 9}px {element.color}20,
+								inset 0 0 {element.size / 3}px {element.color}60;
+							filter: 
+								brightness({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.0002, 0.1) : 0)})
+								contrast({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00005 : 0)})
+								saturate({1.05 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00003 : 0)});
+							transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 						"
 					></div>
+					
+					<!-- Enhanced mouse attraction particles -->
+					{#if isMouseActive && Math.abs(mouseVelocityX + mouseVelocityY) > 8 && element.id % 6 === 0}
+						<div
+							class="absolute pointer-events-none"
+							style="
+								left: {(mouseX / innerWidth) * 100}%;
+								top: {(mouseY / innerHeight) * 100}%;
+								width: {Math.abs(mouseVelocityX + mouseVelocityY) * 0.03 + 6}px;
+								height: {Math.abs(mouseVelocityX + mouseVelocityY) * 0.03 + 6}px;
+								background: radial-gradient(
+									circle, 
+									{element.color} 0%, 
+									{element.color}AA 50%, 
+									transparent 100%
+								);
+								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.0025, 0.9)};
+								border-radius: 50%;
+								transform: 
+									translate(-50%, -50%) 
+									scale({0.3 + Math.abs(mouseVelocityX + mouseVelocityY) * 0.001});
+								animation: particle-physics 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+								box-shadow: 
+									0 0 {Math.abs(mouseVelocityX + mouseVelocityY) * 0.04}px {element.color},
+									0 0 {Math.abs(mouseVelocityX + mouseVelocityY) * 0.08}px {element.color}60;
+								filter: brightness({1.3 + Math.abs(mouseVelocityX + mouseVelocityY) * 0.0005});
+							"
+						></div>
+					{/if}
+					
+					<!-- Particle quantum tunneling effect -->
+					{#if element.id % 8 === 0}
+						<div
+							class="absolute animate-particle-quantum"
+							style="
+								left: {element.x + 20 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 5 : 0)}%;
+								top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 4 : 0)}%;
+								width: {element.size * 0.8}px;
+								height: {element.size * 0.8}px;
+								background: {element.color};
+								animation-delay: {element.delay + 3}s;
+								animation-duration: {element.duration * 3}s;
+								opacity: {Math.min(element.opacity * 0.6 + (isMouseActive ? 0.15 : 0), 0.8)};
+								border-radius: 50%;
+								transform: scale({0.9 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0008 : 0)});
+								box-shadow: 
+									0 0 {element.size * 2}px {element.color}50,
+									0 0 {element.size * 4}px {element.color}25;
+								filter: 
+									blur({0.5 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.001 : 0)}px)
+									brightness({1.1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0005 : 0)});
+								transition: all 0.3s ease-out;
+							"
+						></div>
+					{/if}
 				{/each}
 				
 			{:else if currentMode === HOME_MODES.WAVES}
 				{#each animationElements as element (element.id)}
+					<!-- Elegant fluid wave with minimal mouse response -->
 					<div
-						class="absolute rounded-full animate-wave-motion"
+						class="absolute animate-wave-motion mouse-interactive"
 						style="
-							left: {element.x}%;
-							top: {element.y}%;
-							width: {element.size}px;
-							height: {element.size / 4}px;
-							background: linear-gradient(90deg, transparent, {element.color}, transparent);
+							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 3 * element.speed : 0)}%;
+							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 1.5 * Math.sin(Date.now() * 0.0008 + element.id * 0.3) : 0)}%;
+							width: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.04, 2) : 0)}px;
+							height: {element.size / 3 + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.02, 1) : 0)}px;
+							background: linear-gradient(
+								{isMouseActive ? 90 + Math.sin(mouseVelocityX * 0.002) * 8 : 90}deg, 
+								transparent 0%, 
+								{element.color}20 10%, 
+								{element.color}80 25%, 
+								{element.color} 50%, 
+								{element.color}80 75%, 
+								{element.color}20 90%, 
+								transparent 100%
+							);
 							animation-delay: {element.delay}s;
-							animation-duration: {element.duration}s;
-							opacity: {element.opacity};
+							animation-duration: {Math.max(element.duration - (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.0002, 0.3) : 0), 0.8)}s;
+							opacity: {Math.min(element.opacity + (isMouseActive ? 0.08 : 0), 0.9)};
 							transform-origin: center;
+							transform: 
+								rotate({isMouseActive ? Math.sin(mouseVelocityX * 0.002) * 0.5 : 0}deg)
+								scale({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.00003, 0.05) : 0)});
+							filter: 
+								blur({Math.max(0.6 - (isMouseActive ? Math.abs(mouseVelocityX) * 0.0002 : 0), 0.1)}px)
+								brightness({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.00008, 0.06) : 0)});
+							border-radius: {element.size / 4}px;
+							box-shadow: 
+								0 0 {element.size / 3}px {element.color}50,
+								0 0 {element.size / 1.5}px {element.color}25,
+								0 0 {element.size}px {element.color}10;
+							transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 						"
 					></div>
+					
+					<!-- Enhanced wave ripples with fluid motion -->
+					{#if element.id % 4 === 0}
+						<div
+							class="absolute animate-wave-ripple"
+							style="
+								left: {element.x + 15 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 18 : 0)}%;
+								top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 9 * Math.cos(Date.now() * 0.0008 + element.id) : 0)}%;							width: {element.size * 2.5 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.08, 5) : 0)}px;
+							height: {element.size / 6 + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.015, 1) : 0)}px;
+							background: linear-gradient(
+								{isMouseActive ? 90 + Math.cos(mouseVelocityX * 0.003) * 15 : 90}deg, 
+								transparent 0%, 
+								{element.color}70 30%, 
+								{element.color}40 70%, 
+								transparent 100%
+							);
+							animation-delay: {element.delay + 0.3}s;
+							animation-duration: {element.duration * 1.8}s;
+							opacity: {Math.min(element.opacity * 0.7 + (isMouseActive ? 0.1 : 0), 0.9)};
+								border-radius: {element.size / 3}px;
+								transform: 
+									rotate({isMouseActive ? Math.cos(mouseVelocityY * 0.01) * 10 : 0}deg)
+									scaleX({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.003, 0.4) : 0)});
+								filter: blur({Math.max(1.2 - (isMouseActive ? Math.abs(mouseVelocityX) * 0.02 : 0), 0.2)}px);
+								transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+							"
+						></div>
+					{/if}
+					
+					<!-- MINIMAL WAVE CURSOR ANIMATIONS: Gentle and Aesthetic -->
+					
+					<!-- Subtle Wave Ripples - Only appears on gentle movement -->
+					{#if isMouseActive && Math.abs(mouseVelocityX + mouseVelocityY) > 8 && element.id % 8 === 0}
+						<div
+							class="absolute pointer-events-none"
+							style="
+								left: {(mouseX / innerWidth) * 100}%;
+								top: {(mouseY / innerHeight) * 100}%;
+								width: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.6 + 12, 30)}px;
+								height: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.6 + 12, 30)}px;
+								background: radial-gradient(
+									circle,
+									transparent 20%,
+									{element.color}08 40%,
+									transparent 60%,
+									{element.color}04 80%,
+									transparent 100%
+								);
+								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.003, 0.3)};
+								border-radius: 50%;
+								transform: translate(-50%, -50%) scale({0.5 + Math.abs(mouseVelocityX + mouseVelocityY) * 0.008});
+								animation: minimal-wave-ripple 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+								filter: blur(0.5px);
+							"
+						></div>
+					{/if}
+					
+					<!-- Gentle Wave Trail - Minimal particles -->
+					{#if isMouseActive && Math.abs(mouseVelocityX + mouseVelocityY) > 15 && element.id % 12 === 0}
+						<div
+							class="absolute pointer-events-none"
+							style="
+								left: {(mouseX / innerWidth) * 100}%;
+								top: {(mouseY / innerHeight) * 100}%;
+								width: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.2 + 4, 8)}px;
+								height: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.2 + 4, 8)}px;
+								background: radial-gradient(
+									circle,
+									{element.color}12 0%,
+									{element.color}06 50%,
+									transparent 100%
+								);
+								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.002, 0.2)};
+								border-radius: 50%;
+								transform: translate(-50%, -50%) scale({0.5 + Math.abs(mouseVelocityX + mouseVelocityY) * 0.003});
+								animation: gentle-wave-drift 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+								filter: blur(0.3px);
+							"
+						></div>
+					{/if}
+					
+					<!-- Ambient wave glow effects -->
+					{#if element.id % 10 === 0}
+						<div
+							class="absolute pointer-events-none animate-wave-glow"
+							style="
+								left: {element.x + (isMouseActive ? (mouseVelocityX / 0.5) * 10 : 0)}%;
+								top: {element.y + (isMouseActive ? (mouseVelocityY / 0.5) * 5 : 0)}%;
+								width: {element.size * 3}px;
+								height: {element.size / 2}px;
+								background: radial-gradient(
+									ellipse, 
+									{element.color}30 0%, 
+									{element.color}15 40%, 
+									transparent 70%
+								);
+								animation-delay: {element.delay + 1}s;
+								animation-duration: {element.duration * 2.5}s;
+								opacity: {element.opacity * 0.4 + (isMouseActive ? 0.2 : 0)};
+								border-radius: 50%;
+								filter: blur({2 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.02 : 0)}px);
+								transition: all 0.3s ease-out;
+							"
+						></div>
+					{/if}
 				{/each}
 				
 			{:else if currentMode === HOME_MODES.GEOMETRIC}
 				{#each animationElements as element (element.id)}
+					<!-- Elegant geometric shape with minimal mouse response -->
 					<div
-						class="absolute animate-geometric-spin"
+						class="absolute animate-geometric-spin mouse-interactive"
 						style="
-							left: {element.x}%;
-							top: {element.y}%;
-							width: {element.size}px;
-							height: {element.size}px;
-							background: {element.color};
-							clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 1.5 : 0)}%;
+							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 1.2 : 0)}%;
+							width: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.003, 1.5) : 0)}px;
+							height: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.003, 1.5) : 0)}px;
+							background: linear-gradient(
+								{element.id * 45 + (isMouseActive ? mouseVelocityX * 0.002 : 0)}deg, 
+								{element.color} 0%, 
+								{element.color}CC 40%, 
+								{element.color}88 70%, 
+								{element.color}40 100%
+							);
+							clip-path: {
+								element.id % 4 === 0 ? 'polygon(50% 0%, 0% 100%, 100% 100%)' :
+								element.id % 4 === 1 ? 'polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%)' :
+								element.id % 4 === 2 ? 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' :
+								'polygon(50% 0%, 85% 25%, 100% 50%, 85% 75%, 50% 100%, 15% 75%, 0% 50%, 15% 25%)'
+							};
 							animation-delay: {element.delay}s;
-							animation-duration: {element.duration}s;
-							opacity: {element.opacity};
-						"
-					></div>
-				{/each}
-				
-			{:else if currentMode === HOME_MODES.NEURAL}
-				{#each animationElements as element (element.id)}
-					<!-- Enhanced Neural Nodes with pulsing effect and mouse interaction -->
-					<div
-						class="absolute animate-neural-pulse-enhanced"
-						style="
-							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 25 * (element.size / 4) : 0)}%;
-							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 20 * (element.size / 4) : 0)}%;
-							width: {element.size * 2 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.2 : 0)}px;
-							height: {element.size * 2 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.2 : 0)}px;
-							background: radial-gradient(circle, {element.color}80, {element.color}20, transparent);
-							animation-delay: {element.delay}s;
-							animation-duration: {element.duration - (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.005 : 0)}s;
-							opacity: {element.opacity + (isMouseActive ? 0.4 : 0)};
-							border-radius: 50%;
-							box-shadow: 0 0 {element.size * 4 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.5 : 0)}px {element.color}40;
-							transition: all 0.1s ease-out;
+							animation-duration: {Math.max(element.duration - (isMouseActive ? Math.abs(mouseVelocityX) * 0.0001 : 0), 2)}s;
+							opacity: {Math.min(element.opacity * 0.8 + (isMouseActive ? 0.02 : 0), 0.9)};
+							transform-origin: center;
+							transform: 
+								rotate({element.id * 15 + (isMouseActive ? mouseVelocityX * 0.001 : 0)}deg)
+								scale({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.00003, 0.05) : 0)});
+							filter: 
+								drop-shadow(0 0 {element.size / 4}px {element.color}40)
+								brightness({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00004 : 0)})
+								saturate({1.1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00002 : 0)});
+							transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 						"
 					></div>
 					
-					<!-- Neural Connections - Multiple dynamic connections per node with mouse response -->
+					<!-- Subtle geometric outline -->
 					{#if element.id % 3 === 0}
-						{#each Array(2 + Math.floor(Math.random() * 3)) as _, connIndex}
-							<div
-								class="absolute animate-neural-connection-flow"
-								style="
-									left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 15 : 0)}%;
-									top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 12 : 0)}%;
-									width: {50 + Math.random() * 150 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.5 : 0)}px;
-									height: 2px;
-									background: linear-gradient(90deg, transparent, {element.color}60, {element.color}80, {element.color}60, transparent);
-									animation-delay: {element.delay + connIndex * 0.5}s;
-									animation-duration: {(element.duration + connIndex) * 1.2}s;
-									opacity: {element.opacity * 0.7 + (isMouseActive ? 0.3 : 0)};
-									transform-origin: left center;
-									transform: rotate({Math.random() * 360 + (isMouseActive ? mouseVelocityX * 0.2 : 0)}deg);
-									border-radius: 1px;
-									filter: brightness({1 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.01 : 0)});
-									transition: all 0.15s ease-out;
-								"
-							></div>
-						{/each}
-					{/if}
-					
-					<!-- Neural Data Packets with mouse attraction -->
-					{#if element.id % 5 === 0}
 						<div
-							class="absolute animate-neural-data-flow"
+							class="absolute animate-geometric-orbit"
 							style="
-								left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 10 : 0)}%;
-								top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 8 : 0)}%;
-								width: {element.size + (isMouseActive ? Math.abs(mouseVelocityX) * 0.1 : 0)}px;
-								height: {element.size + (isMouseActive ? Math.abs(mouseVelocityY) * 0.1 : 0)}px;
-								background: {element.color};
-								animation-delay: {element.delay + 2}s;
-								animation-duration: {element.duration * 0.8 - (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.005 : 0)}s;
-								opacity: {element.opacity + (isMouseActive ? 0.5 : 0)};
-								border-radius: 2px;
-								box-shadow: 0 0 {element.size * 2 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.2 : 0)}px {element.color};
-								filter: brightness({1 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.02 : 0)});
-								transition: all 0.1s ease-out;
+								left: {element.x + 2 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 0.8 : 0)}%;
+								top: {element.y + 2 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.6 : 0)}%;
+								width: {element.size * 1.2 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.01 : 0)}px;
+								height: {element.size * 1.2 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.01 : 0)}px;
+								background: transparent;
+								border: {1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.002 : 0)}px solid {element.color}30;
+								clip-path: {
+									element.id % 4 === 0 ? 'polygon(50% 0%, 0% 100%, 100% 100%)' :
+									element.id % 4 === 1 ? 'polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%)' :
+									element.id % 4 === 2 ? 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' :
+									'polygon(50% 0%, 85% 25%, 100% 50%, 85% 75%, 50% 100%, 15% 75%, 0% 50%, 15% 25%)'
+								};
+								animation-delay: {element.delay + 0.8}s;
+								animation-duration: {element.duration * 2}s;
+								opacity: {element.opacity * 0.4 + (isMouseActive ? 0.01 : 0)};
+								transform: 
+									rotate({-element.id * 8 + (isMouseActive ? -mouseVelocityX * 0.0002 : 0)}deg)
+									scale({0.95 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.000003 : 0)});
+								filter: blur({0.3 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0002 : 0)}px);
+								transition: all 0.4s ease-out;
 							"
 						></div>
 					{/if}
 					
-					<!-- Mouse-activated neural impulses -->
-					{#if isMouseActive && Math.abs(mouseVelocityX + mouseVelocityY) > 10 && element.id % 12 === 0}
+					<!-- Minimal mouse-triggered particles (higher threshold) -->
+					{#if isMouseActive && Math.abs(mouseVelocityX) > 40 && element.id % 12 === 0}
 						<div
 							class="absolute pointer-events-none"
 							style="
 								left: {(mouseX / innerWidth) * 100}%;
 								top: {(mouseY / innerHeight) * 100}%;
-								width: 4px;
-								height: 4px;
-								background: {element.color};
-								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.05, 1)};
-								border-radius: 50%;
-								transform: translate(-50%, -50%);
-								animation: neural-data-flow 3s ease-out forwards;
-								box-shadow: 0 0 20px {element.color};
+								width: {Math.abs(mouseVelocityX) * 0.006 + 3}px;
+								height: {Math.abs(mouseVelocityX) * 0.006 + 3}px;
+								background: {element.color}80;
+								clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+								opacity: {Math.min(Math.abs(mouseVelocityX) * 0.002, 0.4)};
+								transform: 
+									translate(-50%, -50%) 
+									rotate({mouseVelocityX * 0.2}deg)
+									scale({0.5 + Math.abs(mouseVelocityX) * 0.001});
+								animation: geometric-burst 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+								filter: 
+									drop-shadow(0 0 {Math.abs(mouseVelocityX) * 0.02}px {element.color}
+									brightness({1.1 + Math.abs(mouseVelocityX) * 0.0005});
 							"
 						></div>
 					{/if}
 				{/each}
 				
-			{:else if currentMode === HOME_MODES.PARALLAX}
+			{:else if currentMode === HOME_MODES.WAVES}
 				{#each animationElements as element (element.id)}
-					<!-- Multi-layer parallax elements with depth and mouse interaction -->
+					<!-- Elegant fluid wave with minimal mouse response -->
 					<div
-						class="absolute animate-parallax-float"
+						class="absolute animate-wave-motion mouse-interactive"
 						style="
-							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 20 * element.speed : 0)}%;
-							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 15 * element.speed : 0)}%;
-							width: {element.size}px;
-							height: {element.size}px;
-							background: radial-gradient(circle, {element.color}60, transparent);
+							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 3 * element.speed : 0)}%;
+							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 1.5 * Math.sin(Date.now() * 0.0008 + element.id * 0.3) : 0)}%;
+							width: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.04, 2) : 0)}px;
+							height: {element.size / 3 + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.02, 1) : 0)}px;
+							background: linear-gradient(
+								{isMouseActive ? 90 + Math.sin(mouseVelocityX * 0.002) * 8 : 90}deg, 
+								transparent 0%, 
+								{element.color}20 10%, 
+								{element.color}80 25%, 
+								{element.color} 50%, 
+								{element.color}80 75%, 
+								{element.color}20 90%, 
+								transparent 100%
+							);
 							animation-delay: {element.delay}s;
-							animation-duration: {element.duration * (1 + element.speed)}s;
-							opacity: {element.opacity * (0.5 + element.speed * 0.5) + (isMouseActive ? 0.2 : 0)};
-							transform: translateZ({element.speed * 100}px) scale({0.8 + element.speed * 0.4 + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.001 : 0)});
-							border-radius: 50%;
-							filter: blur({(1 - element.speed) * 2}px);
-							transition: transform 0.1s ease-out, opacity 0.2s ease-out;
+							animation-duration: {Math.max(element.duration - (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.0002, 0.3) : 0), 0.8)}s;
+							opacity: {Math.min(element.opacity + (isMouseActive ? 0.08 : 0), 0.9)};
+							transform-origin: center;
+							transform: 
+								rotate({isMouseActive ? Math.sin(mouseVelocityX * 0.002) * 0.5 : 0}deg)
+								scale({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.00003, 0.05) : 0)});
+							filter: 
+								blur({Math.max(0.6 - (isMouseActive ? Math.abs(mouseVelocityX) * 0.0002 : 0), 0.1)}px)
+								brightness({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.00008, 0.06) : 0)});
+							border-radius: {element.size / 4}px;
+							box-shadow: 
+								0 0 {element.size / 3}px {element.color}50,
+								0 0 {element.size / 1.5}px {element.color}25,
+								0 0 {element.size}px {element.color}10;
+							transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 						"
 					></div>
 					
-					<!-- Parallax trailing effect with mouse responsiveness -->
+					<!-- Enhanced wave ripples with fluid motion -->
 					{#if element.id % 4 === 0}
 						<div
-							class="absolute animate-parallax-trail"
+							class="absolute animate-wave-ripple"
 							style="
-								left: {element.x + 5 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 10 : 0)}%;
-								top: {element.y + 5 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 8 : 0)}%;
-								width: {element.size * 0.6}px;
-								height: {element.size * 0.6}px;
-								background: linear-gradient(45deg, {element.color}40, transparent);
-								animation-delay: {element.delay + 0.5}s;
-								animation-duration: {element.duration * 1.5}s;
-								opacity: {element.opacity * 0.6 + (isMouseActive ? 0.3 : 0)};
-								border-radius: 50%;
-								transform: translateZ({element.speed * 50}px);
-								transition: opacity 0.3s ease-out;
+								left: {element.x + 15 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 18 : 0)}%;
+								top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 9 * Math.cos(Date.now() * 0.0008 + element.id) : 0)}%;							width: {element.size * 2.5 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.08, 5) : 0)}px;
+							height: {element.size / 6 + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.015, 1) : 0)}px;
+							background: linear-gradient(
+								{isMouseActive ? 90 + Math.cos(mouseVelocityX * 0.003) * 15 : 90}deg, 
+								transparent 0%, 
+								{element.color}70 30%, 
+								{element.color}40 70%, 
+								transparent 100%
+							);
+							animation-delay: {element.delay + 0.3}s;
+							animation-duration: {element.duration * 1.8}s;
+							opacity: {Math.min(element.opacity * 0.7 + (isMouseActive ? 0.1 : 0), 0.9)};
+								border-radius: {element.size / 3}px;
+								transform: 
+									rotate({isMouseActive ? Math.cos(mouseVelocityY * 0.01) * 10 : 0}deg)
+									scaleX({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.003, 0.4) : 0)});
+								filter: blur({Math.max(1.2 - (isMouseActive ? Math.abs(mouseVelocityX) * 0.02 : 0), 0.2)}px);
+								transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 							"
 						></div>
 					{/if}
 					
-					<!-- Mouse trail effect for parallax mode -->
-					{#if isMouseActive && element.id % 8 === 0}
+					<!-- MINIMAL WAVE CURSOR ANIMATIONS: Gentle and Aesthetic -->
+					
+					<!-- Subtle Wave Ripples - Only appears on gentle movement -->
+					{#if isMouseActive && Math.abs(mouseVelocityX + mouseVelocityY) > 8 && element.id % 8 === 0}
 						<div
 							class="absolute pointer-events-none"
 							style="
 								left: {(mouseX / innerWidth) * 100}%;
 								top: {(mouseY / innerHeight) * 100}%;
-								width: {Math.abs(mouseVelocityX + mouseVelocityY) * 0.5 + 5}px;
-								height: {Math.abs(mouseVelocityX + mouseVelocityY) * 0.5 + 5}px;
-								background: radial-gradient(circle, {element.color}80, transparent);
-								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.01, 0.8)};
+								width: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.6 + 12, 30)}px;
+								height: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.6 + 12, 30)}px;
+								background: radial-gradient(
+									circle,
+									transparent 20%,
+									{element.color}08 40%,
+									transparent 60%,
+									{element.color}04 80%,
+									transparent 100%
+								);
+								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.003, 0.3)};
 								border-radius: 50%;
-								transform: translate(-50%, -50%);
-								animation: parallax-trail 1s ease-out forwards;
+								transform: translate(-50%, -50%) scale({0.5 + Math.abs(mouseVelocityX + mouseVelocityY) * 0.008});
+								animation: minimal-wave-ripple 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+								filter: blur(0.5px);
+							"
+						></div>
+					{/if}
+					
+					<!-- Gentle Wave Trail - Minimal particles -->
+					{#if isMouseActive && Math.abs(mouseVelocityX + mouseVelocityY) > 15 && element.id % 12 === 0}
+						<div
+							class="absolute pointer-events-none"
+							style="
+								left: {(mouseX / innerWidth) * 100}%;
+								top: {(mouseY / innerHeight) * 100}%;
+								width: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.2 + 4, 8)}px;
+								height: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.2 + 4, 8)}px;
+								background: radial-gradient(
+									circle,
+									{element.color}12 0%,
+									{element.color}06 50%,
+									transparent 100%
+								);
+								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.002, 0.2)};
+								border-radius: 50%;
+								transform: translate(-50%, -50%) scale({0.5 + Math.abs(mouseVelocityX + mouseVelocityY) * 0.003});
+								animation: gentle-wave-drift 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+								filter: blur(0.3px);
+							"
+						></div>
+					{/if}
+					
+					<!-- Ambient wave glow effects -->
+					{#if element.id % 10 === 0}
+						<div
+							class="absolute pointer-events-none animate-wave-glow"
+							style="
+								left: {element.x + (isMouseActive ? (mouseVelocityX / 0.5) * 10 : 0)}%;
+								top: {element.y + (isMouseActive ? (mouseVelocityY / 0.5) * 5 : 0)}%;
+								width: {element.size * 3}px;
+								height: {element.size / 2}px;
+								background: radial-gradient(
+									ellipse, 
+									{element.color}30 0%, 
+									{element.color}15 40%, 
+									transparent 70%
+								);
+								animation-delay: {element.delay + 1}s;
+								animation-duration: {element.duration * 2.5}s;
+								opacity: {element.opacity * 0.4 + (isMouseActive ? 0.2 : 0)};
+								border-radius: 50%;
+								filter: blur({2 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.02 : 0)}px);
+								transition: all 0.3s ease-out;
 							"
 						></div>
 					{/if}
 				{/each}
 				
-			{:else if currentMode === HOME_MODES.GRADIENT}
+			{:else if currentMode === HOME_MODES.GEOMETRIC}
 				{#each animationElements as element (element.id)}
-					<!-- Dynamic gradient orbs with morphing shapes and mouse interaction -->
+					<!-- Elegant geometric shape with minimal mouse response -->
 					<div
-						class="absolute animate-gradient-morph"
+						class="absolute animate-geometric-spin mouse-interactive"
 						style="
-							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 15 : 0)}%;
-							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 12 : 0)}%;
-							width: {element.size + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.1 : 0)}px;
-							height: {element.size + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.1 : 0)}px;
-							background: radial-gradient(ellipse at {Math.random() * 100}% {Math.random() * 100}%, {element.color}, transparent);
+							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 1.5 : 0)}%;
+							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 1.2 : 0)}%;
+							width: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.003, 1.5) : 0)}px;
+							height: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.003, 1.5) : 0)}px;
+							background: linear-gradient(
+								{element.id * 45 + (isMouseActive ? mouseVelocityX * 0.002 : 0)}deg, 
+								{element.color} 0%, 
+								{element.color}CC 40%, 
+								{element.color}88 70%, 
+								{element.color}40 100%
+							);
+							clip-path: {
+								element.id % 4 === 0 ? 'polygon(50% 0%, 0% 100%, 100% 100%)' :
+								element.id % 4 === 1 ? 'polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%)' :
+								element.id % 4 === 2 ? 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' :
+								'polygon(50% 0%, 85% 25%, 100% 50%, 85% 75%, 50% 100%, 15% 75%, 0% 50%, 15% 25%)'
+							};
 							animation-delay: {element.delay}s;
-							animation-duration: {element.duration - (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.01 : 0)}s;
-							opacity: {element.opacity + (isMouseActive ? 0.3 : 0)};
-							border-radius: {30 + Math.random() * 70}%;
-							filter: blur({Math.random() * 2}px) hue-rotate({Math.random() * 360 + (isMouseActive ? mouseVelocityX * 2 : 0)}deg);
-							transition: all 0.2s ease-out;
+							animation-duration: {Math.max(element.duration - (isMouseActive ? Math.abs(mouseVelocityX) * 0.0001 : 0), 2)}s;
+							opacity: {Math.min(element.opacity * 0.8 + (isMouseActive ? 0.02 : 0), 0.9)};
+							transform-origin: center;
+							transform: 
+								rotate({element.id * 15 + (isMouseActive ? mouseVelocityX * 0.001 : 0)}deg)
+								scale({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.00003, 0.05) : 0)});
+							filter: 
+								drop-shadow(0 0 {element.size / 4}px {element.color}40)
+								brightness({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00004 : 0)})
+								saturate({1.1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00002 : 0)});
+							transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 						"
 					></div>
 					
-					<!-- Gradient flow streams with mouse responsiveness -->
+					<!-- Subtle geometric outline -->
 					{#if element.id % 3 === 0}
 						<div
-							class="absolute animate-gradient-flow"
+							class="absolute animate-geometric-orbit"
 							style="
-								left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 10 : 0)}%;
-								top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 8 : 0)}%;
-								width: {element.size * 3 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.2 : 0)}px;
-								height: {element.size * 0.3}px;
-								background: linear-gradient(90deg, transparent, {element.color}80, {element.color}, {element.color}80, transparent);
-								animation-delay: {element.delay + 1}s;
+								left: {element.x + 2 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 0.8 : 0)}%;
+								top: {element.y + 2 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.6 : 0)}%;
+								width: {element.size * 1.2 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.01 : 0)}px;
+								height: {element.size * 1.2 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.01 : 0)}px;
+								background: transparent;
+								border: {1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.002 : 0)}px solid {element.color}30;
+								clip-path: {
+									element.id % 4 === 0 ? 'polygon(50% 0%, 0% 100%, 100% 100%)' :
+									element.id % 4 === 1 ? 'polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%)' :
+									element.id % 4 === 2 ? 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' :
+									'polygon(50% 0%, 85% 25%, 100% 50%, 85% 75%, 50% 100%, 15% 75%, 0% 50%, 15% 25%)'
+								};
+								animation-delay: {element.delay + 0.8}s;
 								animation-duration: {element.duration * 2}s;
-								opacity: {element.opacity * 0.8 + (isMouseActive ? 0.2 : 0)};
-								border-radius: 50px;
-								transform: rotate({Math.random() * 360 + (isMouseActive ? mouseVelocityX * 0.5 : 0)}deg);
-								transition: all 0.15s ease-out;
+								opacity: {element.opacity * 0.4 + (isMouseActive ? 0.01 : 0)};
+								transform: 
+									rotate({-element.id * 8 + (isMouseActive ? -mouseVelocityX * 0.0002 : 0)}deg)
+									scale({0.95 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.000003 : 0)});
+								filter: blur({0.3 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0002 : 0)}px);
+								transition: all 0.4s ease-out;
 							"
 						></div>
 					{/if}
 					
-					<!-- Gradient particles with color shifts and mouse interaction -->
-					{#if element.id % 6 === 0}
-						<div
-							class="absolute animate-gradient-particle"
-							style="
-								left: {element.x + 10 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 8 : 0)}%;
-								top: {element.y + 10 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 6 : 0)}%;
-								width: {element.size * 0.5 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.05 : 0)}px;
-								height: {element.size * 0.5 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.05 : 0)}px;
-								background: {element.color};
-								animation-delay: {element.delay + 2}s;
-								animation-duration: {element.duration * 0.7}s;
-								opacity: {element.opacity + (isMouseActive ? 0.4 : 0)};
-								border-radius: 50%;
-								box-shadow: 0 0 {element.size + (isMouseActive ? Math.abs(mouseVelocityX + mouseVelocityY) * 0.1 : 0)}px {element.color};
-								filter: hue-rotate({isMouseActive ? mouseVelocityX * 3 : 0}deg);
-								transition: all 0.1s ease-out;
-							"
-						></div>
-					{/if}
-					
-					<!-- Mouse-responsive gradient ripples -->
-					{#if isMouseActive && element.id % 10 === 0}
+					<!-- Minimal mouse-triggered particles (higher threshold) -->
+					{#if isMouseActive && Math.abs(mouseVelocityX) > 40 && element.id % 12 === 0}
 						<div
 							class="absolute pointer-events-none"
 							style="
 								left: {(mouseX / innerWidth) * 100}%;
 								top: {(mouseY / innerHeight) * 100}%;
-								width: {Math.abs(mouseVelocityX + mouseVelocityY) * 2 + 10}px;
-								height: {Math.abs(mouseVelocityX + mouseVelocityY) * 2 + 10}px;
-								background: radial-gradient(circle, {element.color}60, transparent);
-								opacity: {Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.02, 1)};
-								border-radius: 50%;
-								transform: translate(-50%, -50%);
-								animation: gradient-morph 2s ease-out forwards;
-								filter: hue-rotate({mouseVelocityX * 5}deg);
+								width: {Math.abs(mouseVelocityX) * 0.006 + 3}px;
+								height: {Math.abs(mouseVelocityX) * 0.006 + 3}px;
+								background: {element.color}80;
+								clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+								opacity: {Math.min(Math.abs(mouseVelocityX) * 0.002, 0.4)};
+								transform: 
+									translate(-50%, -50%) 
+									rotate({mouseVelocityX * 0.2}deg)
+									scale({0.5 + Math.abs(mouseVelocityX) * 0.001});
+								animation: geometric-burst 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+								filter: 
+									drop-shadow(0 0 {Math.abs(mouseVelocityX) * 0.02}px {element.color})
+									brightness({1.1 + Math.abs(mouseVelocityX) * 0.0005});
 							"
 						></div>
 					{/if}
@@ -802,39 +1456,269 @@
 				
 			{:else if currentMode === HOME_MODES.CRYSTALLINE}
 				{#each animationElements as element (element.id)}
+					<!-- Elegant crystalline core with ultra-minimal mouse response -->
 					<div
-						class="absolute animate-crystal-refraction"
+						class="absolute animate-crystal-refraction mouse-interactive"
 						style="
-							left: {element.x}%;
-							top: {element.y}%;
-							width: {element.size}px;
-							height: {element.size}px;
-							background: linear-gradient(45deg, {element.color}, transparent, {element.color});
-							clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 0.75 * element.speed : 0)}%;
+							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.5 : 0)}%;
+							width: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.001, 1.2) : 0)}px;
+							height: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.0001, 1.2) : 0)}px;
+							background: linear-gradient(
+								{45 + (isMouseActive ? mouseVelocityX * 0.0002 : 0)}deg, 
+								{element.color} 0%, 
+								{element.color}80 15%, 
+								{element.color}60 30%, 
+								{element.color}40 50%, 
+								{element.color}60 70%, 
+								{element.color}80 85%, 
+								{element.color} 100%
+							);
+							clip-path: polygon(50% 0%, 85% 15%, 100% 50%, 85% 85%, 50% 100%, 15% 85%, 0% 50%, 15% 15%);
 							animation-delay: {element.delay}s;
-							animation-duration: {element.duration}s;
-							opacity: {element.opacity};
+							animation-duration: {Math.max(element.duration - (isMouseActive ? Math.abs(mouseVelocityX) * 0.000004 : 0), 1)}s;
+							opacity: {Math.min(element.opacity + (isMouseActive ? 0.0025 : 0), 0.9)};
+							transform-origin: center;
+							transform: 
+								rotate({element.id * 20 + (isMouseActive ? mouseVelocityX * 0.002 : 0)}deg)
+								scale({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.00002, 0.03) : 0)});
+							filter: 
+								drop-shadow(0 0 {element.size / 3}px {element.color}90)
+								drop-shadow(0 0 {element.size / 1.5}px {element.color}50)
+								drop-shadow(0 0 {element.size}px {element.color}25)
+								brightness({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.000025 : 0)})
+								contrast({1.05 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.000015 : 0)});
+							transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 						"
 					></div>
+					
+					<!-- Crystal facet reflections with ultra-minimal mouse response -->
+					{#if element.id % 3 === 0}
+						<div
+							class="absolute animate-crystal-shimmer"
+							style="
+								left: {element.x + 3 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 0.3 : 0)}%;
+								top: {element.y + 3 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.2 : 0)}%;
+								width: {element.size * 0.7 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.005 : 0)}px;
+								height: {element.size * 0.7 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.005 : 0)}px;
+								background: linear-gradient(
+									{135 + (isMouseActive ? mouseVelocityX * 0.01 : 0)}deg, 
+									transparent 0%, 
+									{element.color}60 30%, 
+									{element.color}90 50%, 
+									{element.color}60 70%, 
+									transparent 100%
+								);
+								clip-path: polygon(50% 0%, 75% 25%, 100% 50%, 75% 75%, 50% 100%, 25% 75%, 0% 50%, 25% 25%);
+								animation-delay: {element.delay + 0.3}s;
+								animation-duration: {element.duration * 1.5}s;
+								opacity: {element.opacity * 0.7 + (isMouseActive ? 0.0125 : 0)};
+								transform: 
+									rotate({-element.id * 15 + (isMouseActive ? -mouseVelocityX * 0.015 : 0)}deg)
+									scale({0.8 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00015 : 0)});
+								filter: 
+									blur({0.5 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0004 : 0)}px)
+									brightness({1.3 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00015 : 0)});
+								transition: all 0.25s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- Crystal light refractions with ultra-minimal mouse response -->
+					{#if element.id % 4 === 0}
+						<div
+							class="absolute animate-crystal-refract"
+							style="
+								left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 0.2 : 0)}%;
+								top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.15 : 0)}%;
+								width: {element.size * 1.5}px;
+								height: {element.size / 8 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.001 : 0)}px;
+								background: linear-gradient(
+									{90 + (isMouseActive ? Math.sin(mouseVelocityX) * 0.01 : 0)}deg, 
+									transparent 0%, 
+									{element.color}80 50%, 
+									transparent 100%
+								);
+								animation-delay: {element.delay + 0.7}s;
+								animation-duration: {element.duration * 2}s;
+								opacity: {element.opacity * 0.5 + (isMouseActive ? 0.015 : 0)};
+								transform: 
+									rotate({element.id * 30 + (isMouseActive ? mouseVelocityX * 0.001 : 0)}deg)
+									scaleX({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00025 : 0)});
+								filter: 
+									blur({1 - (isMouseActive ? Math.abs(mouseVelocityX) * 0.01 : 0)}px)
+									brightness({1.5 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0002 : 0)});
+								border-radius: 2px;
+								transition: all 0.2s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- Ultra-minimal mouse-triggered crystal burst -->
+					{#if isMouseActive && Math.abs(mouseVelocityX) > 50 && element.id % 6 === 0}
+						<div
+							class="absolute pointer-events-none"
+							style="
+								left: {(mouseX / innerWidth) * 100}%;
+								top: {(mouseY / innerHeight) * 100}%;
+								width: {Math.abs(mouseVelocityX) * 0.025 + 6}px;
+								height: {Math.abs(mouseVelocityX) * 0.025 + 6}px;
+								background: radial-gradient(
+									circle, 
+									{element.color} 0%, 
+									{element.color}AA 40%, 
+									transparent 70%
+								);
+								opacity: {Math.min(Math.abs(mouseVelocityX) * 0.001, 0.8)};
+								transform: 
+									translate(-50%, -50%) 
+									rotate({mouseVelocityX * 0.15}deg)
+									scale({0.5 + Math.abs(mouseVelocityX) * 0.0004});
+								animation: crystal-explosion 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+								clip-path: polygon(50% 0%, 85% 15%, 100% 50%, 85% 75%, 50% 100%, 15% 75%, 0% 50%, 15% 25%);
+								filter: 
+									drop-shadow(0 0 {Math.abs(mouseVelocityX) * 0.015}px {element.color})
+									brightness({1.4 + Math.abs(mouseVelocityX) * 0.00025})
+									saturate({1.2 + Math.abs(mouseVelocityX) * 0.00015});
+							"
+						></div>
+					{/if}
 				{/each}
 				
 			{:else if currentMode === HOME_MODES.AURORA}
 				{#each animationElements as element (element.id)}
+					<!-- Enhanced aurora main band with ultra-minimal mouse response -->
 					<div
-						class="absolute animate-aurora-dance"
+						class="absolute animate-aurora-dance mouse-interactive"
 						style="
-							left: {element.x}%;
-							top: {element.y}%;
-							width: {element.size}px;
-							height: {element.size / 3}px;
-							background: linear-gradient(90deg, transparent, {element.color}, transparent);
-							filter: blur(2px);
+							left: {element.x + (isMouseActive ? (mouseX / innerWidth - 0.5) * 1.0 * element.speed : 0)}%;
+							top: {element.y + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.4 * Math.sin(Date.now() * 0.0008 + element.id) : 0)}%;
+							width: {element.size + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.015, 0.75) : 0)}px;
+							height: {element.size / 2.5 + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.005, 0.3) : 0)}px;
+							background: linear-gradient(
+								{85 + (isMouseActive ? Math.sin(mouseVelocityX * 0.0005) * 1 : 0)}deg, 
+								transparent 0%, 
+								{element.color}30 15%, 
+								{element.color} 40%, 
+								{element.color}AA 60%, 
+								{element.color}30 85%, 
+								transparent 100%
+							);
+							filter: 
+								blur({2.5 - (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.001, 0.075) : 0)}px)
+								brightness({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0003 : 0)})
+								saturate({1.2 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0002 : 0)});
 							animation-delay: {element.delay}s;
-							animation-duration: {element.duration * 3}s;
-							opacity: {element.opacity * 0.7};
+							animation-duration: {Math.max(element.duration * 3 - (isMouseActive ? Math.abs(mouseVelocityX) * 0.001 : 0), 2)}s;
+							opacity: {Math.min(element.opacity * 0.8 + (isMouseActive ? 0.015 : 0), 1)};
 							transform-origin: center;
+							transform: 
+								rotate({isMouseActive ? Math.sin(mouseVelocityX * 0.0004) * 0.4 : 0}deg)
+								scaleX({1 + (isMouseActive ? Math.sin(mouseVelocityX) * 0.00025 : 0)})
+								scaleY({1 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.0001 : 0)});
+							border-radius: {element.size / 8}px;
+							box-shadow: 
+								0 0 {element.size / 3}px {element.color}40,
+								0 0 {element.size}px {element.color}20,
+								0 0 {element.size * 2}px {element.color}10;
+							transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 						"
 					></div>
+					
+					<!-- Aurora shimmer layers with ultra-minimal mouse response -->
+					{#if element.id % 3 === 0}
+						<div
+							class="absolute animate-aurora-shimmer"
+							style="
+								left: {element.x + 10 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 0.6 : 0)}%;
+								top: {element.y - 5 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.2 : 0)}%;
+								width: {element.size * 1.5 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.01 : 0)}px;
+								height: {element.size / 5 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.0025 : 0)}px;
+								background: linear-gradient(
+									{90 + (isMouseActive ? Math.cos(mouseVelocityX * 0.0005) * 0.75 : 0)}deg, 
+									transparent 0%, 
+									{element.color}60 30%, 
+									{element.color}40 70%, 
+									transparent 100%
+								);
+								filter: 
+									blur({3 - (isMouseActive ? Math.abs(mouseVelocityX) * 0.00075 : 0)}px)
+									brightness({1.2 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00015 : 0)});
+								animation-delay: {element.delay + 0.8}s;
+								animation-duration: {element.duration * 4}s;
+								opacity: {element.opacity * 0.5 + (isMouseActive ? 0.01 : 0)};
+								transform: 
+									rotate({isMouseActive ? Math.cos(mouseVelocityY * 0.000015) * 0.25 : 0}deg)
+									scaleX({1.2 + (isMouseActive ? Math.sin(mouseVelocityX) * 0.00015 : 0)});
+								border-radius: {element.size / 6}px;
+								transition: all 0.3s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- Aurora particle effects with ultra-minimal mouse response -->
+					{#if element.id % 5 === 0}
+						<div
+							class="absolute animate-aurora-particles"
+							style="
+								left: {element.x + 20 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 0.4 : 0)}%;
+								top: {element.y + 10 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 0.15 : 0)}%;
+								width: {element.size / 4 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0025 : 0)}px;
+								height: {element.size / 4 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.0025 : 0)}px;
+								background: radial-gradient(
+									circle, 
+									{element.color} 0%, 
+									{element.color}80 30%, 
+									transparent 70%
+								);
+								filter: 
+									blur({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0005 : 0)}px)
+									brightness({1.5 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.00025 : 0)});
+								animation-delay: {element.delay + 1.5}s;
+								animation-duration: {element.duration * 2}s;
+								opacity: {element.opacity * 0.8 + (isMouseActive ? 0.015 : 0)};
+								border-radius: 50%;
+								box-shadow: 
+									0 0 {element.size / 6}px {element.color},
+									0 0 {element.size / 3}px {element.color}50;
+								transition: all 0.25s ease-out;
+							"
+						></div>
+					{/if}
+					
+					<!-- Ultra-minimal mouse-triggered aurora streaks (higher threshold) -->
+					{#if isMouseActive && Math.abs(mouseVelocityX) > 25 && element.id % 8 === 0}
+						<div
+							class="absolute pointer-events-none"
+							style="
+								left: {(mouseX / innerWidth) * 100}%;
+								top: {(mouseY / innerHeight) * 100}%;
+								width: {Math.abs(mouseVelocityX) * 0.075 + 12.5}px;
+								height: {3 + Math.abs(mouseVelocityY) * 0.0015}px;
+								background: linear-gradient(
+									{85 + mouseVelocityX * 0.015}deg, 
+									transparent 0%, 
+									{element.color} 20%, 
+									{element.color}CC 50%, 
+									{element.color} 80%, 
+									transparent 100%
+								);
+								opacity: {Math.min(Math.abs(mouseVelocityX) * 0.001, 0.045)};
+								transform: 
+									translate(-50%, -50%) 
+									rotate({mouseVelocityX * 0.01}deg)
+									scaleX({1 + Math.abs(mouseVelocityX) * 0.00025});
+								animation: aurora-streak 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+								filter: 
+									blur({2 - Math.abs(mouseVelocityX) * 0.0005}px)
+									brightness({1.3 + Math.abs(mouseVelocityX) * 0.0002});
+								border-radius: {Math.abs(mouseVelocityX) * 0.004 + 0.5}px;
+								box-shadow: 
+									0 0 {Math.abs(mouseVelocityX) * 0.02 + 2.5}px {element.color}60,
+									0 0 {Math.abs(mouseVelocityX) * 0.04 + 5}px {element.color}30;
+							"
+						></div>
+					{/if}
 				{/each}
 			{/if}
 		</div>
@@ -974,25 +1858,29 @@
 							<span class="relative z-10 flex items-center gap-3 font-semibold text-lg">
 								<span class="text-2xl group-hover:animate-pulse">⭐</span>
 								<span>Star on GitHub</span>
-								<span class="text-sm opacity-70 group-hover:opacity-100">Open Source</span>
+								<span class="text-sm opacity-70 group-hover:opacity-100">Modern Framework</span>
 							</span>
 							<div class="absolute inset-0 bg-gradient-to-r from-white/10 to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 						</Button>
 					</div>
 
-					<!-- Quick Stats -->
+					<!-- Enhanced Quick Stats with dynamic values -->
 					<div class="flex justify-center gap-8 mt-12 text-center">
-						<div class="text-white/80">
-							<div class="text-2xl font-bold {config.primaryColor}">{componentCount}+</div>
+						<div class="text-white/80 group hover:text-white transition-colors">
+							<div class="text-2xl font-bold {config.primaryColor} group-hover:scale-110 transition-transform">{componentCount}+</div>
 							<div class="text-sm">Components</div>
 						</div>
-						<div class="text-white/80">
-							<div class="text-2xl font-bold {config.secondaryColor}">100%</div>
+						<div class="text-white/80 group hover:text-white transition-colors">
+							<div class="text-2xl font-bold {config.secondaryColor} group-hover:scale-110 transition-transform">{Object.keys(HOME_MODES).length}</div>
+							<div class="text-sm">Animations</div>
+						</div>
+						<div class="text-white/80 group hover:text-white transition-colors">
+							<div class="text-2xl font-bold {config.primaryColor} group-hover:scale-110 transition-transform">100%</div>
 							<div class="text-sm">TypeScript</div>
 						</div>
-						<div class="text-white/80">
-							<div class="text-2xl font-bold {config.primaryColor}">5+</div>
-							<div class="text-sm">Features</div>
+						<div class="text-white/80 group hover:text-white transition-colors">
+							<div class="text-2xl font-bold {config.secondaryColor} group-hover:scale-110 transition-transform">100%</div>
+							<div class="text-sm">Svelte</div>
 						</div>
 					</div>
 				</div>
@@ -1012,18 +1900,18 @@
 						Discover the powerful features that make this UI toolkit perfect for modern web development
 					</p>
 					
-					<!-- Feature stats -->
+					<!-- Enhanced feature stats with dynamic values -->
 					<div class="flex justify-center gap-8 mt-8">
-						<div class="text-center">
-							<div class="text-3xl font-bold text-blue-600 dark:text-blue-400">{Object.keys(HOME_MODES).length}</div>
+						<div class="text-center group hover:scale-105 transition-transform">
+							<div class="text-3xl font-bold text-blue-600 dark:text-blue-400 group-hover:text-blue-500 dark:group-hover:text-blue-300 transition-colors">{Object.keys(HOME_MODES).length}</div>
 							<div class="text-sm text-gray-500 dark:text-gray-400">Animation Modes</div>
 						</div>
-						<div class="text-center">
-							<div class="text-3xl font-bold text-purple-600 dark:text-purple-400">{features.length}</div>
-							<div class="text-sm text-gray-500 dark:text-gray-400">Key Features</div>
+						<div class="text-center group hover:scale-105 transition-transform">
+							<div class="text-3xl font-bold text-purple-600 dark:text-purple-400 group-hover:text-purple-500 dark:group-hover:text-purple-300 transition-colors">{componentCount}+</div>
+							<div class="text-sm text-gray-500 dark:text-gray-400">UI Components</div>
 						</div>
-						<div class="text-center">
-							<div class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">∞</div>
+						<div class="text-center group hover:scale-105 transition-transform">
+							<div class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-300 transition-colors">∞</div>
 							<div class="text-sm text-gray-500 dark:text-gray-400">Possibilities</div>
 						</div>
 					</div>
@@ -1061,43 +1949,140 @@
 		</div>
 	</section>
 
-	<!-- Enhanced Call-to-Action Section -->
-	<section class="relative py-32 px-4 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 text-white overflow-hidden">
-		<!-- Enhanced Background Animation -->
-		<div class="absolute inset-0 opacity-20">
-			<div class="absolute top-20 left-20 w-40 h-40 bg-white/10 rounded-full animate-float blur-xl"></div>
-			<div class="absolute bottom-20 right-20 w-32 h-32 bg-white/5 rounded-full animate-float blur-xl" style="animation-delay: 1s;"></div>
-			<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-56 h-56 bg-white/5 rounded-full animate-pulse-slow blur-2xl"></div>
-			<div class="absolute top-40 right-1/3 w-24 h-24 bg-white/10 rounded-full animate-bounce-slow blur-lg" style="animation-delay: 2s;"></div>
+	<!-- Enhanced Call-to-Action Section with Mouse-Responsive Dynamic Background -->
+	<section class="relative py-32 px-4 bg-gradient-to-br {config.backgroundGradient} text-white overflow-hidden">
+		<!-- Enhanced Mouse-Responsive Background Animation -->
+		<div class="absolute inset-0 opacity-30">
+			<!-- Primary floating elements with mouse interaction -->
+			<div 
+				class="absolute animate-float blur-xl transition-all duration-300"
+				style="
+					top: {80 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 40 : 0)}px;
+					left: {80 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 60 : 0)}px;
+					width: {160 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.5, 40) : 0)}px;
+					height: {160 + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.05, 40) : 0)}px;
+					background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 60%, transparent 100%);
+					border-radius: 50%;
+					filter: blur({16 - (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.01, 8) : 0)}px)
+							brightness({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.0003 : 0)});
+				"
+			></div>
+			
+			<div 
+				class="absolute animate-float blur-xl transition-all duration-500"
+				style="
+					bottom: {80 + (isMouseActive ? (mouseY / innerHeight - 0.5) * -30 : 0)}px;
+					right: {80 + (isMouseActive ? (mouseX / innerWidth - 0.5) * -50 : 0)}px;
+					width: {128 + (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.4, 30) : 0)}px;
+					height: {128 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.4, 30) : 0)}px;
+					background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 60%, transparent 100%);
+					border-radius: 50%;
+					animation-delay: 1s;
+					filter: blur({16 - (isMouseActive ? Math.min(Math.abs(mouseVelocityY) * 0.08, 6) : 0)}px);
+				"
+			></div>
+			
+			<div 
+				class="absolute animate-pulse-slow blur-2xl transition-all duration-700"
+				style="
+					top: 50%;
+					left: 50%;
+					transform: translate(
+						{-50 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 20 : 0)}%, 
+						{-50 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 15 : 0)}%
+					) 
+					scale({1 + (isMouseActive ? Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.0002, 0.3) : 0)});
+					width: {224 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.08 : 0)}px;
+					height: {224 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.08 : 0)}px;
+					background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 50%, transparent 80%);
+					border-radius: 50%;
+					filter: blur({32 - (isMouseActive ? Math.min(Math.abs(mouseVelocityX) * 0.15, 12) : 0)}px)
+							brightness({1 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.002 : 0)});
+				"
+			></div>
+			
+			<div 
+				class="absolute animate-bounce-slow blur-lg transition-all duration-400"
+				style="
+					top: {160 + (isMouseActive ? (mouseY / innerHeight - 0.5) * 25 : 0)}px;
+					right: {33.33 + (isMouseActive ? (mouseX / innerWidth - 0.5) * 15 : 0)}%;
+					width: {96 + (isMouseActive ? Math.abs(mouseVelocityX) * 0.3 : 0)}px;
+					height: {96 + (isMouseActive ? Math.abs(mouseVelocityY) * 0.3 : 0)}px;
+					background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.03) 70%, transparent 100%);
+					border-radius: 50%;
+					animation-delay: 2s;
+					filter: blur({16 - (isMouseActive ? Math.abs(mouseVelocityY) * 0.08 : 0)}px);
+				"
+			></div>
+			
+			<!-- Mouse-triggered ambient effects -->
+			{#if isMouseActive && Math.abs(mouseVelocityX + mouseVelocityY) > 5}
+				<div
+					class="absolute pointer-events-none transition-all duration-300"
+					style="
+						left: {(mouseX / innerWidth) * 100}%;
+						top: {(mouseY / innerHeight) * 100}%;
+						width: {Math.abs(mouseVelocityX + mouseVelocityY) * 2 + 50}px;
+						height: {Math.abs(mouseVelocityX + mouseVelocityY) * 2 + 50}px;
+						background: radial-gradient(
+							circle, 
+							rgba(255,255,255,{Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.0003, 0.08)}) 0%, 
+							rgba(255,255,255,{Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.0001, 0.04)}) 50%, 
+							transparent 80%
+						);
+						transform: translate(-50%, -50%) scale({1 + Math.abs(mouseVelocityX) * 0.0008});
+						border-radius: 50%;
+						filter: blur({15 - Math.min(Math.abs(mouseVelocityX + mouseVelocityY) * 0.03, 5)}px);
+						animation: cta-mouse-glow 3s ease-out forwards;
+					"
+				></div>
+			{/if}
+			
+			<!-- Mode-specific background elements -->
+			{#if currentMode === HOME_MODES.PARTICLES}
+				<div class="absolute top-10 left-10 w-3 h-3 bg-blue-300/60 rounded-full animate-particle-float blur-sm"></div>
+				<div class="absolute bottom-10 right-10 w-2 h-2 bg-purple-300/70 rounded-full animate-particle-float blur-sm" style="animation-delay: 1.5s;"></div>
+				<div class="absolute top-1/3 right-1/4 w-4 h-4 bg-cyan-300/50 rounded-full animate-particle-float blur-sm" style="animation-delay: 3s;"></div>
+			{:else if currentMode === HOME_MODES.NEURAL}
+				<div class="absolute top-16 left-16 w-2 h-2 bg-emerald-300/80 rounded-full animate-neural-pulse-enhanced blur-sm"></div>
+				<div class="absolute bottom-16 right-16 w-3 h-3 bg-green-300/70 rounded-full animate-neural-pulse-enhanced blur-sm" style="animation-delay: 2s;"></div>
+			{:else if currentMode === HOME_MODES.COSMIC}
+				<div class="absolute top-20 right-20 w-6 h-6 bg-purple-300/60 rounded-full animate-cosmic-drift blur-md"></div>
+				<div class="absolute bottom-20 left-20 w-4 h-4 bg-pink-300/70 rounded-full animate-cosmic-drift blur-sm" style="animation-delay: 2.5s;"></div>
+			{/if}
 		</div>
 
 		<div class="container mx-auto max-w-6xl relative z-10">
 			{#if mounted}
 				<div in:fade={{ delay: 300, duration: 800 }} class="text-center">
 					<h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
-						Ready to Get Started?
+						Ready to Build Something Amazing?
 					</h2>
 					<p class="text-xl md:text-2xl lg:text-3xl mb-16 max-w-4xl mx-auto opacity-90 leading-relaxed font-light">
-						Explore our enhanced component library and build beautiful, interactive websites with modern animations and creative effects.
+						Join thousands of developers using our cutting-edge component library to create stunning, interactive experiences with {componentCount}+ production-ready components and {Object.keys(HOME_MODES).length} unique animation modes.
 					</p>
 					
-					<!-- Feature highlights -->
-					<div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 max-w-4xl mx-auto">
-						<div class="text-center">
-							<div class="text-3xl mb-2">⚡</div>
-							<div class="text-sm">Lightning Fast</div>
+					<!-- Enhanced feature highlights with interactive elements -->
+					<div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 max-w-5xl mx-auto">
+						<div class="text-center group hover:scale-105 transition-transform cursor-default">
+							<div class="text-4xl mb-3 group-hover:animate-bounce">⚡</div>
+							<div class="text-sm font-medium">Lightning Fast</div>
+							<div class="text-xs opacity-70 mt-1">100% Svelte</div>
 						</div>
-						<div class="text-center">
-							<div class="text-3xl mb-2">🎨</div>
-							<div class="text-sm">Beautiful UI</div>
+						<div class="text-center group hover:scale-105 transition-transform cursor-default">
+							<div class="text-4xl mb-3 group-hover:animate-bounce">🎨</div>
+							<div class="text-sm font-medium">Beautiful Design</div>
+							<div class="text-xs opacity-70 mt-1">{Object.keys(HOME_MODES).length} Animation Modes</div>
 						</div>
-						<div class="text-center">
-							<div class="text-3xl mb-2">📱</div>
-							<div class="text-sm">Responsive</div>
+						<div class="text-center group hover:scale-105 transition-transform cursor-default">
+							<div class="text-4xl mb-3 group-hover:animate-bounce">📱</div>
+							<div class="text-sm font-medium">Fully Responsive</div>
+							<div class="text-xs opacity-70 mt-1">Mobile Optimized</div>
 						</div>
-						<div class="text-center">
-							<div class="text-3xl mb-2">🔧</div>
-							<div class="text-sm">Customizable</div>
+						<div class="text-center group hover:scale-105 transition-transform cursor-default">
+							<div class="text-4xl mb-3 group-hover:animate-bounce">🔧</div>
+							<div class="text-sm font-medium">Highly Customizable</div>
+							<div class="text-xs opacity-70 mt-1">TypeScript Ready</div>
 						</div>
 					</div>
 				</div>
@@ -1115,8 +2100,8 @@
 							<div class="flex items-center justify-center gap-3 w-full">
 								<span class="text-2xl group-hover:animate-bounce shrink-0">🚀</span>
 								<div class="text-center min-w-0">
-									<div class="font-semibold text-lg whitespace-nowrap">Explore Components</div>
-									<div class="text-sm opacity-70 font-normal">Browse 19+ components</div>
+									<div class="font-semibold text-lg whitespace-nowrap">Explore {componentCount}+ Components</div>
+									<div class="text-sm opacity-70 font-normal">Full Interactive Library</div>
 								</div>
 							</div>
 						</Button>
@@ -1135,7 +2120,7 @@
 								<span class="text-2xl group-hover:animate-pulse shrink-0">⭐</span>
 								<div class="text-center min-w-0">
 									<div class="font-semibold text-lg whitespace-nowrap">Star on GitHub</div>
-									<div class="text-sm opacity-70 font-normal">Open source & free</div>
+									<div class="text-sm opacity-70 font-normal">Modern Framework • Free Forever</div>
 								</div>
 							</div>
 						</Button>
@@ -1152,18 +2137,20 @@
 							href="https://github.com/Reckless98"
 							target="_blank"
 							rel="noopener noreferrer"
-							class="text-white font-bold hover:text-blue-200 transition-colors underline decoration-blue-300/50 hover:decoration-white/70"
+							class="text-white font-bold hover:text-blue-200 transition-colors underline decoration-blue-300/50 hover:decoration-white/70 hover:scale-105 inline-block transition-transform"
 						>
 							Reckless98
 						</a>
 					</p>
-					<p class="text-white/60 text-sm md:text-base mb-4">Open source • Modern • Beautiful • Fast</p>
+					<p class="text-white/60 text-sm md:text-base mb-4">Modern Framework • Beautiful • Lightning Fast</p>
 					
-					<!-- Social proof -->
-					<div class="flex justify-center gap-6 text-white/40 text-sm">
-						<span>✨ {Object.keys(HOME_MODES).length} Animation Modes</span>
-						<span>🎨 {features.length}+ Features</span>
-						<span>⚡ Zero Dependencies</span>
+					<!-- Enhanced social proof with dynamic stats -->
+					<div class="flex flex-wrap justify-center gap-4 md:gap-6 text-white/40 text-sm">
+						<span class="hover:text-white/60 transition-colors">✨ {Object.keys(HOME_MODES).length} Animation Modes</span>
+						<span class="hover:text-white/60 transition-colors">🎨 {componentCount}+ Components</span>
+						<span class="hover:text-white/60 transition-colors">⚡ 100% Svelte</span>
+						<span class="hover:text-white/60 transition-colors">🚀 TypeScript Ready</span>
+						<span class="hover:text-white/60 transition-colors">📱 Mobile Optimized</span>
 					</div>
 				</div>
 			{/if}
@@ -1172,207 +2159,269 @@
 </main>
 
 <style>
-	@keyframes matrix-rain {
-		0% { transform: translateY(-100%); opacity: 0; }
-		10% { opacity: 1; }
-		90% { opacity: 1; }
-		100% { transform: translateY(100vh); opacity: 0; }
+	/* Enhanced Matrix Rain Animations */
+	@keyframes matrix-rain-primary {
+		0% { 
+			transform: translateY(-100vh) scale(1.2); 
+			opacity: 0; 
+			filter: brightness(1.5) blur(0px);
+		}
+		5% { 
+			opacity: 1; 
+			filter: brightness(1.2) blur(0px);
+		}
+		85% { 
+			opacity: 0.8; 
+			filter: brightness(1) blur(0px);
+		}
+		100% { 
+			transform: translateY(100vh) scale(0.8); 
+			opacity: 0; 
+			filter: brightness(0.5) blur(1px);
+		}
+	}
+
+	@keyframes matrix-rain-secondary {
+		0% { 
+			transform: translateY(-120vh) scale(0.8); 
+			opacity: 0; 
+			filter: brightness(0.8);
+		}
+		10% { 
+			opacity: 0.6; 
+		}
+		90% { 
+			opacity: 0.4; 
+		}
+		100% { 
+			transform: translateY(100vh) scale(0.6); 
+			opacity: 0; 
+		}
+	}
+
+	@keyframes matrix-rain-trail {
+		0% { 
+			transform: translateY(-80vh) scale(1); 
+			opacity: 0; 
+			filter: brightness(0.6);
+		}
+		15% { 
+			opacity: 0.4; 
+		}
+		75% { 
+			opacity: 0.2; 
+		}
+		100% { 
+			transform: translateY(100vh) scale(0.4); 
+			opacity: 0; 
+		}
+	}
+
+	@keyframes matrix-rain-burst {
+		0% { 
+			transform: scale(0) rotate(0deg); 
+			opacity: 0; 
+			filter: brightness(2);
+		}
+		20% { 
+			transform: scale(1.5) rotate(90deg); 
+			opacity: 1; 
+			filter: brightness(1.8);
+		}
+		60% { 
+			transform: scale(2) rotate(180deg); 
+			opacity: 0.6; 
+			filter: brightness(1.2);
+		}
+		100% { 
+			transform: scale(3) rotate(360deg); 
+			opacity: 0; 
+			filter: brightness(0.5);
+		}
+	}
+
+	@keyframes matrix-rain-splash {
+		0% { 
+			transform: translateY(0) scale(0.5); 
+			opacity: 0; 
+			filter: brightness(1.5);
+		}
+		30% { 
+			transform: translateY(-10px) scale(1.2); 
+			opacity: 0.8; 
+			filter: brightness(1.2);
+		}
+		70% { 
+			transform: translateY(-5px) scale(1.5); 
+			opacity: 0.4; 
+		}
+		100% { 
+			transform: translateY(0) scale(2); 
+			opacity: 0; 
+		}
+	}
+
+	@keyframes matrix-rain-accumulation {
+		0% { 
+			transform: scale(0); 
+			opacity: 0; 
+		}
+		20% { 
+			transform: scale(1); 
+			opacity: 0.3; 
+		}
+		80% { 
+			transform: scale(1.1); 
+			opacity: 0.2; 
+		}
+		100% { 
+			transform: scale(1.2); 
+			opacity: 0; 
+		}
+	}
+
+	/* Matrix Animation Classes */
+	.animate-matrix-rainfall-primary {
+		animation: matrix-rain-primary 3s linear infinite;
+		animation-delay: var(--animation-delay, 0s);
+		will-change: transform, opacity;
+	}
+
+	.animate-matrix-rainfall-secondary {
+		animation: matrix-rain-secondary 4s linear infinite;
+		animation-delay: var(--animation-delay, 0s);
+		will-change: transform, opacity;
+	}
+
+	.animate-matrix-rainfall-trail {
+		animation: matrix-rain-trail 5s linear infinite;
+		animation-delay: var(--animation-delay, 0s);
+		will-change: transform, opacity;
+	}
+
+	.animate-matrix-rainfall-burst {
+		animation: matrix-rain-burst 1.5s ease-out infinite;
+		animation-delay: var(--animation-delay, 0s);
+		will-change: transform, opacity;
+	}
+
+	.animate-matrix-rainfall-splash {
+		animation: matrix-rain-splash 2s ease-out infinite;
+		animation-delay: var(--animation-delay, 0s);
+		will-change: transform, opacity;
+	}
+
+	.animate-matrix-rainfall-accumulation {
+		animation: matrix-rain-accumulation 6s ease-in-out infinite;
+		animation-delay: var(--animation-delay, 0s);
+		will-change: transform, opacity;
 	}
 
 	@keyframes cosmic-drift {
-		0% { transform: translate(0, 0) scale(1); opacity: 0.4; }
-		50% { transform: translate(100px, -50px) scale(1.5); opacity: 0.2; }
-		100% { transform: translate(-50px, 100px) scale(1); opacity: 0.4; }
+		0%, 100% { transform: translate(0, 0); opacity: 0.3; }
+		50% { transform: translate(15px, -10px); opacity: 0.6; }
 	}
 
 	@keyframes particle-float {
-		0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
-		50% { transform: translateY(-20px) translateX(10px); opacity: 0.6; }
+		0%, 100% { transform: translateY(0); opacity: 0.2; }
+		50% { transform: translateY(-8px); opacity: 0.4; }
 	}
 
 	@keyframes float {
-		0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
-		25% { transform: translateY(-20px) translateX(10px) rotate(5deg); }
-		50% { transform: translateY(0) translateX(-10px) rotate(-5deg); }
-		75% { transform: translateY(20px) translateX(5px) rotate(3deg); }
+		0%, 100% { transform: translateY(0); }
+		50% { transform: translateY(-10px); }
 	}
 
 	@keyframes float-delayed {
-		0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
-		25% { transform: translateY(20px) translateX(-10px) rotate(-5deg); }
-		50% { transform: translateY(0) translateX(10px) rotate(5deg); }
-		75% { transform: translateY(-20px) translateX(-5px) rotate(-3deg); }
+		0%, 100% { transform: translateY(0); }
+		50% { transform: translateY(-12px); }
 	}
 
 	@keyframes bounce-slow {
-		0%, 100% { transform: translateY(0) scale(1); }
-		50% { transform: translateY(-30px) scale(1.1); }
+		0%, 100% { transform: translateY(0); }
+		50% { transform: translateY(-8px); }
 	}
 
 	@keyframes pulse-slow {
-		0%, 100% { opacity: 0.3; transform: scale(1); }
-		50% { opacity: 0.7; transform: scale(1.05); }
+		0%, 100% { opacity: 0.2; transform: scale(1); }
+		50% { opacity: 0.5; transform: scale(1.02); }
 	}
 
 	@keyframes wave-motion {
-		0% { transform: translateX(-100%) translateY(0) scaleY(1); opacity: 0.6; }
-		50% { transform: translateX(50vw) translateY(-20px) scaleY(1.5); opacity: 0.4; }
-		100% { transform: translateX(100vw) translateY(0) scaleY(1); opacity: 0.6; }
+		0% { transform: translateX(-20px); opacity: 0.3; }
+		50% { transform: translateX(20px); opacity: 0.6; }
+		100% { transform: translateX(-20px); opacity: 0.3; }
 	}
 
 	@keyframes geometric-spin {
-		0% { transform: rotate(0deg) scale(1); opacity: 0.3; }
-		25% { transform: rotate(90deg) scale(1.2); opacity: 0.6; }
-		50% { transform: rotate(180deg) scale(0.8); opacity: 0.4; }
-		75% { transform: rotate(270deg) scale(1.1); opacity: 0.5; }
-		100% { transform: rotate(360deg) scale(1); opacity: 0.3; }
+		0% { transform: rotate(0deg); opacity: 0.2; }
+		50% { transform: rotate(180deg); opacity: 0.4; }
+		100% { transform: rotate(360deg); opacity: 0.2; }
 	}
 
 	@keyframes neural-pulse {
-		0% { 
-			transform: scale(1) translateY(0); 
+		0%, 100% { 
+			transform: scale(1); 
 			opacity: 0.2; 
-			box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
 		}
 		50% { 
-			transform: scale(1.3) translateY(-10px); 
-			opacity: 0.8; 
-			box-shadow: 0 0 30px 10px rgba(59, 130, 246, 0.2);
-		}
-		100% { 
-			transform: scale(1) translateY(0); 
-			opacity: 0.2; 
-			box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+			transform: scale(1.05); 
+			opacity: 0.4; 
 		}
 	}
 
 	@keyframes neural-connection {
-		0% { 
+		0%, 100% { 
 			opacity: 0; 
 			transform: scaleX(0); 
-		}
-		25% { 
-			opacity: 0.6; 
-			transform: scaleX(0.5); 
 		}
 		50% { 
-			opacity: 0.8; 
+			opacity: 0.3; 
 			transform: scaleX(1); 
-		}
-		75% { 
-			opacity: 0.4; 
-			transform: scaleX(0.8); 
-		}
-		100% { 
-			opacity: 0; 
-			transform: scaleX(0); 
 		}
 	}
 
 	@keyframes crystal-refraction {
-		0% { 
-			transform: scale(0) rotate(0deg); 
-			opacity: 0; 
-			filter: hue-rotate(0deg);
-		}
-		25% { 
-			transform: scale(0.5) rotate(90deg); 
-			opacity: 0.6; 
-			filter: hue-rotate(90deg);
+		0%, 100% { 
+			transform: rotate(0deg); 
+			opacity: 0.2; 
 		}
 		50% { 
-			transform: scale(1) rotate(180deg); 
-			opacity: 0.8; 
-			filter: hue-rotate(180deg);
-		}
-		75% { 
-			transform: scale(1.2) rotate(270deg); 
+			transform: rotate(180deg); 
 			opacity: 0.4; 
-			filter: hue-rotate(270deg);
-		}
-		100% { 
-			transform: scale(0) rotate(360deg); 
-			opacity: 0; 
-			filter: hue-rotate(360deg);
 		}
 	}
 
 	@keyframes aurora-dance {
-		0% { 
-			transform: translateX(-50%) translateY(0) scaleX(1) scaleY(1) skewX(0deg); 
-			opacity: 0.3; 
-		}
-		25% { 
-			transform: translateX(-25%) translateY(-10px) scaleX(1.5) scaleY(0.8) skewX(15deg); 
-			opacity: 0.7; 
+		0%, 100% { 
+			transform: translateX(0); 
+			opacity: 0.2; 
 		}
 		50% { 
-			transform: translateX(25%) translateY(0) scaleX(1.2) scaleY(1.3) skewX(-10deg); 
-			opacity: 0.5; 
-		}
-		75% { 
-			transform: translateX(50%) translateY(-5px) scaleX(0.8) scaleY(1.1) skewX(20deg); 
-			opacity: 0.8; 
-		}
-		100% { 
-			transform: translateX(100%) translateY(0) scaleX(1) scaleY(1) skewX(0deg); 
-			opacity: 0.3; 
+			transform: translateX(30px); 
+			opacity: 0.4; 
 		}
 	}
 
 	@keyframes crystalline-grow {
-		0% { 
-			transform: scale(0) rotate(0deg); 
-			opacity: 0; 
-			clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-		}
-		25% { 
-			transform: scale(0.5) rotate(45deg); 
-			opacity: 0.6; 
-			clip-path: polygon(50% 0%, 20% 80%, 80% 80%);
+		0%, 100% { 
+			transform: scale(0.8); 
+			opacity: 0.2; 
 		}
 		50% { 
-			transform: scale(1) rotate(90deg); 
-			opacity: 0.8; 
-			clip-path: polygon(50% 20%, 10% 80%, 90% 80%);
-		}
-		75% { 
-			transform: scale(1.2) rotate(135deg); 
+			transform: scale(1.1); 
 			opacity: 0.4; 
-			clip-path: polygon(50% 10%, 5% 90%, 95% 90%);
-		}
-		100% { 
-			transform: scale(0) rotate(180deg); 
-			opacity: 0; 
-			clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 		}
 	}
 
 	@keyframes aurora-flow {
-		0% { 
-			transform: translateX(-50%) scaleX(1) scaleY(1); 
-			opacity: 0.3; 
-			background: linear-gradient(45deg, #10b981, #3b82f6, #8b5cf6);
-		}
-		25% { 
-			transform: translateX(0%) scaleX(1.5) scaleY(0.8); 
-			opacity: 0.7; 
-			background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899);
+		0%, 100% { 
+			transform: translateX(0); 
+			opacity: 0.2; 
 		}
 		50% { 
-			transform: translateX(25%) scaleX(1.2) scaleY(1.3); 
-			opacity: 0.5; 
-			background: linear-gradient(45deg, #8b5cf6, #ec4899, #f59e0b);
-		}
-		75% { 
-			transform: translateX(50%) scaleX(0.8) scaleY(1.1); 
-			opacity: 0.8; 
-			background: linear-gradient(45deg, #ec4899, #f59e0b, #10b981);
-		}
-		100% { 
-			transform: translateX(100%) scaleX(1) scaleY(1); 
-			opacity: 0.3; 
-			background: linear-gradient(45deg, #f59e0b, #10b981, #3b82f6);
+			transform: translateX(20px); 
+			opacity: 0.4; 
 		}
 	}
 
@@ -1382,121 +2431,124 @@
 		100% { background-position: 0% 50%; }
 	}
 
-	/* Enhanced Neural Network Animations */
+	/* Simplified Neural Network Animations */
 	@keyframes neural-pulse-enhanced {
-		0% { 
-			transform: scale(1) translateY(0); 
-			opacity: 0.3; 
-			box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
-		}
-		25% {
-			transform: scale(1.2) translateY(-5px);
-			opacity: 0.7;
-			box-shadow: 0 0 20px 5px rgba(16, 185, 129, 0.3);
+		0%, 100% { 
+			transform: scale(1); 
+			opacity: 0.2; 
 		}
 		50% { 
-			transform: scale(1.5) translateY(-10px); 
-			opacity: 0.9; 
-			box-shadow: 0 0 40px 15px rgba(16, 185, 129, 0.2);
-		}
-		75% {
-			transform: scale(1.3) translateY(-5px);
-			opacity: 0.6;
-			box-shadow: 0 0 25px 8px rgba(16, 185, 129, 0.3);
-		}
-		100% { 
-			transform: scale(1) translateY(0); 
-			opacity: 0.3; 
-			box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+			transform: scale(1.08); 
+			opacity: 0.5; 
 		}
 	}
 
 	@keyframes neural-connection-flow {
-		0% { 
+		0%, 100% { 
 			opacity: 0; 
-			transform: scaleX(0) scaleY(1);
-			filter: brightness(0.5);
-		}
-		20% { 
-			opacity: 0.8; 
-			transform: scaleX(0.3) scaleY(1.2);
-			filter: brightness(1.2);
+			transform: scaleX(0); 
 		}
 		50% { 
-			opacity: 1; 
-			transform: scaleX(1) scaleY(1);
-			filter: brightness(1.5);
-		}
-		80% { 
-			opacity: 0.6; 
-			transform: scaleX(0.8) scaleY(0.8);
-			filter: brightness(1);
-		}
-		100% { 
-			opacity: 0; 
-			transform: scaleX(0) scaleY(1);
-			filter: brightness(0.5);
+			opacity: 0.4; 
+			transform: scaleX(1); 
 		}
 	}
 
 	@keyframes neural-data-flow {
 		0% {
-			transform: translateX(0) translateY(0) scale(0.5);
+			transform: translateX(0) scale(0.8);
+			opacity: 0;
+		}
+		50% {
+			transform: translateX(50px) scale(1);
+			opacity: 0.4;
+		}
+		100% {
+			transform: translateX(100px) scale(0.8);
+			opacity: 0;
+		}
+	}
+
+	/* Simplified Parallax Animations */
+	@keyframes parallax-dimensional {
+		0%, 100% { 
+			transform: translateY(0) scale(1);
+			opacity: 0.3;
+		}
+		50% { 
+			transform: translateY(-15px) scale(1.05);
+			opacity: 0.5;
+		}
+	}
+
+	@keyframes parallax-field {
+		0% {
+			transform: translateY(0) scale(1);
 			opacity: 0;
 		}
 		25% {
-			transform: translateX(50px) translateY(-20px) scale(1);
-			opacity: 1;
+			transform: translateY(-15px) translateX(-10px) scale(0.9) rotateZ(90deg);
+			opacity: 0.5;
+			filter: blur(1px);
 		}
 		50% {
-			transform: translateX(100px) translateY(0) scale(1.2);
-			opacity: 0.8;
-		}
-		75% {
-			transform: translateX(150px) translateY(20px) scale(1);
-			opacity: 0.6;
+			transform: translateY(-4px);
+			opacity: 0.3;
 		}
 		100% {
-			transform: translateX(200px) translateY(0) scale(0.5);
+			transform: translateY(-8px);
 			opacity: 0;
 		}
 	}
 
-	/* Enhanced Parallax Animations */
-	@keyframes parallax-float {
-		0% { 
-			transform: translateY(0) translateX(0) scale(1) rotateZ(0deg);
-			opacity: 0.4;
+	@keyframes parallax-fragment {
+		0%, 100% {
+			transform: translateY(0);
+			opacity: 0;
 		}
-		25% { 
-			transform: translateY(-30px) translateX(15px) scale(1.1) rotateZ(90deg);
-			opacity: 0.7;
-		}
-		50% { 
-			transform: translateY(-50px) translateX(-10px) scale(1.2) rotateZ(180deg);
-			opacity: 0.9;
-		}
-		75% { 
-			transform: translateY(-30px) translateX(-25px) scale(1.1) rotateZ(270deg);
-			opacity: 0.6;
-		}
-		100% { 
-			transform: translateY(0) translateX(0) scale(1) rotateZ(360deg);
-			opacity: 0.4;
+		50% {
+			transform: translateY(-5px);
+			opacity: 0.2;
 		}
 	}
 
-	@keyframes parallax-trail {
+	@keyframes parallax-rift {
+		0%, 100% {
+			transform: translateY(0);
+			opacity: 0;
+		}
+		50% {
+			transform: translateY(-3px);
+			opacity: 0.2;
+		}
+	}
+
+	@keyframes parallax-distortion {
 		0% {
-			transform: translateY(0) translateX(0) scale(1);
-			opacity: 0;
+			transform: translate(-50%, -50%) scale(1);
+			opacity: 0.3;
 		}
 		50% {
-			transform: translateY(-20px) translateX(-20px) scale(0.8);
-			opacity: 0.6;
+			transform: translate(-50%, -50%) scale(1.2);
+			opacity: 0.5;
 		}
 		100% {
-			transform: translateY(-40px) translateX(-40px) scale(0.5);
+			transform: translate(-50%, -50%) scale(1.4);
+			opacity: 0;
+		}
+	}
+
+	@keyframes parallax-echo {
+		0% {
+			transform: scale(1);
+			opacity: 0.3;
+		}
+		50% {
+			transform: scale(1.15);
+			opacity: 0.2;
+		}
+		100% {
+			transform: scale(1.3);
 			opacity: 0;
 		}
 	}
@@ -1505,190 +2557,138 @@
 	@keyframes gradient-morph {
 		0% { 
 			transform: scale(1) rotate(0deg);
-			border-radius: 50%;
-			filter: hue-rotate(0deg) blur(0px);
+			background-position: 0% 50%;
+			opacity: 0.6;
 		}
-		25% { 
-			transform: scale(1.3) rotate(90deg);
-			border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-			filter: hue-rotate(90deg) blur(1px);
+		25% {
+			transform: scale(1.1) rotate(90deg);
+			background-position: 100% 25%;
+			opacity: 0.8;
 		}
 		50% { 
-			transform: scale(1.5) rotate(180deg);
-			border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
-			filter: hue-rotate(180deg) blur(2px);
+			transform: scale(1.2) rotate(180deg);
+			background-position: 50% 100%;
+			opacity: 1;
 		}
-		75% { 
-			transform: scale(1.2) rotate(270deg);
-			border-radius: 20% 80% 80% 20% / 20% 20% 80% 80%;
-			filter: hue-rotate(270deg) blur(1px);
+		75% {
+			transform: scale(1.1) rotate(270deg);
+			background-position: 25% 75%;
+			opacity: 0.7;
 		}
 		100% { 
 			transform: scale(1) rotate(360deg);
-			border-radius: 50%;
-			filter: hue-rotate(360deg) blur(0px);
+			background-position: 0% 50%;
+			opacity: 0.6;
 		}
 	}
 
 	@keyframes gradient-flow {
 		0% {
-			transform: translateX(-100%) scaleX(0.5) scaleY(1);
-			opacity: 0;
-			filter: hue-rotate(0deg);
-		}
-		25% {
-			transform: translateX(-25%) scaleX(1) scaleY(1.5);
-			opacity: 0.8;
-			filter: hue-rotate(90deg);
+			transform: translateY(0) scaleX(1);
+			opacity: 0.4;
 		}
 		50% {
-			transform: translateX(50%) scaleX(1.5) scaleY(1);
-			opacity: 1;
-			filter: hue-rotate(180deg);
-		}
-		75% {
-			transform: translateX(125%) scaleX(1) scaleY(0.8);
-			opacity: 0.6;
-			filter: hue-rotate(270deg);
+			transform: translateY(-8px);
+			opacity: 0.4;
 		}
 		100% {
-			transform: translateX(200%) scaleX(0.5) scaleY(1);
+			transform: translateY(-16px);
 			opacity: 0;
-			filter: hue-rotate(360deg);
 		}
 	}
 
 	@keyframes gradient-particle {
-		0% {
-			transform: scale(0) rotate(0deg);
+		0%, 100% {
+			transform: scale(0.8);
 			opacity: 0;
-			filter: brightness(0.5);
+		}
+		50% {
+			transform: scale(1.1);
+			opacity: 0.3;
+		}
+	}
+
+	/* NEW: Minimal Wave Cursor Animations */
+	@keyframes minimal-wave-ripple {
+		0% {
+			transform: translate(-50%, -50%) scale(0.3);
+			opacity: 0.3;
+		}
+		30% {
+			transform: translate(-50%, -50%) scale(0.8);
+			opacity: 0.15;
+		}
+		60% {
+			transform: translate(-50%, -50%) scale(1.2);
+			opacity: 0.08;
+		}
+		100% {
+			transform: translate(-50%, -50%) scale(1.8);
+			opacity: 0;
+		}
+	}
+
+	@keyframes gentle-wave-drift {
+		0% {
+			transform: translate(-50%, -50%) scale(0.5);
+			opacity: 0.2;
+		}
+		40% {
+			transform: translate(-50%, -50%) scale(0.9);
+			opacity: 0.12;
+		}
+		70% {
+			transform: translate(-50%, -50%) scale(1.3);
+			opacity: 0.06;
+		}
+		100% {
+			transform: translate(-50%, -50%) scale(1.6);
+			opacity: 0;
+		}
+	}
+
+	/* NEW: Minimal Cosmic Cursor Animations */
+	@keyframes gentle-cosmic-sparkle {
+		0% {
+			transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+			opacity: 0.15;
 		}
 		25% {
-			transform: scale(1.2) rotate(90deg);
-			opacity: 0.8;
-			filter: brightness(1.5);
+			transform: translate(-50%, -50%) scale(0.6) rotate(90deg);
+			opacity: 0.1;
 		}
 		50% {
-			transform: scale(1) rotate(180deg);
-			opacity: 1;
-			filter: brightness(2);
+			transform: translate(-50%, -50%) scale(1) rotate(180deg);
+			opacity: 0.06;
 		}
 		75% {
-			transform: scale(0.8) rotate(270deg);
-			opacity: 0.6;
-			filter: brightness(1.2);
+			transform: translate(-50%, -50%) scale(1.3) rotate(270deg);
+			opacity: 0.03;
 		}
 		100% {
-			transform: scale(0) rotate(360deg);
-			opacity: 0;
-			filter: brightness(0.5);
-		}
-	}
-
-	/* Mouse-responsive animation enhancements */
-	@keyframes mouse-attraction {
-		0% {
-			transform: scale(1) translate(0, 0);
-			opacity: 0.5;
-		}
-		50% {
-			transform: scale(1.3) translate(var(--mouse-x, 0), var(--mouse-y, 0));
-			opacity: 0.9;
-		}
-		100% {
-			transform: scale(1) translate(0, 0);
-			opacity: 0.5;
-		}
-	}
-
-	@keyframes mouse-ripple {
-		0% {
-			transform: scale(0) translate(-50%, -50%);
-			opacity: 1;
-		}
-		100% {
-			transform: scale(4) translate(-50%, -50%);
+			transform: translate(-50%, -50%) scale(1.6) rotate(360deg);
 			opacity: 0;
 		}
 	}
 
-	@keyframes neural-impulse {
+	@keyframes minimal-cosmic-dust {
 		0% {
-			transform: scale(0.5) translate(-50%, -50%);
-			opacity: 1;
-			filter: brightness(2);
+			transform: translate(-50%, -50%) scale(0.3);
+			opacity: 0.1;
 		}
-		50% {
-			transform: scale(1) translate(-50%, -50%);
-			opacity: 0.8;
-			filter: brightness(1.5);
+		30% {
+			transform: translate(-50%, -50%) scale(0.7);
+			opacity: 0.06;
+		}
+		60% {
+			transform: translate(-50%, -50%) scale(1.1);
+			opacity: 0.03;
 		}
 		100% {
-			transform: scale(0.2) translate(-50%, -50%);
+			transform: translate(-50%, -50%) scale(1.5);
 			opacity: 0;
-			filter: brightness(1);
 		}
 	}
 
-	/* Performance optimized animations for mobile */
-	@media (max-width: 768px) {
-		.animate-neural-pulse-enhanced,
-		.animate-neural-connection-flow,
-		.animate-neural-data-flow,
-		.animate-parallax-float,
-		.animate-parallax-trail,
-		.animate-gradient-morph,
-		.animate-gradient-flow,
-		.animate-gradient-particle {
-			animation-duration: 150% !important;
-			will-change: transform, opacity;
-		}
-	}
-
-	/* Reduce motion for users who prefer it */
-	@media (prefers-reduced-motion: reduce) {
-		.animate-neural-pulse-enhanced,
-		.animate-neural-connection-flow,
-		.animate-neural-data-flow,
-		.animate-parallax-float,
-		.animate-parallax-trail,
-		.animate-gradient-morph,
-		.animate-gradient-flow,
-		.animate-gradient-particle {
-			animation: none !important;
-		}
-	}
-
-	.animate-matrix-rain { animation: matrix-rain linear infinite; }
-	.animate-cosmic-drift { animation: cosmic-drift ease-in-out infinite; }
-	.animate-particle-float { animation: particle-float ease-in-out infinite; }
-	.animate-float { animation: float 6s ease-in-out infinite; }
-	.animate-float-delayed { animation: float-delayed 8s ease-in-out infinite; }
-	.animate-bounce-slow { animation: bounce-slow 4s ease-in-out infinite; }
-	.animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
-	.animate-wave-motion { animation: wave-motion 8s ease-in-out infinite; }
-	.animate-geometric-spin { animation: geometric-spin 6s linear infinite; }
-	.animate-neural-pulse { animation: neural-pulse 4s ease-in-out infinite; }
-	.animate-neural-connection { animation: neural-connection 3s ease-in-out infinite; }
-	.animate-crystal-refraction { animation: crystal-refraction 8s ease-in-out infinite; }
-	.animate-aurora-dance { animation: aurora-dance 15s ease-in-out infinite; }
-	.animate-crystalline-grow { animation: crystalline-grow 10s ease-in-out infinite; }
-	.animate-aurora-flow { animation: aurora-flow 12s ease-in-out infinite; }
-	.animate-gradient-shift { animation: gradient-shift 8s ease infinite; background-size: 200% 200%; }
-	
-	/* Enhanced Animation Classes */
-	.animate-neural-pulse-enhanced { animation: neural-pulse-enhanced 3s ease-in-out infinite; }
-	.animate-neural-connection-flow { animation: neural-connection-flow 4s ease-in-out infinite; }
-	.animate-neural-data-flow { animation: neural-data-flow 6s linear infinite; }
-	.animate-parallax-float { animation: parallax-float 8s ease-in-out infinite; }
-	.animate-parallax-trail { animation: parallax-trail 5s ease-out infinite; }
-	.animate-gradient-morph { animation: gradient-morph 6s ease-in-out infinite; }
-	.animate-gradient-flow { animation: gradient-flow 10s ease-in-out infinite; }
-	.animate-gradient-particle { animation: gradient-particle 4s ease-in-out infinite; }
-	
-	/* Mouse-responsive classes */
-	.animate-mouse-attraction { animation: mouse-attraction 2s ease-in-out infinite; }
-	.animate-mouse-ripple { animation: mouse-ripple 1s ease-out forwards; }
-	.animate-neural-impulse { animation: neural-impulse 3s ease-out forwards; }
+	/* Animation class assignments */
 </style>

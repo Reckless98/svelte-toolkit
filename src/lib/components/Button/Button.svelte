@@ -8,8 +8,11 @@
 	export let animation = 'none';
 	export let disabled = false;
 	export let loading = false;
+	/** @type {string | null} */
 	export let href = null;
+	/** @type {string | null} */
 	export let target = null;
+	/** @type {string | null} */
 	export let rel = null;
 	export let type = 'button';
 	export let fullWidth = false;
