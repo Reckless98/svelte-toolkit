@@ -20,9 +20,17 @@
 	import Stats from '$lib/components/Stats/Stats.svelte';
 	import Table from '$lib/components/Table/Table.svelte';
 	import Tabs from '$lib/components/Tabs/Tabs.svelte';
-	import Textarea from '$lib/components/Textarea/Textarea.svelte';
-	import Toast from '$lib/components/Toast/Toast.svelte';
+	import Textarea from '$lib/components/Textarea/Textarea.svelte';	import Toast from '$lib/components/Toast/Toast.svelte';
 	import ToggleSimple from '$lib/components/Toggle/ToggleSimple.svelte';
+	
+	// Layout Components
+	import Container from '$lib/components/Layout/Container.svelte';
+	import Grid from '$lib/components/Layout/Grid.svelte';
+	import Flex from '$lib/components/Layout/Flex.svelte';
+	import Stack from '$lib/components/Layout/Stack.svelte';
+	import Section from '$lib/components/Layout/Section.svelte';
+	import MainLayout from '$lib/components/Layout/MainLayout.svelte';
+	import LayoutSidebar from '$lib/components/Layout/Sidebar.svelte';
 		// Component state management
 	let currentTheme = 'light';
 	let showModal = false;
@@ -38,11 +46,17 @@
 	// Subscribe to theme changes
 	theme.subscribe(value => currentTheme = value);
 	$: isDark = currentTheme === 'dark';
-		// Sample data for components
+	// Sample data for components
 	const alertTypes: ('info' | 'success' | 'warning' | 'error')[] = ['info', 'success', 'warning', 'error'];
 	const badgeVariants: ('default' | 'success' | 'warning' | 'error' | 'info')[] = ['default', 'success', 'warning', 'error', 'info'];
-	const buttonVariants = ['primary', 'secondary', 'success', 'warning', 'error', 'ghost'];
-	const buttonSizes = ['sm', 'md', 'lg'];	
+	const buttonVariants: ('primary' | 'secondary' | 'success' | 'warning' | 'error' | 'ghost')[] = ['primary', 'secondary', 'success', 'warning', 'error', 'ghost'];
+	const buttonSizes: ('sm' | 'md' | 'lg')[] = ['sm', 'md', 'lg'];
+	const containerSizes: ('sm' | 'md' | 'lg' | 'xl' | 'full')[] = ['sm', 'md', 'lg', 'xl', 'full'];
+	const containerPaddings: ('none' | 'sm' | 'md' | 'lg')[] = ['none', 'sm', 'md', 'lg'];
+	const flexDirections: ('row' | 'col' | 'row-reverse' | 'col-reverse')[] = ['row', 'col', 'row-reverse', 'col-reverse'];
+	const flexJustify: ('start' | 'center' | 'end' | 'between' | 'around' | 'evenly')[] = ['start', 'center', 'end', 'between', 'around', 'evenly'];
+	const stackSpacing: ('sm' | 'md' | 'lg' | 'xl')[] = ['sm', 'md', 'lg', 'xl'];
+	const sectionVariants: ('default' | 'primary' | 'secondary' | 'accent')[] = ['default', 'primary', 'secondary', 'accent'];
 	const selectOptions = [
 		{ value: 'option1', label: 'Option 1' },
 		{ value: 'option2', label: 'Option 2' },
@@ -304,19 +318,83 @@
 								Delete
 							</Button>
 						</div>
-					</div>
+					</div>				<!-- Button Groups -->
+				<div id="button-groups">
+					<h4 class="text-lg font-medium {isDark ? 'text-gray-200' : 'text-gray-800'} mb-4">Button Groups</h4>
+					<div class="space-y-6">
+						<!-- Horizontal Button Group -->
+						<div>
+							<h5 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Horizontal Group</h5>
+							<div class="inline-flex rounded-lg shadow-sm" role="group">
+								<Button variant="secondary" class="rounded-r-none border-r-0 focus:z-10">
+									<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+									</svg>
+									Previous
+								</Button>
+								<Button variant="secondary" class="rounded-none border-x-0 focus:z-10">
+									<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
+									</svg>
+									Current
+								</Button>
+								<Button variant="secondary" class="rounded-l-none border-l-0 focus:z-10">
+									Next
+									<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+									</svg>
+								</Button>
+							</div>
+						</div>
 
-					<!-- Button Groups -->
-					<div id="button-groups">
-						<h4 class="text-lg font-medium {isDark ? 'text-gray-200' : 'text-gray-800'} mb-4">Button Groups</h4>
-						<div class="space-y-4">
-							<div class="flex rounded-lg overflow-hidden border {isDark ? 'border-gray-600' : 'border-gray-300'}">
-								<Button variant="secondary" class="rounded-none border-none">Left</Button>
-								<Button variant="secondary" class="rounded-none border-none border-l {isDark ? 'border-gray-600' : 'border-gray-300'}">Center</Button>
-								<Button variant="secondary" class="rounded-none border-none border-l {isDark ? 'border-gray-600' : 'border-gray-300'}">Right</Button>
+						<!-- Action Button Group -->
+						<div>
+							<h5 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Action Group</h5>
+							<div class="inline-flex rounded-lg shadow-sm" role="group">
+								<Button variant="primary" class="rounded-r-none border-r-0 focus:z-10">
+									<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+									</svg>
+									Approve
+								</Button>
+								<Button variant="warning" class="rounded-none border-x-0 focus:z-10">
+									<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+									</svg>
+									Review
+								</Button>
+								<Button variant="error" class="rounded-l-none border-l-0 focus:z-10">
+									<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+									</svg>
+									Reject
+								</Button>
+							</div>
+						</div>
+
+						<!-- Toggle Button Group -->
+						<div>
+							<h5 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Toggle Group</h5>
+							<div class="inline-flex rounded-lg shadow-sm" role="group">
+								<Button variant="ghost" class="rounded-r-none border-r-0 focus:z-10" animation="scale">
+									<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+									</svg>
+								</Button>
+								<Button variant="ghost" class="rounded-none border-x-0 focus:z-10" animation="scale">
+									<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+									</svg>
+								</Button>
+								<Button variant="ghost" class="rounded-l-none border-l-0 focus:z-10" animation="scale">
+									<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z" />
+									</svg>
+								</Button>
 							</div>
 						</div>
 					</div>
+				</div>
 				</div>
 
 				<!-- Enhanced Badges & Status -->
@@ -462,6 +540,411 @@
 							</div>
 						</div>
 					</div>
+				</div>			</section>
+			
+			<!-- Layout Components Section -->
+			<section id="layout" class="mb-20 component-section">
+				<div class="text-center mb-12" in:fade={{ duration: 600 }}>
+					<h2 class="text-4xl font-bold {isDark ? 'text-white' : 'text-gray-900'} mb-4">
+						🏗️ Layout Components
+					</h2>
+					<p class="text-lg {isDark ? 'text-gray-300' : 'text-gray-600'}">
+						Flexible layout primitives for building responsive interfaces
+					</p>
+				</div>
+				
+				<!-- Container Component -->
+				<div id="container" class="mb-16 p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+					<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">📦 Container</h3>
+						<div class="space-y-4">
+							<div>
+								<h4 class="text-lg font-medium {isDark ? 'text-gray-200' : 'text-gray-800'} mb-4">Container Sizes</h4>
+								<div class="space-y-4">
+									{#each containerSizes as size}
+										<Container {size} className="bg-blue-100 dark:bg-blue-900/30 rounded-lg p-4 border-2 border-dashed border-blue-300 dark:border-blue-600">
+											<p class="text-center text-sm font-medium {isDark ? 'text-blue-200' : 'text-blue-800'}">
+												Container Size: {size}
+											</p>
+										</Container>
+									{/each}
+								</div>
+							</div>
+							
+							<div>
+								<h4 class="text-lg font-medium {isDark ? 'text-gray-200' : 'text-gray-800'} mb-4">Container Padding</h4>
+								<div class="space-y-4">
+									{#each containerPaddings as padding}
+										<Container {padding} size="md" className="bg-purple-100 dark:bg-purple-900/30 rounded-lg border-2 border-dashed border-purple-300 dark:border-purple-600">
+											<p class="text-center text-sm font-medium {isDark ? 'text-purple-200' : 'text-purple-800'}">
+												Padding: {padding}
+											</p>
+										</Container>
+									{/each}
+								</div>
+							</div>
+						</div>
+				</div>
+
+				<!-- Grid Component -->
+				<div id="grid" class="mb-16 p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+					<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">🔲 Grid</h3>
+					
+					<div class="space-y-8">
+						<div>
+							<h4 class="text-lg font-medium {isDark ? 'text-gray-200' : 'text-gray-800'} mb-4">Basic Grid Layouts</h4>
+							<div class="space-y-6">
+								{#each [2, 3, 4] as cols}
+									<div>
+										<p class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">{cols} Columns</p>
+										<Grid cols={cols} gap="md" className="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+											{#each Array(cols * 2) as _, i}
+												<div class="bg-green-200 dark:bg-green-800 p-4 rounded text-center text-sm font-medium">
+													Item {i + 1}
+												</div>
+											{/each}
+										</Grid>
+									</div>
+								{/each}
+							</div>
+						</div>
+						
+						<div>
+							<h4 class="text-lg font-medium {isDark ? 'text-gray-200' : 'text-gray-800'} mb-4">Responsive Grid</h4>
+							<Grid cols="2" responsive={true} gap="lg" className="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+								{#each Array(6) as _, i}
+									<div class="bg-orange-200 dark:bg-orange-800 p-6 rounded text-center font-medium">
+										Responsive Item {i + 1}
+									</div>
+								{/each}
+							</Grid>
+						</div>
+					</div>
+				</div>
+
+				<!-- Flex Component -->
+				<div id="flex" class="mb-16 p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+					<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">↔️ Flex</h3>
+					
+					<div class="space-y-8">						<div>
+							<h4 class="text-lg font-medium {isDark ? 'text-gray-200' : 'text-gray-800'} mb-4">Flex Direction</h4>
+							<div class="space-y-4">
+								{#each flexDirections as direction}
+									<div>
+										<p class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">Direction: {direction}</p>
+										<Flex {direction} gap="md" className="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg min-h-[100px]">
+											{#each Array(3) as _, i}
+												<div class="bg-pink-200 dark:bg-pink-800 p-3 rounded text-center text-sm font-medium">
+													{i + 1}
+												</div>
+											{/each}
+										</Flex>
+									</div>
+								{/each}
+							</div>
+						</div>
+						
+						<div>
+							<h4 class="text-lg font-medium {isDark ? 'text-gray-200' : 'text-gray-800'} mb-4">Justify Content</h4>
+							<div class="space-y-4">
+								{#each flexJustify as justify}
+									<div>
+										<p class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">Justify: {justify}</p>
+										<Flex {justify} className="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+											{#each Array(3) as _, i}
+												<div class="bg-indigo-200 dark:bg-indigo-800 p-3 rounded text-center text-sm font-medium">
+													{i + 1}
+												</div>
+											{/each}
+										</Flex>
+									</div>
+								{/each}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Stack Component -->
+				<div id="stack" class="mb-16 p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+					<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">📚 Stack</h3>
+					
+					<div class="grid lg:grid-cols-2 gap-8">						<div>
+							<h4 class="text-lg font-medium {isDark ? 'text-gray-200' : 'text-gray-800'} mb-4">Vertical Stack</h4>
+							<div class="space-y-4">
+								{#each stackSpacing as spacing}
+									<div>
+										<p class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">Spacing: {spacing}</p>
+										<Stack direction="vertical" {spacing} className="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+											{#each Array(3) as _, i}
+												<div class="bg-teal-200 dark:bg-teal-800 p-3 rounded text-center text-sm font-medium">
+													Item {i + 1}
+												</div>
+											{/each}
+										</Stack>
+									</div>
+								{/each}
+							</div>
+						</div>
+						
+						<div>
+							<h4 class="text-lg font-medium {isDark ? 'text-gray-200' : 'text-gray-800'} mb-4">Horizontal Stack</h4>
+							<div class="space-y-4">
+								{#each stackSpacing as spacing}
+									<div>
+										<p class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">Spacing: {spacing}</p>
+										<Stack direction="horizontal" {spacing} className="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+											{#each Array(3) as _, i}
+												<div class="bg-cyan-200 dark:bg-cyan-800 p-3 rounded text-center text-sm font-medium">
+													{i + 1}
+												</div>
+											{/each}
+										</Stack>
+									</div>
+								{/each}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Section Component -->
+				<div id="section-component" class="mb-16 p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+					<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">📄 Section</h3>
+							<div class="space-y-6">
+						{#each sectionVariants as variant}
+							<div>
+								<p class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">Variant: {variant}</p>
+								<Section {variant} padding="md" className="rounded-lg">
+									<Container size="md" padding="sm">
+										<h4 class="text-lg font-semibold mb-2">Section with {variant} variant</h4>
+										<p class="text-sm opacity-75">This is an example of a section component with different styling variants.</p>
+									</Container>
+								</Section>
+							</div>
+						{/each}
+					</div>
+				</div>			</section>
+			
+			<!-- Enhanced Components Section -->
+			<section id="enhanced" class="mb-20 component-section">
+				<div class="text-center mb-12" in:fade={{ duration: 600 }}>
+					<h2 class="text-4xl font-bold {isDark ? 'text-white' : 'text-gray-900'} mb-4">
+						✨ Enhanced Components
+					</h2>
+					<p class="text-lg {isDark ? 'text-gray-300' : 'text-gray-600'}">
+						Advanced component variations with sophisticated styling and interactions
+					</p>
+				</div>
+				
+				<!-- Enhanced Cards -->
+				<div id="enhanced-cards" class="mb-16 p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+					<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">🃏 Enhanced Cards</h3>
+					
+					<div class="grid lg:grid-cols-3 gap-6">
+						<!-- Gradient Card -->
+						<Card className="bg-gradient-to-br from-purple-500 to-pink-500 text-white border-none">
+							<div class="p-6">
+								<h4 class="text-xl font-bold mb-2">Gradient Card</h4>
+								<p class="text-purple-100 mb-4">Beautiful gradient backgrounds make your content stand out.</p>
+								<Button variant="secondary" size="sm">Learn More</Button>
+							</div>
+						</Card>
+						
+						<!-- Glass Card -->
+						<Card className="bg-white/10 backdrop-blur-md border border-white/20 text-white">
+							<div class="p-6">
+								<h4 class="text-xl font-bold mb-2">Glass Card</h4>
+								<p class="text-gray-200 mb-4">Modern glassmorphism effect with backdrop blur.</p>
+								<Button variant="ghost" size="sm" className="text-white border-white">Explore</Button>
+							</div>
+						</Card>
+						
+						<!-- Interactive Card -->
+						<Card className="group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer">
+							<div class="p-6">
+								<div class="w-12 h-12 bg-blue-500 rounded-lg mb-4 group-hover:bg-blue-600 transition-colors"></div>
+								<h4 class="text-xl font-bold mb-2 {isDark ? 'text-white' : 'text-gray-900'}">Interactive Card</h4>
+								<p class="{isDark ? 'text-gray-300' : 'text-gray-600'} mb-4">Hover effects and animations create engaging experiences.</p>
+								<div class="flex items-center text-blue-500 font-medium">
+									View Details
+									<svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+									</svg>
+								</div>
+							</div>
+						</Card>
+					</div>
+					
+					<!-- Card with Stats -->
+					<div class="mt-8">
+						<h4 class="text-lg font-medium {isDark ? 'text-gray-200' : 'text-gray-800'} mb-4">Stats Cards</h4>
+						<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+							{#each [
+								{ label: 'Total Users', value: '2,543', change: '+12%', color: 'blue' },
+								{ label: 'Revenue', value: '$45,678', change: '+8%', color: 'green' },
+								{ label: 'Orders', value: '1,234', change: '-3%', color: 'red' },
+								{ label: 'Conversion', value: '3.45%', change: '+15%', color: 'purple' }
+							] as stat}
+								<Card className="p-6 hover:shadow-lg transition-shadow">
+									<div class="flex items-center justify-between mb-2">
+										<span class="text-sm font-medium {isDark ? 'text-gray-400' : 'text-gray-500'}">{stat.label}</span>
+										<span class="text-xs px-2 py-1 rounded-full {stat.color === 'blue' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : stat.color === 'green' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : stat.color === 'red' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' : 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200'}">
+											{stat.change}
+										</span>
+									</div>
+									<div class="text-2xl font-bold {isDark ? 'text-white' : 'text-gray-900'}">{stat.value}</div>
+								</Card>
+							{/each}
+						</div>
+					</div>
+				</div>
+
+				<!-- Enhanced Buttons -->
+				<div id="enhanced-buttons" class="mb-16 p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+					<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">🎨 Enhanced Buttons</h3>
+					
+					<div class="space-y-8">
+						<!-- Gradient Buttons -->
+						<div>
+							<h4 class="text-lg font-medium {isDark ? 'text-gray-200' : 'text-gray-800'} mb-4">Gradient Buttons</h4>
+							<div class="flex flex-wrap gap-4">
+								<button class="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 transform hover:scale-105">
+									Purple Pink
+								</button>
+								<button class="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg font-medium hover:from-blue-600 hover:to-cyan-600 transition-all duration-200 transform hover:scale-105">
+									Blue Cyan
+								</button>
+								<button class="px-6 py-3 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-lg font-medium hover:from-green-600 hover:to-teal-600 transition-all duration-200 transform hover:scale-105">
+									Green Teal
+								</button>
+								<button class="px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg font-medium hover:from-orange-600 hover:to-red-600 transition-all duration-200 transform hover:scale-105">
+									Orange Red
+								</button>
+							</div>
+						</div>
+
+						<!-- Animated Buttons -->
+						<div>
+							<h4 class="text-lg font-medium {isDark ? 'text-gray-200' : 'text-gray-800'} mb-4">Animated Buttons</h4>
+							<div class="flex flex-wrap gap-4">
+								<button class="group relative px-6 py-3 bg-blue-500 text-white rounded-lg font-medium overflow-hidden transition-colors hover:bg-blue-600">
+									<span class="relative z-10">Slide Effect</span>
+									<div class="absolute inset-0 bg-blue-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
+								</button>
+								<button class="group px-6 py-3 border-2 border-purple-500 text-purple-500 rounded-lg font-medium hover:bg-purple-500 hover:text-white transition-all duration-200">
+									<span class="group-hover:scale-110 inline-block transition-transform">Scale Text</span>
+								</button>
+								<button class="group px-6 py-3 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-all duration-200">
+									<span class="flex items-center">
+										Bounce Icon
+										<svg class="w-4 h-4 ml-2 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+										</svg>
+									</span>
+								</button>
+							</div>
+						</div>
+
+						<!-- 3D Buttons -->
+						<div>
+							<h4 class="text-lg font-medium {isDark ? 'text-gray-200' : 'text-gray-800'} mb-4">3D & Shadow Effects</h4>
+							<div class="flex flex-wrap gap-4">
+								<button class="px-6 py-3 bg-blue-500 text-white rounded-lg font-medium shadow-lg shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/75 transition-all duration-200 transform hover:-translate-y-1">
+									Shadow Glow
+								</button>
+								<button class="px-6 py-3 bg-purple-500 text-white rounded-lg font-medium shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.24)] transition-all duration-200 transform hover:-translate-y-2">
+									Deep Shadow
+								</button>
+								<button class="px-6 py-3 bg-gradient-to-b from-green-400 to-green-600 text-white rounded-lg font-medium shadow-inner hover:from-green-500 hover:to-green-700 transition-all duration-200 active:scale-95">
+									Inset Shadow
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Enhanced Form Elements -->
+				<div id="enhanced-forms" class="mb-16 p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+					<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">📝 Enhanced Form Elements</h3>
+					
+					<div class="grid lg:grid-cols-2 gap-8">
+						<!-- Floating Label Inputs -->
+						<div>
+							<h4 class="text-lg font-medium {isDark ? 'text-gray-200' : 'text-gray-800'} mb-4">Floating Label Inputs</h4>
+							<div class="space-y-4">
+								<div class="relative">
+									<input 
+										type="text" 
+										id="floating1"
+										class="peer w-full px-3 pt-6 pb-2 border border-gray-300 dark:border-gray-600 rounded-lg {isDark ? 'bg-gray-700 text-white' : 'bg-white text-gray-900'} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent"
+										placeholder="Full Name"
+									/>
+									<label 
+										for="floating1"
+										class="absolute left-3 top-2 text-xs text-gray-500 dark:text-gray-400 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500"
+									>
+										Full Name
+									</label>
+								</div>
+								<div class="relative">
+									<input 
+										type="email" 
+										id="floating2"
+										class="peer w-full px-3 pt-6 pb-2 border border-gray-300 dark:border-gray-600 rounded-lg {isDark ? 'bg-gray-700 text-white' : 'bg-white text-gray-900'} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-transparent"
+										placeholder="Email Address"
+									/>
+									<label 
+										for="floating2"
+										class="absolute left-3 top-2 text-xs text-gray-500 dark:text-gray-400 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500"
+									>
+										Email Address
+									</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- Enhanced Checkboxes & Toggles -->
+						<div>
+							<h4 class="text-lg font-medium {isDark ? 'text-gray-200' : 'text-gray-800'} mb-4">Custom Controls</h4>
+							<div class="space-y-4">
+								<!-- Custom Checkbox -->
+								<label class="flex items-center cursor-pointer group">
+									<div class="relative">
+										<input type="checkbox" class="sr-only">
+										<div class="w-6 h-6 bg-gray-200 dark:bg-gray-600 rounded border-2 border-gray-300 dark:border-gray-500 group-hover:border-blue-400 transition-colors"></div>
+										<div class="absolute inset-0 w-6 h-6 bg-blue-500 rounded opacity-0 group-hover:opacity-20 transition-opacity"></div>
+										<svg class="absolute inset-1 w-4 h-4 text-white opacity-0 group-hover:opacity-100 transition-opacity" fill="currentColor" viewBox="0 0 20 20">
+											<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+										</svg>
+									</div>
+									<span class="ml-3 text-sm font-medium {isDark ? 'text-gray-200' : 'text-gray-700'}">Enhanced checkbox with hover effects</span>
+								</label>
+
+								<!-- Custom Toggle -->
+								<label class="flex items-center cursor-pointer group">
+									<div class="relative">
+										<input type="checkbox" class="sr-only">
+										<div class="w-12 h-6 bg-gray-200 dark:bg-gray-600 rounded-full shadow-inner transition-colors group-hover:bg-gray-300 dark:group-hover:bg-gray-500"></div>
+										<div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow transform transition-transform"></div>
+									</div>
+									<span class="ml-3 text-sm font-medium {isDark ? 'text-gray-200' : 'text-gray-700'}">Smooth toggle animation</span>
+								</label>
+
+								<!-- Radio Button Group -->
+								<div class="space-y-2">
+									<p class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'}">Enhanced Radio Buttons</p>
+									{#each ['Option 1', 'Option 2', 'Option 3'] as option, i}
+										<label class="flex items-center cursor-pointer group">
+											<div class="relative">
+												<input type="radio" name="enhanced-radio" class="sr-only">
+												<div class="w-5 h-5 border-2 border-gray-300 dark:border-gray-500 rounded-full group-hover:border-blue-400 transition-colors"></div>
+												<div class="absolute inset-1 w-3 h-3 bg-blue-500 rounded-full opacity-0 scale-0 transition-all"></div>
+											</div>
+											<span class="ml-3 text-sm {isDark ? 'text-gray-200' : 'text-gray-700'}">{option}</span>
+										</label>
+									{/each}
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</section>
 			
@@ -598,10 +1081,10 @@
 						<h3 class="text-2xl font-semibent {isDark ? 'text-white' : 'text-gray-900'} mb-6">📋 Select</h3>
 						<div class="space-y-6">
 							<div>
-								<label class="block text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">
+								<label for="basic-select" class="block text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">
 									Basic Select
 								</label>
-								<select class="w-full px-3 py-2 border {isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white text-gray-900'} rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+								<select id="basic-select" class="w-full px-3 py-2 border {isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white text-gray-900'} rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
 									<option>Select an option</option>
 									<option>Option 1</option>
 									<option>Option 2</option>
@@ -609,10 +1092,10 @@
 								</select>
 							</div>
 							<div id="multi-select">
-								<label class="block text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">
+								<label for="multi-select-input" class="block text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">
 									Multi Select
 								</label>
-								<select multiple class="w-full px-3 py-2 border {isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white text-gray-900'} rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" size="4">
+								<select id="multi-select-input" multiple class="w-full px-3 py-2 border {isDark ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white text-gray-900'} rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" size="4">
 									<option>Option 1</option>
 									<option>Option 2</option>
 									<option>Option 3</option>
@@ -626,10 +1109,11 @@
 						<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">🎚️ Range Slider</h3>
 						<div class="space-y-6">
 							<div>
-								<label class="block text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">
+								<label for="range-slider" class="block text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">
 									Value: {progressValue}%
 								</label>
 								<input 
+									id="range-slider"
 									type="range" 
 									min="0" 
 									max="100" 
@@ -638,9 +1122,9 @@
 								>
 							</div>
 							<div id="rating">
-								<label class="block text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">
+								<div class="block text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">
 									Rating
-								</label>
+								</div>
 								<div class="flex gap-1">
 									{#each Array(5) as _, i}
 										<button 
@@ -734,12 +1218,11 @@
 								<div class="flex items-center gap-2">
 									<div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded"></div>
 									<span class="font-bold {isDark ? 'text-white' : 'text-gray-900'}">Brand</span>
-								</div>
-								<nav class="hidden md:flex items-center gap-6">
-									<a href="#" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Home</a>
-									<a href="#" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">About</a>
-									<a href="#" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Services</a>
-									<a href="#" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Contact</a>
+								</div>								<nav class="hidden md:flex items-center gap-6">
+									<button type="button" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Home</button>
+									<button type="button" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">About</button>
+									<button type="button" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Services</button>
+									<button type="button" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Contact</button>
 								</nav>
 								<Button variant="primary" size="sm">Get Started</Button>
 							</div>
@@ -751,12 +1234,11 @@
 								<div class="flex items-center justify-center gap-2 mb-4">
 									<div class="w-10 h-10 bg-gradient-to-br from-green-400 to-blue-500 rounded-lg"></div>
 									<span class="text-2xl font-bold {isDark ? 'text-white' : 'text-gray-900'}">CenteredBrand</span>
-								</div>
-								<nav class="flex justify-center gap-8">
-									<a href="#" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Products</a>
-									<a href="#" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Solutions</a>
-									<a href="#" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Resources</a>
-									<a href="#" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Company</a>
+								</div>								<nav class="flex justify-center gap-8">
+									<button type="button" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Products</button>
+									<button type="button" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Solutions</button>
+									<button type="button" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Resources</button>
+									<button type="button" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Company</button>
 								</nav>
 							</div>
 						</div>
@@ -808,16 +1290,15 @@
 					<div id="breadcrumbs" class="p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
 						<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">🍞 Breadcrumbs</h3>
 						<div class="space-y-6">
-							<nav class="flex" aria-label="Breadcrumb">
-								<ol class="flex items-center space-x-1 md:space-x-3">
+							<nav class="flex" aria-label="Breadcrumb">								<ol class="flex items-center space-x-1 md:space-x-3">
 									<li class="flex items-center">
-										<a href="#" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Home</a>
+										<button type="button" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Home</button>
 									</li>
 									<li class="flex items-center">
 										<svg class="w-4 h-4 {isDark ? 'text-gray-400' : 'text-gray-400'} mx-1" fill="currentColor" viewBox="0 0 20 20">
 											<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
 										</svg>
-										<a href="#" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Components</a>
+										<button type="button" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Components</button>
 									</li>
 									<li class="flex items-center">
 										<svg class="w-4 h-4 {isDark ? 'text-gray-400' : 'text-gray-400'} mx-1" fill="currentColor" viewBox="0 0 20 20">
@@ -830,17 +1311,16 @@
 
 							<!-- Icon Breadcrumbs -->
 							<nav class="flex" aria-label="Breadcrumb">
-								<ol class="flex items-center space-x-2">
-									<li>
-										<a href="#" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">
+								<ol class="flex items-center space-x-2">									<li>
+										<button type="button" class="{isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">
 											<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
 												<path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
 											</svg>
-										</a>
+										</button>
 									</li>
 									<li class="flex items-center">
 										<span class="{isDark ? 'text-gray-400' : 'text-gray-400'}">/</span>
-										<a href="#" class="ml-2 {isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Library</a>
+										<button type="button" class="ml-2 {isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">Library</button>
 									</li>
 									<li class="flex items-center">
 										<span class="{isDark ? 'text-gray-400' : 'text-gray-400'}">/</span>
@@ -899,6 +1379,302 @@
 									</svg>
 								</button>
 							</nav>
+						</div>
+					</div>				</div>
+			</section>
+
+			<!-- Advanced Navigation Section -->
+			<section id="advanced-navigation" class="mb-20 component-section">
+				<div class="text-center mb-12" in:fade={{ duration: 600 }}>
+					<h2 class="text-4xl font-bold {isDark ? 'text-white' : 'text-gray-900'} mb-4">
+						🧭 Advanced Navigation
+					</h2>
+					<p class="text-lg {isDark ? 'text-gray-300' : 'text-gray-600'}">
+						Sophisticated navigation patterns for complex applications
+					</p>
+				</div>
+
+				<!-- Complex Navigation Patterns -->
+				<div class="grid lg:grid-cols-2 gap-8 mb-16">
+					<div id="mega-menu" class="p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+						<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">🍔 Mega Menu</h3>
+						<div class="space-y-6">
+							<!-- Mega Menu Preview -->
+							<div class="border {isDark ? 'border-gray-600' : 'border-gray-200'} rounded-lg overflow-hidden">
+								<div class="flex {isDark ? 'bg-gray-700' : 'bg-gray-50'} border-b {isDark ? 'border-gray-600' : 'border-gray-200'}">
+									<button class="px-4 py-3 text-sm font-medium {isDark ? 'text-white hover:bg-gray-600' : 'text-gray-900 hover:bg-gray-100'} transition-colors">Products</button>
+									<button class="px-4 py-3 text-sm font-medium {isDark ? 'text-gray-300 hover:bg-gray-600' : 'text-gray-600 hover:bg-gray-100'} transition-colors">Solutions</button>
+									<button class="px-4 py-3 text-sm font-medium {isDark ? 'text-gray-300 hover:bg-gray-600' : 'text-gray-600 hover:bg-gray-100'} transition-colors">Resources</button>
+								</div>
+								<div class="p-6 grid grid-cols-3 gap-6">									<div>
+										<h4 class="text-sm font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-3">Web Development</h4>
+										<ul class="space-y-2">
+											<li><button class="text-sm {isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors text-left">Frontend</button></li>
+											<li><button class="text-sm {isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors text-left">Backend</button></li>
+											<li><button class="text-sm {isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors text-left">Full Stack</button></li>
+										</ul>
+									</div>
+									<div>
+										<h4 class="text-sm font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-3">Mobile</h4>
+										<ul class="space-y-2">
+											<li><button class="text-sm {isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors text-left">iOS</button></li>
+											<li><button class="text-sm {isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors text-left">Android</button></li>
+											<li><button class="text-sm {isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors text-left">Cross-platform</button></li>
+										</ul>
+									</div>
+									<div>
+										<h4 class="text-sm font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-3">Cloud</h4>
+										<ul class="space-y-2">
+											<li><button class="text-sm {isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors text-left">AWS</button></li>
+											<li><button class="text-sm {isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors text-left">Azure</button></li>
+											<li><button class="text-sm {isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors text-left">GCP</button></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div id="command-palette" class="p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+						<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">⌘ Command Palette</h3>
+						<div class="space-y-6">
+							<!-- Command Palette Trigger -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Quick Actions</h4>
+								<div class="flex items-center space-x-2 p-3 {isDark ? 'bg-gray-700 border-gray-600' : 'bg-gray-50 border-gray-200'} border rounded-lg">
+									<svg class="w-4 h-4 {isDark ? 'text-gray-400' : 'text-gray-500'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+									</svg>
+									<span class="text-sm {isDark ? 'text-gray-400' : 'text-gray-500'}">Type a command or search...</span>
+									<div class="ml-auto">
+										<kbd class="px-2 py-1 text-xs font-semibold {isDark ? 'text-gray-300 bg-gray-600 border-gray-500' : 'text-gray-500 bg-white border-gray-300'} border rounded">⌘K</kbd>
+									</div>
+								</div>
+							</div>
+
+							<!-- Command Results -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Recent Commands</h4>
+								<div class="space-y-1">
+									{#each [
+										{ icon: '🎨', label: 'Change Theme', shortcut: '⌘T' },
+										{ icon: '📄', label: 'New File', shortcut: '⌘N' },
+										{ icon: '🔍', label: 'Search Files', shortcut: '⌘P' },
+										{ icon: '⚙️', label: 'Open Settings', shortcut: '⌘,' }
+									] as command}
+										<div class="flex items-center justify-between p-2 {isDark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'} rounded cursor-pointer transition-colors">
+											<div class="flex items-center space-x-3">
+												<span class="text-lg">{command.icon}</span>
+												<span class="text-sm {isDark ? 'text-white' : 'text-gray-900'}">{command.label}</span>
+											</div>
+											<kbd class="px-2 py-1 text-xs font-semibold {isDark ? 'text-gray-300 bg-gray-600 border-gray-500' : 'text-gray-500 bg-white border-gray-300'} border rounded">{command.shortcut}</kbd>
+										</div>
+									{/each}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Navigation Hierarchies -->
+				<div class="grid lg:grid-cols-2 gap-8 mb-16">
+					<div id="tree-navigation" class="p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+						<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">🌳 Tree Navigation</h3>
+						<div class="space-y-2">
+							<!-- Tree structure -->
+							<div class="space-y-1">
+								<div class="flex items-center space-x-2 p-2 {isDark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'} rounded cursor-pointer">
+									<svg class="w-4 h-4 {isDark ? 'text-gray-400' : 'text-gray-500'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+									</svg>
+									<svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2z" />
+									</svg>
+									<span class="text-sm {isDark ? 'text-white' : 'text-gray-900'}">src</span>
+								</div>
+								<div class="ml-6 space-y-1">
+									<div class="flex items-center space-x-2 p-2 {isDark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'} rounded cursor-pointer">
+										<svg class="w-4 h-4 {isDark ? 'text-gray-400' : 'text-gray-500'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+										</svg>
+										<svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2z" />
+										</svg>
+										<span class="text-sm {isDark ? 'text-white' : 'text-gray-900'}">components</span>
+									</div>
+									<div class="flex items-center space-x-2 p-2 {isDark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'} rounded cursor-pointer">
+										<div class="w-4"></div>
+										<svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+										</svg>
+										<span class="text-sm {isDark ? 'text-white' : 'text-gray-900'}">App.svelte</span>
+									</div>
+									<div class="flex items-center space-x-2 p-2 {isDark ? 'hover:bg-gray-700' : 'hover:bg-gray-50'} rounded cursor-pointer">
+										<div class="w-4"></div>
+										<svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2z" />
+										</svg>
+										<span class="text-sm {isDark ? 'text-white' : 'text-gray-900'}">routes</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div id="contextual-navigation" class="p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+						<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">📍 Contextual Navigation</h3>
+						<div class="space-y-6">
+							<!-- Context Menu -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Context Menu</h4>
+								<div class="relative inline-block">
+									<button class="px-4 py-2 {isDark ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-900'} rounded transition-colors">
+										Right-click me
+									</button>
+									<div class="absolute top-full left-0 mt-1 w-48 {isDark ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'} border rounded-lg shadow-lg py-1 hidden">
+										{#each [
+											{ icon: '✏️', label: 'Edit', shortcut: '⌘E' },
+											{ icon: '📋', label: 'Copy', shortcut: '⌘C' },
+											{ icon: '📁', label: 'Move to folder', shortcut: '' },
+											{ divider: true },
+											{ icon: '🗑️', label: 'Delete', shortcut: '⌫', danger: true }
+										] as item}
+											{#if item.divider}
+												<div class="my-1 border-t {isDark ? 'border-gray-600' : 'border-gray-200'}"></div>
+											{:else}
+												<button class="w-full flex items-center justify-between px-4 py-2 text-sm {item.danger ? 'text-red-600 hover:bg-red-50' : isDark ? 'text-white hover:bg-gray-600' : 'text-gray-700 hover:bg-gray-50'} transition-colors">
+													<div class="flex items-center space-x-3">
+														<span>{item.icon}</span>
+														<span>{item.label}</span>
+													</div>
+													{#if item.shortcut}
+														<kbd class="text-xs {isDark ? 'text-gray-400' : 'text-gray-500'}">{item.shortcut}</kbd>
+													{/if}
+												</button>
+											{/if}
+										{/each}
+									</div>
+								</div>
+							</div>
+
+							<!-- Floating Action Button -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Floating Actions</h4>
+								<div class="relative">
+									<button class="w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center">
+										<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+										</svg>
+									</button>
+									<div class="absolute bottom-16 left-0 space-y-2 hidden">
+										<button class="w-12 h-12 bg-green-600 hover:bg-green-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center">
+											<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+											</svg>
+										</button>
+										<button class="w-12 h-12 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center">
+											<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+											</svg>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Multi-level Navigation -->
+				<div class="grid lg:grid-cols-1 gap-8">
+					<div id="multi-level-nav" class="p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+						<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">🔄 Multi-level Navigation</h3>
+						<div class="grid lg:grid-cols-3 gap-8">
+							<!-- Step Navigation -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-4">Step Navigation</h4>
+								<div class="space-y-4">
+									{#each [
+										{ step: 1, title: 'Basic Info', completed: true, active: false },
+										{ step: 2, title: 'Details', completed: true, active: false },
+										{ step: 3, title: 'Review', completed: false, active: true },
+										{ step: 4, title: 'Complete', completed: false, active: false }
+									] as step}
+										<div class="flex items-center space-x-3">
+											<div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
+												{step.completed ? 'bg-green-600 text-white' : step.active ? 'bg-blue-600 text-white' : isDark ? 'bg-gray-600 text-gray-300' : 'bg-gray-200 text-gray-600'}
+											">
+												{#if step.completed}
+													<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+														<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+													</svg>
+												{:else}
+													{step.step}
+												{/if}
+											</div>
+											<span class="text-sm {step.active ? isDark ? 'text-white' : 'text-gray-900' : isDark ? 'text-gray-300' : 'text-gray-600'} font-medium">
+												{step.title}
+											</span>
+										</div>
+									{/each}
+								</div>
+							</div>
+
+							<!-- Tab-based Navigation -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-4">Tab Navigation</h4>
+								<div class="border-b {isDark ? 'border-gray-600' : 'border-gray-200'}">
+									<nav class="-mb-px flex space-x-8">
+										{#each [
+											{ label: 'Overview', active: true },
+											{ label: 'Analytics', active: false },
+											{ label: 'Settings', active: false }
+										] as tab}
+											<button class="py-2 px-1 border-b-2 font-medium text-sm transition-colors
+												{tab.active 
+													? 'border-blue-500 text-blue-600' 
+													: isDark 
+														? 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'
+														: 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+												}
+											">
+												{tab.label}
+											</button>
+										{/each}
+									</nav>
+								</div>
+							</div>
+
+							<!-- Sidebar Navigation -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-4">Sidebar Navigation</h4>
+								<nav class="space-y-1">
+									{#each [
+										{ icon: '🏠', label: 'Dashboard', active: true, badge: '' },
+										{ icon: '👥', label: 'Team', active: false, badge: '5' },
+										{ icon: '📊', label: 'Analytics', active: false, badge: '' },
+										{ icon: '⚙️', label: 'Settings', active: false, badge: '' }
+									] as item}
+										<button class="w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors
+											{item.active 
+												? 'bg-blue-100 text-blue-700' 
+												: isDark 
+													? 'text-gray-300 hover:bg-gray-700 hover:text-white'
+													: 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+											}
+										">
+											<div class="flex items-center space-x-3">
+												<span>{item.icon}</span>
+												<span>{item.label}</span>
+											</div>
+											{#if item.badge}
+												<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+													{item.badge}
+												</span>
+											{/if}
+										</button>
+									{/each}
+								</nav>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -1020,11 +1796,8 @@ console.log(message);`}</code></pre>
 						<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">🚨 Alerts</h3>
 						<div class="space-y-4">
 							{#each alertTypes as type}
-								<Alert {type} title={`${type.charAt(0).toUpperCase() + type.slice(1)} Alert`} 
-									   message="This is a sample alert message for the {type} type.">
-									<svelte:fragment slot="action">
-										<Button size="sm" variant="ghost">Action</Button>
-									</svelte:fragment>
+								<Alert {type} title={`${type.charAt(0).toUpperCase() + type.slice(1)} Alert`}>
+									This is a sample alert message for the {type} type.
 								</Alert>
 							{/each}
 						</div>
@@ -1270,6 +2043,345 @@ console.log(message);`}</code></pre>
 							</div>
 						</div>
 					</div>
+				</div>			</section>
+
+			<!-- Overlays & Dialogs Section -->
+			<section id="overlays" class="mb-20 component-section">
+				<div class="text-center mb-12" in:fade={{ duration: 600 }}>
+					<h2 class="text-4xl font-bold {isDark ? 'text-white' : 'text-gray-900'} mb-4">
+						🪟 Overlays & Dialogs
+					</h2>
+					<p class="text-lg {isDark ? 'text-gray-300' : 'text-gray-600'}">
+						Modal dialogs, popovers, and overlay components for enhanced user interaction
+					</p>
+				</div>
+
+				<!-- Modals & Dialogs -->
+				<div class="grid lg:grid-cols-2 gap-8 mb-16">
+					<div id="modal-variants" class="p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+						<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">🪟 Modal Variants</h3>
+						<div class="space-y-6">
+							<!-- Standard Modal -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Standard Modal</h4>
+								<Button variant="primary" size="sm" on:click={() => showModal = true}>
+									Open Standard Modal
+								</Button>
+							</div>
+
+							<!-- Confirmation Dialog -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Confirmation Dialog</h4>
+								<div class="p-4 {isDark ? 'bg-gray-700 border-gray-600' : 'bg-gray-50 border-gray-200'} border rounded-lg">
+									<h5 class="font-medium {isDark ? 'text-white' : 'text-gray-900'} mb-2">Delete Item?</h5>
+									<p class="text-sm {isDark ? 'text-gray-300' : 'text-gray-600'} mb-4">This action cannot be undone.</p>
+									<div class="flex gap-2">
+										<Button size="sm" variant="error">Delete</Button>
+										<Button size="sm" variant="ghost">Cancel</Button>
+									</div>
+								</div>
+							</div>
+
+							<!-- Alert Dialog -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Alert Dialog</h4>
+								<div class="p-4 {isDark ? 'bg-yellow-900 border-yellow-700' : 'bg-yellow-50 border-yellow-200'} border rounded-lg">
+									<div class="flex items-start">
+										<svg class="w-5 h-5 text-yellow-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+											<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+										</svg>
+										<div>
+											<h5 class="font-medium {isDark ? 'text-yellow-200' : 'text-yellow-800'} mb-1">Warning</h5>
+											<p class="text-sm {isDark ? 'text-yellow-300' : 'text-yellow-700'}">This action requires your attention.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div id="drawer-sidebar" class="p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+						<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">📄 Drawer & Sheets</h3>
+						<div class="space-y-6">
+							<!-- Drawer Preview -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Side Drawer</h4>
+								<div class="relative h-32 {isDark ? 'bg-gray-700' : 'bg-gray-100'} rounded-lg overflow-hidden">
+									<div class="absolute inset-y-0 right-0 w-24 {isDark ? 'bg-gray-600' : 'bg-white'} shadow-lg">
+										<div class="p-3">
+											<div class="h-2 {isDark ? 'bg-gray-500' : 'bg-gray-300'} rounded mb-2"></div>
+											<div class="h-2 {isDark ? 'bg-gray-500' : 'bg-gray-300'} rounded w-3/4 mb-2"></div>
+											<div class="h-2 {isDark ? 'bg-gray-500' : 'bg-gray-300'} rounded w-1/2"></div>
+										</div>
+									</div>
+								</div>
+								<Button size="sm" variant="secondary" class="mt-2">Open Drawer</Button>
+							</div>
+
+							<!-- Bottom Sheet Preview -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Bottom Sheet</h4>
+								<div class="relative h-32 {isDark ? 'bg-gray-700' : 'bg-gray-100'} rounded-lg overflow-hidden">
+									<div class="absolute inset-x-0 bottom-0 h-16 {isDark ? 'bg-gray-600' : 'bg-white'} shadow-lg rounded-t-lg">
+										<div class="p-3">
+											<div class="w-8 h-1 {isDark ? 'bg-gray-500' : 'bg-gray-300'} rounded mx-auto mb-2"></div>
+											<div class="h-2 {isDark ? 'bg-gray-500' : 'bg-gray-300'} rounded w-3/4 mb-1"></div>
+											<div class="h-2 {isDark ? 'bg-gray-500' : 'bg-gray-300'} rounded w-1/2"></div>
+										</div>
+									</div>
+								</div>
+								<Button size="sm" variant="secondary" class="mt-2">Open Sheet</Button>
+							</div>
+
+							<!-- Backdrop -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Backdrop</h4>
+								<div class="relative h-20 {isDark ? 'bg-gray-700' : 'bg-gray-100'} rounded-lg overflow-hidden">
+									<div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+										<div class="w-16 h-12 {isDark ? 'bg-gray-600' : 'bg-white'} rounded shadow-lg"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Popovers & Tooltips -->
+				<div class="grid lg:grid-cols-2 gap-8 mb-16">
+					<div id="popover-variants" class="p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+						<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">💭 Popover Variants</h3>
+						<div class="space-y-6">
+							<!-- Rich Content Popover -->
+							<div class="relative">
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Rich Content Popover</h4>
+								<Button variant="secondary" size="sm">Show Rich Popover</Button>
+								<div class="mt-4 p-4 {isDark ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'} border rounded-lg shadow-lg">
+									<div class="flex items-start space-x-3">
+										<div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
+											JD
+										</div>
+										<div>
+											<h5 class="font-semibold {isDark ? 'text-white' : 'text-gray-900'}">John Doe</h5>
+											<p class="text-sm {isDark ? 'text-gray-300' : 'text-gray-600'} mb-2">Senior Developer</p>
+											<div class="flex space-x-2">
+												<Button size="sm" variant="primary">Follow</Button>
+												<Button size="sm" variant="ghost">Message</Button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Form Popover -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Form Popover</h4>
+								<Button variant="secondary" size="sm">Quick Action</Button>
+								<div class="mt-4 p-4 {isDark ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'} border rounded-lg shadow-lg">
+									<h5 class="font-medium {isDark ? 'text-white' : 'text-gray-900'} mb-3">Quick Note</h5>
+									<textarea 
+										class="w-full px-3 py-2 {isDark ? 'bg-gray-600 border-gray-500 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'} border rounded-md text-sm"
+										placeholder="Enter your note..."
+										rows="3"
+									></textarea>
+									<div class="flex justify-end space-x-2 mt-3">
+										<Button size="sm" variant="ghost">Cancel</Button>
+										<Button size="sm" variant="primary">Save</Button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div id="tooltip-variants" class="p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+						<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">💡 Advanced Tooltips</h3>
+						<div class="space-y-6">
+							<!-- Tooltip Positions -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Tooltip Positions</h4>
+								<div class="grid grid-cols-2 gap-4">
+									<div class="text-center">
+										<button class="relative group px-4 py-2 {isDark ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-blue-100 hover:bg-blue-200 text-blue-900'} rounded transition-colors">
+											Top
+											<div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+												Tooltip on top
+											</div>
+										</button>
+									</div>
+									<div class="text-center">
+										<button class="relative group px-4 py-2 {isDark ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-green-100 hover:bg-green-200 text-green-900'} rounded transition-colors">
+											Right
+											<div class="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+												Right tooltip
+											</div>
+										</button>
+									</div>
+									<div class="text-center">
+										<button class="relative group px-4 py-2 {isDark ? 'bg-yellow-600 hover:bg-yellow-700 text-white' : 'bg-yellow-100 hover:bg-yellow-200 text-yellow-900'} rounded transition-colors">
+											Bottom
+											<div class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+												Bottom tooltip
+											</div>
+										</button>
+									</div>
+									<div class="text-center">
+										<button class="relative group px-4 py-2 {isDark ? 'bg-purple-600 hover:bg-purple-700 text-white' : 'bg-purple-100 hover:bg-purple-200 text-purple-900'} rounded transition-colors">
+											Left
+											<div class="absolute right-full top-1/2 transform -translate-y-1/2 mr-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+												Left tooltip
+											</div>
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<!-- Rich Tooltips -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Rich Content Tooltips</h4>
+								<div class="space-y-3">
+									<button class="relative group px-4 py-2 {isDark ? 'bg-gray-600 hover:bg-gray-700 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-900'} rounded transition-colors">
+										Hover for info
+										<div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 p-3 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none w-48">
+											<div class="font-semibold mb-1">Feature Info</div>
+											<div class="text-gray-300">This tooltip contains rich content including multiple lines and formatting.</div>
+										</div>
+									</button>
+
+									<button class="relative group px-4 py-2 {isDark ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-red-100 hover:bg-red-200 text-red-900'} rounded transition-colors">
+										Error state
+										<div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 p-3 bg-red-600 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none w-40">
+											<div class="flex items-center">
+												<svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+													<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+												</svg>
+												Error occurred
+											</div>
+										</div>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Notification & Toast Variants -->
+				<div class="grid lg:grid-cols-2 gap-8">
+					<div id="notification-center" class="p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+						<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">🔔 Notification Center</h3>
+						<div class="space-y-4">
+							{#each [
+								{ type: 'success', title: 'Success!', message: 'Your changes have been saved.', time: '2m ago' },
+								{ type: 'warning', title: 'Warning', message: 'Your session will expire soon.', time: '5m ago' },
+								{ type: 'info', title: 'Update Available', message: 'A new version is ready to install.', time: '1h ago' },
+								{ type: 'error', title: 'Error', message: 'Failed to connect to server.', time: '2h ago' }
+							] as notification}
+								<div class="flex items-start space-x-3 p-3 {isDark ? 'bg-gray-700' : 'bg-gray-50'} rounded-lg">
+									<div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center
+										{notification.type === 'success' ? 'bg-green-100 text-green-600' : ''}
+										{notification.type === 'warning' ? 'bg-yellow-100 text-yellow-600' : ''}
+										{notification.type === 'info' ? 'bg-blue-100 text-blue-600' : ''}
+										{notification.type === 'error' ? 'bg-red-100 text-red-600' : ''}
+									">
+										{#if notification.type === 'success'}
+											<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+												<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+											</svg>
+										{:else if notification.type === 'warning'}
+											<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+												<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+											</svg>
+										{:else if notification.type === 'info'}
+											<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+												<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+											</svg>
+										{:else}
+											<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+												<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+											</svg>
+										{/if}
+									</div>
+									<div class="flex-1 min-w-0">
+										<p class="text-sm font-medium {isDark ? 'text-white' : 'text-gray-900'}">{notification.title}</p>
+										<p class="text-sm {isDark ? 'text-gray-300' : 'text-gray-600'}">{notification.message}</p>
+										<p class="text-xs {isDark ? 'text-gray-400' : 'text-gray-500'} mt-1">{notification.time}</p>
+									</div>
+									<button class="flex-shrink-0 {isDark ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'} transition-colors">
+										<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+											<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+										</svg>
+									</button>
+								</div>
+							{/each}
+						</div>
+					</div>
+
+					<div id="toast-variants" class="p-8 {isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg component-card transition-all duration-300 hover:shadow-2xl">
+						<h3 class="text-2xl font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-6">🍞 Toast Variants</h3>
+						<div class="space-y-6">
+							<!-- Toast Triggers -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Toast Types</h4>
+								<div class="grid grid-cols-2 gap-2">
+									<Button size="sm" variant="success" on:click={() => showToastNotification('Success! Operation completed.')}>Success Toast</Button>
+									<Button size="sm" variant="error" on:click={() => showToastNotification('Error! Something went wrong.')}>Error Toast</Button>
+									<Button size="sm" variant="warning" on:click={() => showToastNotification('Warning! Please check your input.')}>Warning Toast</Button>
+									<Button size="sm" variant="primary" on:click={() => showToastNotification('Info: New update available.')}>Info Toast</Button>
+								</div>
+							</div>
+
+							<!-- Toast Preview -->
+							<div>
+								<h4 class="text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-3">Toast Preview</h4>
+								<div class="space-y-3">
+									<!-- Success Toast -->
+									<div class="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
+										<svg class="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+											<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+										</svg>
+										<div class="flex-1">
+											<p class="text-sm font-medium text-green-800">Successfully saved!</p>
+										</div>
+										<button class="text-green-500 hover:text-green-700">
+											<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+												<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+											</svg>
+										</button>
+									</div>
+
+									<!-- Error Toast -->
+									<div class="flex items-center p-3 bg-red-50 border border-red-200 rounded-lg">
+										<svg class="w-5 h-5 text-red-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+											<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+										</svg>
+										<div class="flex-1">
+											<p class="text-sm font-medium text-red-800">Error occurred!</p>
+											<p class="text-xs text-red-600">Please try again later.</p>
+										</div>
+										<button class="text-red-500 hover:text-red-700">
+											<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+												<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+											</svg>
+										</button>
+									</div>
+
+									<!-- Action Toast -->
+									<div class="flex items-center p-3 {isDark ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'} border rounded-lg shadow">
+										<div class="flex-1">
+											<p class="text-sm font-medium {isDark ? 'text-white' : 'text-gray-900'}">File uploaded</p>
+											<p class="text-xs {isDark ? 'text-gray-300' : 'text-gray-600'}">document.pdf</p>
+										</div>
+										<div class="flex space-x-2">
+											<Button size="sm" variant="primary">View</Button>
+											<button class="{isDark ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'} transition-colors">
+												<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+													<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+												</svg>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</section>
 
@@ -1489,37 +2601,34 @@ console.log(message);`}</code></pre>
 								</div>
 								<p class="text-sm {isDark ? 'text-gray-300' : 'text-gray-600'} mb-4">
 									Building amazing experiences with cutting-edge technology and thoughtful design.
-								</p>
-								<div class="flex gap-4">
+								</p>								<div class="flex gap-4">
 									{#each ['facebook', 'twitter', 'instagram', 'linkedin'] as social}
-										<a href="#" class="{isDark ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'} transition-colors">
+										<button type="button" class="{isDark ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'} transition-colors" aria-label="{social} social link">
 											<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
 												<path d="M10 0C4.477 0 0 4.477 0 10s4.477 10 10 10 10-4.477 10-10S15.523 0 10 0z"/>
 											</svg>
-										</a>
+										</button>
 									{/each}
 								</div>
 							</div>
 							<div>
-								<h4 class="font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-4">Product</h4>
-								<ul class="space-y-2">
+								<h4 class="font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-4">Product</h4>								<ul class="space-y-2">
 									{#each ['Features', 'Pricing', 'Documentation', 'API'] as link}
 										<li>
-											<a href="#" class="text-sm {isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">
+											<button type="button" class="text-sm {isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">
 												{link}
-											</a>
+											</button>
 										</li>
 									{/each}
 								</ul>
 							</div>
 							<div>
-								<h4 class="font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-4">Company</h4>
-								<ul class="space-y-2">
+								<h4 class="font-semibold {isDark ? 'text-white' : 'text-gray-900'} mb-4">Company</h4>								<ul class="space-y-2">
 									{#each ['About', 'Blog', 'Careers', 'Contact'] as link}
 										<li>
-											<a href="#" class="text-sm {isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">
+											<button type="button" class="text-sm {isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors">
 												{link}
-											</a>
+											</button>
 										</li>
 									{/each}
 								</ul>
@@ -1528,12 +2637,11 @@ console.log(message);`}</code></pre>
 						<div class="border-t {isDark ? 'border-gray-600' : 'border-gray-200'} mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
 							<p class="text-sm {isDark ? 'text-gray-400' : 'text-gray-500'} mb-4 md:mb-0">
 								© 2025 Company. All rights reserved.
-							</p>
-							<div class="flex gap-6">
+							</p>							<div class="flex gap-6">
 								{#each ['Privacy', 'Terms', 'Cookies'] as link}
-									<a href="#" class="text-sm {isDark ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'} transition-colors">
+									<button type="button" class="text-sm {isDark ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'} transition-colors">
 										{link}
-									</a>
+									</button>
 								{/each}
 							</div>
 						</div>
@@ -1551,7 +2659,7 @@ console.log(message);`}</code></pre>
 							<Input placeholder="Enter your email" class="flex-1" />
 							<Button variant="primary">Subscribe</Button>
 						</div>						<p class="text-xs {isDark ? 'text-gray-400' : 'text-gray-500'} mt-4">
-							© 2025 Company. All rights reserved. | <a href="#" class="underline">Privacy Policy</a>
+							© 2025 Company. All rights reserved. | <button type="button" class="underline">Privacy Policy</button>
 						</p>
 					</div>
 				</div>
@@ -1945,15 +3053,15 @@ console.log(message);`}</code></pre>
 						</div>
 						<div class="text-center">
 							<div class="mb-4">
-								<label class="block text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">Speed</label>
-								<input type="range" min="0.5" max="3" step="0.1" value="1" class="w-full">
+								<label for="speed-range" class="block text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">Speed</label>
+								<input id="speed-range" type="range" min="0.5" max="3" step="0.1" value="1" class="w-full">
 							</div>
 							<div class="text-sm {isDark ? 'text-gray-300' : 'text-gray-600'}">Control animation speed</div>
 						</div>
 						<div class="text-center">
 							<div class="mb-4">
-								<label class="block text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">Easing</label>
-								<select class="w-full p-2 border {isDark ? 'border-gray-600 bg-gray-700' : 'border-gray-300 bg-white'} rounded">
+								<label for="easing-select" class="block text-sm font-medium {isDark ? 'text-gray-300' : 'text-gray-700'} mb-2">Easing</label>
+								<select id="easing-select" class="w-full p-2 border {isDark ? 'border-gray-600 bg-gray-700' : 'border-gray-300 bg-white'} rounded">
 									<option>ease-in-out</option>
 									<option>ease-in</option>
 									<option>ease-out</option>

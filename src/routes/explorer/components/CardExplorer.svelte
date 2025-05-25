@@ -159,9 +159,8 @@
 					title="Clickable Card"
 					subtitle="Click anywhere on this card"
 					image={sampleImage}
-					href="#"
 				>
-					<p>This entire card is clickable and would navigate to the specified URL.</p>
+					<p>This card demonstrates interactive content without navigation.</p>
 				</Card>
 			</div>
 		</ComponentPreview>

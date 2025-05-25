@@ -1,20 +1,22 @@
-<script>
+<script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import clsx from 'clsx';
 
+	// Type definitions
+	type ButtonSize = 'sm' | 'md' | 'lg' | 'xl';
+	type ButtonVariant = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'error' | 'ghost' | 'glass' | 'neon' | 'morphic' | 'gradient';
+	type ButtonAnimation = 'none' | 'pulse' | 'bounce' | 'glow' | 'float' | 'scale';
+
 	// Props
-	export let variant = 'primary';
-	export let size = 'md';
-	export let animation = 'none';
+	export let variant: ButtonVariant = 'primary';
+	export let size: ButtonSize = 'md';
+	export let animation: ButtonAnimation = 'none';
 	export let disabled = false;
 	export let loading = false;
-	/** @type {string | null} */
-	export let href = null;
-	/** @type {string | null} */
-	export let target = null;
-	/** @type {string | null} */
-	export let rel = null;
-	export let type = 'button';
+	export let href: string | null = null;
+	export let target: string | null = null;
+	export let rel: string | null = null;
+	export let type: 'button' | 'submit' | 'reset' = 'button';
 	export let fullWidth = false;
 	
 	const dispatch = createEventDispatcher();
@@ -32,25 +34,27 @@
 
 	// Variant classes
 	const variantClasses = {
-		primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
-		secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600',
-		success: 'bg-green-600 text-white hover:bg-green-700 focus:ring-green-500',
-		danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
-		ghost: 'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 focus:ring-gray-500',
-		glass: 'bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/30 focus:ring-white/50',
-		neon: 'bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5',
-		morphic: 'bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 text-gray-900 dark:text-white shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2)]',
-		gradient: 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 focus:ring-purple-500'
+		primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 active:bg-blue-800 transition-all duration-200',
+		secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 active:bg-gray-400 dark:active:bg-gray-500 transition-all duration-200',
+		success: 'bg-green-600 text-white hover:bg-green-700 focus:ring-green-500 active:bg-green-800 transition-all duration-200',
+		danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 active:bg-red-800 transition-all duration-200',
+		warning: 'bg-yellow-500 text-white hover:bg-yellow-600 focus:ring-yellow-500 active:bg-yellow-700 transition-all duration-200 shadow-md hover:shadow-lg',
+		error: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 active:bg-red-800 transition-all duration-200 shadow-md hover:shadow-lg',
+		ghost: 'bg-transparent text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:ring-gray-500 active:bg-gray-200 dark:active:bg-gray-700 transition-all duration-200 border border-transparent hover:border-gray-300 dark:hover:border-gray-600',
+		glass: 'bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/30 focus:ring-white/50 active:bg-white/40 transition-all duration-200',
+		neon: 'bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200',
+		morphic: 'bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 text-gray-900 dark:text-white shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2)] active:shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.1)] transition-all duration-200',
+		gradient: 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 focus:ring-purple-500 active:from-purple-700 active:to-pink-700 transition-all duration-200'
 	};
 
 	// Animation classes
 	const animationClasses = {
 		none: '',
-		pulse: 'animate-pulse',
-		bounce: 'hover:animate-bounce',
-		glow: 'shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:shadow-[0_0_30px_rgba(59,130,246,0.8)]',
-		float: 'hover:-translate-y-1 hover:shadow-lg',
-		scale: 'hover:scale-105 active:scale-95'
+		pulse: 'animate-pulse-subtle hover:animate-pulse-intense',
+		bounce: 'hover:animate-bounce-gentle active:animate-bounce-quick',
+		glow: 'shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:shadow-[0_0_25px_rgba(59,130,246,0.6)] transition-shadow duration-300',
+		float: 'hover:-translate-y-1 hover:shadow-lg active:translate-y-0 transition-transform duration-200 ease-out',
+		scale: 'hover:scale-105 active:scale-95 transition-transform duration-150 ease-out transform-gpu'
 	};
 
 	// Computed classes
@@ -64,7 +68,7 @@
 	);
 
 	// Handle click
-	function handleClick(event) {
+	function handleClick(event: MouseEvent) {
 		if (!disabled && !loading) {
 			dispatch('click', event);
 		}
@@ -109,25 +113,84 @@
 {/if}
 
 <style>
+	/* Enhanced button animations */
 	@keyframes glow {
 		0%, 100% {
-			box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+			box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
 		}
 		50% {
-			box-shadow: 0 0 30px rgba(59, 130, 246, 0.8);
+			box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
 		}
 	}
 
-	.animate-pulse {
-		animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-	}
-
-	@keyframes pulse {
+	@keyframes pulse-subtle {
 		0%, 100% {
 			opacity: 1;
 		}
 		50% {
-			opacity: 0.5;
+			opacity: 0.85;
 		}
+	}
+
+	@keyframes pulse-intense {
+		0%, 100% {
+			opacity: 1;
+			transform: scale(1);
+		}
+		50% {
+			opacity: 0.9;
+			transform: scale(1.02);
+		}
+	}
+
+	@keyframes bounce-gentle {
+		0%, 20%, 53%, 80%, 100% {
+			transform: translate3d(0, 0, 0);
+		}
+		40%, 43% {
+			transform: translate3d(0, -8px, 0);
+		}
+		70% {
+			transform: translate3d(0, -4px, 0);
+		}
+		90% {
+			transform: translate3d(0, -2px, 0);
+		}
+	}
+
+	@keyframes bounce-quick {
+		0%, 20%, 53%, 80%, 100% {
+			transform: translate3d(0, 0, 0);
+		}
+		40%, 43% {
+			transform: translate3d(0, -4px, 0);
+		}
+	}
+
+	.animate-pulse-subtle {
+		animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	}
+
+	.animate-pulse-intense {
+		animation: pulse-intense 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	}
+
+	.animate-bounce-gentle {
+		animation: bounce-gentle 1s ease infinite;
+	}
+
+	.animate-bounce-quick {
+		animation: bounce-quick 0.6s ease;
+	}
+
+	/* Improved focus styles */
+	button:focus-visible {
+		outline: 2px solid currentColor;
+		outline-offset: 2px;
+	}
+
+	/* Performance optimizations */
+	button {
+		will-change: transform, opacity, box-shadow;
 	}
 </style>
