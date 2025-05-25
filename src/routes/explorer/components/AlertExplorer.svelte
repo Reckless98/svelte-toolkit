@@ -1,6 +1,6 @@
 <!-- Alert Component Explorer -->
 <script lang="ts">
-	import { Alert } from '$lib/components/Alert';
+	import Alert from '$lib/components/Alert';
 	import ComponentPreview from '../ComponentPreview.svelte';
 
 	type AlertType = 'success' | 'warning' | 'error' | 'info';

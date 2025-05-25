@@ -37,12 +37,11 @@
     {
       title: 'Basic Usage',
       description: 'Simple checkbox with label',
-      code: `<Checkbox bind:checked label="Accept terms and conditions" />`
+      codeSnippet: `<Checkbox bind:checked label="Accept terms and conditions" />`
     },
     {
       title: 'With Description',
-      description: 'Checkbox with additional description text',
-      code: `<Checkbox 
+      description: 'Checkbox with additional description text',      codeSnippet: `<Checkbox 
   bind:checked
   label="Enable notifications"
   description="Receive email updates about your account"
@@ -51,17 +50,17 @@
     {
       title: 'Indeterminate State',
       description: 'Checkbox in indeterminate state for "select all" functionality',
-      code: `<Checkbox bind:indeterminate label="Select all items" />`
+      codeSnippet: `<Checkbox bind:indeterminate label="Select all items" />`
     },
     {
       title: 'Disabled State',
       description: 'Disabled checkbox that cannot be interacted with',
-      code: `<Checkbox disabled label="Disabled option" />`
+      codeSnippet: `<Checkbox disabled label="Disabled option" />`
     },
     {
       title: 'Error State',
       description: 'Checkbox with error message',
-      code: `<Checkbox 
+      codeSnippet: `<Checkbox 
   bind:checked
   error="This field is required"
   label="Required field"
@@ -70,7 +69,7 @@
     {
       title: 'Required Field',
       description: 'Checkbox marked as required with validation',
-      code: `<Checkbox 
+      codeSnippet: `<Checkbox 
   required
   bind:checked
   label="I agree to the terms"
@@ -95,9 +94,9 @@
       <ComponentPreview
         title={example.title}
         description={example.description}
-        code={example.code}
+        codeSnippet={example.codeSnippet}
       >
-        <div slot="preview" class="p-4">
+        <div class="p-4">
           {#if index === 0}
             <Checkbox bind:checked={basicChecked} label="Accept terms and conditions" />
           {:else if index === 1}
@@ -131,16 +130,15 @@
   <!-- Sizes -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Sizes</h2>
-    
-    <ComponentPreview
+      <ComponentPreview
       title="Checkbox Sizes"
       description="Available size options: sm, md, lg, xl"
-      code={`<Checkbox size="sm" bind:checked label="Small" />
+      codeSnippet={`<Checkbox size="sm" bind:checked label="Small" />
 <Checkbox size="md" bind:checked label="Medium (default)" />
 <Checkbox size="lg" bind:checked label="Large" />
 <Checkbox size="xl" bind:checked label="Extra Large" />`}
     >
-      <div slot="preview" class="p-4 space-y-4">
+      <div class="p-4 space-y-4">
         <Checkbox size="sm" bind:checked={sizeDemos.sm} label="Small checkbox" />
         <Checkbox size="md" bind:checked={sizeDemos.md} label="Medium checkbox (default)" />
         <Checkbox size="lg" bind:checked={sizeDemos.lg} label="Large checkbox" />
@@ -152,18 +150,17 @@
   <!-- Variants -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Variants</h2>
-    
-    <ComponentPreview
+      <ComponentPreview
       title="Checkbox Variants"
       description="Different visual styles for various use cases"
-      code={`<Checkbox variant="standard" bind:checked label="Standard" />
+      codeSnippet={`<Checkbox variant="standard" bind:checked label="Standard" />
 <Checkbox variant="outlined" bind:checked label="Outlined" />
 <Checkbox variant="filled" bind:checked label="Filled" />
 <Checkbox variant="modern" bind:checked label="Modern" />
 <Checkbox variant="neon" bind:checked label="Neon" />
 <Checkbox variant="glass" bind:checked label="Glass" />`}
     >
-      <div slot="preview" class="p-4 space-y-4">
+      <div class="p-4 space-y-4">
         <Checkbox variant="standard" bind:checked={variantDemos.standard} label="Standard checkbox" />
         <Checkbox variant="outlined" bind:checked={variantDemos.outlined} label="Outlined checkbox" />
         <Checkbox variant="filled" bind:checked={variantDemos.filled} label="Filled checkbox" />
@@ -177,18 +174,17 @@
   <!-- Colors -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Colors</h2>
-    
-    <ComponentPreview
+      <ComponentPreview
       title="Color Themes"
       description="Different color themes for various contexts"
-      code={`<Checkbox color="primary" bind:checked label="Primary" />
+      codeSnippet={`<Checkbox color="primary" bind:checked label="Primary" />
 <Checkbox color="secondary" bind:checked label="Secondary" />
 <Checkbox color="success" bind:checked label="Success" />
 <Checkbox color="warning" bind:checked label="Warning" />
 <Checkbox color="error" bind:checked label="Error" />
 <Checkbox color="info" bind:checked label="Info" />`}
     >
-      <div slot="preview" class="p-4 space-y-4">
+      <div class="p-4 space-y-4">
         <Checkbox color="primary" bind:checked={colorDemos.primary} label="Primary theme" />
         <Checkbox color="secondary" bind:checked={colorDemos.secondary} label="Secondary theme" />
         <Checkbox color="success" bind:checked={colorDemos.success} label="Success theme" />
@@ -202,16 +198,15 @@
   <!-- Animations -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Animations</h2>
-    
-    <ComponentPreview
+      <ComponentPreview
       title="Animation Effects"
       description="Different animation effects when checking/unchecking"
-      code={`<Checkbox animation="none" bind:checked label="No animation" />
+      codeSnippet={`<Checkbox animation="none" bind:checked label="No animation" />
 <Checkbox animation="scale" bind:checked label="Scale animation" />
 <Checkbox animation="bounce" bind:checked label="Bounce animation" />
 <Checkbox animation="slide" bind:checked label="Slide animation" />`}
     >
-      <div slot="preview" class="p-4 space-y-4">
+      <div class="p-4 space-y-4">
         <Checkbox animation="none" bind:checked={animationDemos.none} label="No animation" />
         <Checkbox animation="scale" bind:checked={animationDemos.scale} label="Scale animation (default)" />
         <Checkbox animation="bounce" bind:checked={animationDemos.bounce} label="Bounce animation" />
@@ -223,11 +218,10 @@
   <!-- Advanced Usage -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Advanced Usage</h2>
-    
-    <ComponentPreview
+      <ComponentPreview
       title="Combined Features"
       description="Combining multiple features for complex use cases"
-      code={`<Checkbox 
+      codeSnippet={`<Checkbox 
   variant="modern"
   size="lg"
   color="success"
@@ -237,7 +231,7 @@
   description="Unlock advanced functionality with this option"
 />`}
     >
-      <div slot="preview" class="p-4">
+      <div class="p-4">
         <Checkbox 
           variant="modern"
           size="lg"

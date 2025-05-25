@@ -35,7 +35,7 @@
     }
   ];
 
-  const variants = ['solid', 'dashed', 'dotted', 'gradient', 'double', 'thick'] as const;
+  const variants = ['solid', 'dashed', 'dotted', 'gradient', 'double'] as const;
   const orientations = ['horizontal', 'vertical'];
 </script>
 
@@ -214,13 +214,12 @@
   <!-- Custom Styling -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Custom Styling</h2>
-    
-    <ComponentPreview
+      <ComponentPreview
       title="Custom Colors and Spacing"
       description="Customize divider appearance with colors and spacing"
       codeSnippet={`<Divider color="blue" />
-<Divider color="green" margin="2rem" />
-<Divider variant="gradient" colors={['#ff6b6b', '#4ecdc4']} />`}
+<Divider color="green" spacing="my-8" />
+<Divider variant="gradient" color="purple" />`}
     >
       <div class="p-8 space-y-8">
         <div class="space-y-4">
@@ -230,8 +229,8 @@
         </div>
         
         <div class="space-y-8">
-          <p class="text-gray-600">Content with extra margin</p>
-          <Divider color="green" margin="2rem" />
+          <p class="text-gray-600">Content with extra spacing</p>
+          <Divider color="green" spacing="my-8" />
           <p class="text-gray-600">More content with larger spacing</p>
         </div>
       </div>
@@ -270,8 +269,7 @@
     
     <ComponentPreview
       title="Content Sections"
-      description="Organizing content into clear sections"
-      codeSnippet={`<article class="space-y-6">
+      description="Organizing content into clear sections"      codeSnippet={`<article class="space-y-6">
   <section>
     <h3>Introduction</h3>
     <p>Article introduction content...</p>
@@ -284,10 +282,10 @@
     <p>First chapter content...</p>
   </section>
   
-  <Divider icon="📝" />
+  <Divider variant="dashed" />
   
   <section>
-  <Divider variant="dashed" />
+    <h3>Conclusion</h3>
     <p>Article conclusion...</p>
   </section>
 </article>`}
@@ -298,15 +296,14 @@
             <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Introduction</h3>
             <p class="text-gray-600 dark:text-gray-300">This is an example of how dividers can be used to organize content into clear, readable sections within articles or documentation.</p>
           </section>
-          
-          <Divider label="Main Content" />
+            <Divider label="Main Content" />
           
           <section>
             <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Chapter 1</h3>
             <p class="text-gray-600 dark:text-gray-300">The main content of your article goes here. Dividers help break up long content into digestible sections.</p>
           </section>
           
-          <Divider icon="📝" />
+          <Divider variant="dashed" />
           
           <section>
             <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Conclusion</h3>

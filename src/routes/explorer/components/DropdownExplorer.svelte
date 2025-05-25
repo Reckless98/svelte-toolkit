@@ -1,108 +1,92 @@
 <script lang="ts">
-  import { Dropdown } from '$lib/components/Dropdown';
-  import { Button } from '$lib/components/Button';
+  import Dropdown from '$lib/components/Dropdown/Dropdown.svelte';
+  import Button from '$lib/components/Button/Button.svelte';
   import ComponentPreview from '../ComponentPreview.svelte';
+  import type { DropdownItem, DropdownVariant, DropdownSize, DropdownPosition } from '$lib/components/Dropdown';
   
-  let selectedItem = null;
-  let selectedMultiple = [];
-  let searchableSelected = null;
-  let groupedSelected = null;
-
-  const basicItems = [
+  // Properly typed variables for dropdown selections
+  let selectedItem: DropdownItem | null = null;
+  let selectedMultiple: DropdownItem[] = [];
+  let searchableSelected: DropdownItem | null = null;
+  let groupedSelected: DropdownItem | null = null;
+  const basicItems: DropdownItem[] = [
     { id: '1', label: 'Option 1', value: 'option1' },
     { id: '2', label: 'Option 2', value: 'option2' },
     { id: '3', label: 'Option 3', value: 'option3' },
     { id: '4', label: 'Option 4', value: 'option4' }
   ];
 
-  const itemsWithIcons = [
+  const itemsWithIcons: DropdownItem[] = [
     { id: '1', label: 'Home', value: 'home', icon: '🏠' },
     { id: '2', label: 'Profile', value: 'profile', icon: '👤' },
     { id: '3', label: 'Settings', value: 'settings', icon: '⚙️' },
     { id: '4', label: 'Logout', value: 'logout', icon: '🚪' }
   ];
 
-  const groupedItems = [
-    {
-      group: 'Fruits',
-      items: [
-        { id: 'apple', label: 'Apple', value: 'apple' },
-        { id: 'banana', label: 'Banana', value: 'banana' },
-        { id: 'orange', label: 'Orange', value: 'orange' }
-      ]
-    },
-    {
-      group: 'Vegetables',
-      items: [
-        { id: 'carrot', label: 'Carrot', value: 'carrot' },
-        { id: 'broccoli', label: 'Broccoli', value: 'broccoli' },
-        { id: 'spinach', label: 'Spinach', value: 'spinach' }
-      ]
-    }
+  // Flattened grouped items for dropdown usage
+  const groupedItems: DropdownItem[] = [
+    { id: 'apple', label: 'Apple', value: 'apple' },
+    { id: 'banana', label: 'Banana', value: 'banana' },
+    { id: 'orange', label: 'Orange', value: 'orange' },
+    { id: 'carrot', label: 'Carrot', value: 'carrot' },
+    { id: 'broccoli', label: 'Broccoli', value: 'broccoli' },
+    { id: 'spinach', label: 'Spinach', value: 'spinach' }
   ];
-
   const examples = [
     {
       title: 'Basic Usage',
       description: 'Simple dropdown with basic items',
-      code: `<Dropdown 
+      codeSnippet: `<Dropdown 
   items={basicItems} 
-  bind:selected={selectedItem}
+  on:select={(e) => selectedItem = e.detail.item}
   placeholder="Select an option"
 />`
     },
     {
       title: 'With Icons',
-      description: 'Dropdown items with icons for better visual hierarchy',
-      code: `<Dropdown 
-  items={itemsWithIcons} 
-  bind:selected={selectedItem}
-  placeholder="Choose action"
+      description: 'Dropdown items with icons',
+      codeSnippet: `<Dropdown 
+  items={itemsWithIcons}
+  on:select={(e) => selectedItem = e.detail.item}
 />`
     },
     {
       title: 'Searchable',
-      description: 'Dropdown with search functionality to filter items',
-      code: `<Dropdown 
-  items={basicItems} 
-  bind:selected={searchableSelected}
+      description: 'Dropdown with search functionality',
+      codeSnippet: `<Dropdown 
+  items={basicItems}
   searchable
-  placeholder="Search options..."
+  on:select={(e) => searchableSelected = e.detail.item}
+  placeholder="Search items..."
 />`
     },
     {
-      title: 'Multiple Selection',
-      description: 'Allow selecting multiple items at once',
-      code: `<Dropdown 
-  items={basicItems} 
-  bind:selected={selectedMultiple}
-  multiple
-  placeholder="Select multiple options"
-/>`
-    },
-    {
-      title: 'Grouped Items',
-      description: 'Organize items into logical groups',
-      code: `<Dropdown 
-  items={groupedItems} 
-  bind:selected={groupedSelected}
-  placeholder="Select from groups"
-/>`
-    },
-    {
-      title: 'Disabled State',
-      description: 'Dropdown in disabled state',
-      code: `<Dropdown 
-  items={basicItems} 
-  disabled
-  placeholder="Disabled dropdown"
+      title: 'Multiple Positions',
+      description: 'Different dropdown positions',
+      codeSnippet: `<Dropdown 
+  items={basicItems}
+  position="top-end"
+  on:select={(e) => selectedItem = e.detail.item}
 />`
     }
   ];
 
-  const variants = ['default', 'outlined', 'filled', 'modern', 'minimal'];
-  const sizes = ['sm', 'md', 'lg'];
-  const positions = ['bottom-start', 'bottom-end', 'top-start', 'top-end'];
+  // Event handlers
+  function handleSelect(event: CustomEvent<{ item: DropdownItem }>) {
+    selectedItem = event.detail.item;
+  }
+
+  function handleSearchableSelect(event: CustomEvent<{ item: DropdownItem }>) {
+    searchableSelected = event.detail.item;
+  }
+
+  function handleGroupedSelect(event: CustomEvent<{ item: DropdownItem }>) {
+    groupedSelected = event.detail.item;
+  }
+  // Typed arrays for iteration
+  const variants: DropdownVariant[] = ['default', 'minimal', 'bordered', 'elevated', 'glass', 'dark'];
+  const sizes: DropdownSize[] = ['sm', 'md', 'lg'];
+  const positions: DropdownPosition[] = ['bottom-start', 'bottom-end', 'top-start', 'top-end'];
 </script>
 
 <div class="space-y-8">
@@ -112,7 +96,6 @@
       A comprehensive dropdown component with search, multiple selection, grouping, and extensive customization options.
     </p>
   </div>
-
   <!-- Basic Examples -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Examples</h2>
@@ -121,47 +104,34 @@
       <ComponentPreview
         title={example.title}
         description={example.description}
-        codeSnippet={example.code}
+        codeSnippet={example.codeSnippet}
       >
-        <div slot="preview" class="p-8 flex justify-center">
+        <div class="p-8 flex justify-center">
           <div class="w-64">
             {#if index === 0}
               <Dropdown 
                 items={basicItems} 
-                bind:selected={selectedItem}
+                on:select={handleSelect}
                 placeholder="Select an option"
               />
             {:else if index === 1}
               <Dropdown 
                 items={itemsWithIcons} 
-                bind:selected={selectedItem}
+                on:select={handleSelect}
                 placeholder="Choose action"
               />
             {:else if index === 2}
               <Dropdown 
                 items={basicItems} 
-                bind:selected={searchableSelected}
+                on:select={handleSearchableSelect}
                 searchable
                 placeholder="Search options..."
               />
             {:else if index === 3}
               <Dropdown 
-                items={basicItems} 
-                bind:selected={selectedMultiple}
-                multiple
-                placeholder="Select multiple options"
-              />
-            {:else if index === 4}
-              <Dropdown 
                 items={groupedItems} 
-                bind:selected={groupedSelected}
+                on:select={handleGroupedSelect}
                 placeholder="Select from groups"
-              />
-            {:else if index === 5}
-              <Dropdown 
-                items={basicItems} 
-                disabled
-                placeholder="Disabled dropdown"
               />
             {/if}
           </div>
@@ -169,7 +139,6 @@
       </ComponentPreview>
     {/each}
   </section>
-
   <!-- Variants -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Variants</h2>
@@ -178,19 +147,21 @@
       title="Dropdown Variants"
       description="Different visual styles for various design contexts"
       codeSnippet={`<Dropdown variant="default" items={items} placeholder="Default" />
-<Dropdown variant="outlined" items={items} placeholder="Outlined" />
-<Dropdown variant="filled" items={items} placeholder="Filled" />
-<Dropdown variant="modern" items={items} placeholder="Modern" />
-<Dropdown variant="minimal" items={items} placeholder="Minimal" />`}
+<Dropdown variant="minimal" items={items} placeholder="Minimal" />
+<Dropdown variant="bordered" items={items} placeholder="Bordered" />
+<Dropdown variant="elevated" items={items} placeholder="Elevated" />
+<Dropdown variant="glass" items={items} placeholder="Glass" />
+<Dropdown variant="dark" items={items} placeholder="Dark" />`}
     >
-      <div slot="preview" class="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {#each variants as variant}
           <div class="w-full">
-            <label class="block text-sm font-medium mb-2 capitalize">{variant}</label>
+            <div class="text-sm font-medium mb-2 capitalize">{variant}</div>
             <Dropdown 
-              {variant}
+              variant={variant}
               items={basicItems} 
               placeholder="{variant} style"
+              on:select={handleSelect}
             />
           </div>
         {/each}
@@ -208,15 +179,15 @@
       codeSnippet={`<Dropdown size="sm" items={items} placeholder="Small" />
 <Dropdown size="md" items={items} placeholder="Medium" />
 <Dropdown size="lg" items={items} placeholder="Large" />`}
-    >
-      <div slot="preview" class="p-8 space-y-4">
+    >      <div class="p-8 space-y-4">
         {#each sizes as size}
           <div class="w-64">
-            <label class="block text-sm font-medium mb-2 capitalize">{size}</label>
+            <div class="text-sm font-medium mb-2 capitalize">{size}</div>
             <Dropdown 
-              {size}
+              size={size}
               items={basicItems} 
               placeholder="{size} dropdown"
+              on:select={handleSelect}
             />
           </div>
         {/each}
@@ -235,15 +206,15 @@
 <Dropdown position="bottom-end" items={items} placeholder="Bottom End" />
 <Dropdown position="top-start" items={items} placeholder="Top Start" />
 <Dropdown position="top-end" items={items} placeholder="Top End" />`}
-    >
-      <div slot="preview" class="p-16 grid grid-cols-2 gap-8">
+    >      <div class="p-16 grid grid-cols-2 gap-8">
         {#each positions as position}
           <div class="w-48">
-            <label class="block text-sm font-medium mb-2">{position}</label>
+            <div class="text-sm font-medium mb-2">{position}</div>
             <Dropdown 
-              {position}
+              position={position}
               items={basicItems} 
               placeholder={position}
+              on:select={handleSelect}
             />
           </div>
         {/each}
@@ -263,8 +234,7 @@
   loading
   placeholder="Loading options..."
 />`}
-    >
-      <div slot="preview" class="p-8 flex justify-center">
+    >      <div class="p-8 flex justify-center">
         <div class="w-64">
           <Dropdown 
             items={[]}
@@ -274,22 +244,21 @@
         </div>
       </div>
     </ComponentPreview>
-    
-    <ComponentPreview
-      title="Error State"
-      description="Display error message when something goes wrong"
+      <ComponentPreview
+      title="Disabled State"
+      description="Dropdown in disabled state"
       codeSnippet={`<Dropdown 
   items={basicItems}
-  error="Something went wrong"
-  placeholder="Select option"
+  disabled
+  placeholder="Disabled dropdown"
 />`}
     >
-      <div slot="preview" class="p-8 flex justify-center">
+      <div class="p-8 flex justify-center">
         <div class="w-64">
           <Dropdown 
             items={basicItems}
-            error="Something went wrong"
-            placeholder="Select option"
+            disabled
+            placeholder="Disabled dropdown"
           />
         </div>
       </div>
@@ -303,8 +272,7 @@
   emptyMessage="No options available"
   placeholder="Empty dropdown"
 />`}
-    >
-      <div slot="preview" class="p-8 flex justify-center">
+    >      <div class="p-8 flex justify-center">
         <div class="w-64">
           <Dropdown 
             items={[]}

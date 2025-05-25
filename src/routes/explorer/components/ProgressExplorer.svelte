@@ -1,6 +1,6 @@
 <!-- Progress Component Explorer -->
 <script lang="ts">
-	import { Progress } from '$lib/components/Progress';
+	import Progress from '$lib/components/Progress';
 	import ComponentPreview from '../ComponentPreview.svelte';
 	import { onMount } from 'svelte';
 
@@ -34,7 +34,7 @@
 
 	// Animated progress value
 	let animatedValue = 0;
-	let interval: NodeJS.Timeout;
+	let interval: number;
 
 	onMount(() => {
 		// Simulate progress animation

@@ -1,18 +1,20 @@
-<script lang="ts">
-  import { Avatar } from '$lib/components/Avatar';
+<script lang="ts">  import { Avatar } from '$lib/components/Avatar';
   import { Button } from '$lib/components/Button';
   import ComponentPreview from '../ComponentPreview.svelte';
   
-  const examples = [
-    {
+  type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  type AvatarVariant = 'circular' | 'rounded' | 'square';
+  type AvatarStatus = 'online' | 'offline' | 'busy' | 'away' | 'none';
+  
+  const examples = [{
       title: 'Basic Usage',
       description: 'Simple avatar with user initials',
-      code: `<Avatar name="John Doe" />`
+      codeSnippet: `<Avatar name="John Doe" />`
     },
     {
       title: 'With Image',
       description: 'Avatar displaying user profile image',
-      code: `<Avatar 
+      codeSnippet: `<Avatar 
   name="Jane Smith" 
   src="https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=150&h=150&fit=crop&crop=face"
 />`
@@ -20,7 +22,7 @@
     {
       title: 'With Status',
       description: 'Avatar showing online/offline status indicator',
-      code: `<Avatar 
+      codeSnippet: `<Avatar 
   name="Alex Johnson" 
   src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
   status="online"
@@ -29,7 +31,7 @@
     {
       title: 'With Badge',
       description: 'Avatar with notification badge',
-      code: `<Avatar 
+      codeSnippet: `<Avatar 
   name="Sarah Wilson" 
   src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
   badge="3"
@@ -38,7 +40,7 @@
     {
       title: 'Clickable',
       description: 'Interactive avatar with click handler',
-      code: `<Avatar 
+      codeSnippet: `<Avatar 
   name="Mike Brown" 
   src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
   clickable
@@ -48,18 +50,16 @@
     {
       title: 'Fallback Behavior',
       description: 'Avatar with broken image showing initials fallback',
-      code: `<Avatar 
+      codeSnippet: `<Avatar
   name="David Clark" 
   src="https://broken-image-url.jpg"
 />`
     }
   ];
+  const sizes: AvatarSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
+  const variants: AvatarVariant[] = ['circular', 'rounded', 'square'];  const statuses: AvatarStatus[] = ['online', 'offline', 'away', 'busy'];
 
-  const sizes = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
-  const variants = ['circular', 'rounded', 'square'];
-  const statuses = ['online', 'offline', 'away', 'busy'];
-
-  const teamMembers = [
+  const teamMembers: Array<{name: string, src: string, status: AvatarStatus}> = [
     {
       name: 'Emma Thompson',
       src: 'https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=150&h=150&fit=crop&crop=face',
@@ -82,7 +82,7 @@
     }
   ];
 
-  function handleAvatarClick(name) {
+  function handleAvatarClick(name: string) {
     alert(`Clicked on ${name}'s avatar!`);
   }
 </script>
@@ -103,9 +103,9 @@
       <ComponentPreview
         title={example.title}
         description={example.description}
-        code={example.code}
+        codeSnippet={example.codeSnippet}
       >
-        <div slot="preview" class="p-8 flex justify-center">
+        <div class="p-8 flex justify-center">
           {#if index === 0}
             <Avatar name="John Doe" />
           {:else if index === 1}
@@ -150,14 +150,14 @@
     <ComponentPreview
       title="Avatar Sizes"
       description="Available size options from extra small to 2xl"
-      code={`<Avatar size="xs" name="User" />
+      codeSnippet={`<Avatar size="xs" name="User" />
 <Avatar size="sm" name="User" />
 <Avatar size="md" name="User" />
 <Avatar size="lg" name="User" />
 <Avatar size="xl" name="User" />
 <Avatar size="2xl" name="User" />`}
     >
-      <div slot="preview" class="p-8 flex items-center justify-center gap-4 flex-wrap">
+      <div class="p-8 flex items-center justify-center gap-4 flex-wrap">
         {#each sizes as size}
           <div class="flex flex-col items-center gap-2">
             <Avatar 
@@ -179,11 +179,11 @@
     <ComponentPreview
       title="Avatar Variants"
       description="Different shapes: circular, rounded, and square"
-      code={`<Avatar variant="circular" name="User" />
+      codeSnippet={`<Avatar variant="circular" name="User" />
 <Avatar variant="rounded" name="User" />
 <Avatar variant="square" name="User" />`}
     >
-      <div slot="preview" class="p-8 flex items-center justify-center gap-6">
+      <div class="p-8 flex items-center justify-center gap-6">
         {#each variants as variant}
           <div class="flex flex-col items-center gap-2">
             <Avatar 
@@ -206,12 +206,12 @@
     <ComponentPreview
       title="Status Types"
       description="Different status indicators: online, offline, away, busy"
-      code={`<Avatar status="online" name="User" />
+      codeSnippet={`<Avatar status="online" name="User" />
 <Avatar status="offline" name="User" />
 <Avatar status="away" name="User" />
 <Avatar status="busy" name="User" />`}
     >
-      <div slot="preview" class="p-8 flex items-center justify-center gap-6">
+      <div class="p-8 flex items-center justify-center gap-6">
         {#each statuses as status}
           <div class="flex flex-col items-center gap-2">
             <Avatar 
@@ -234,12 +234,12 @@
     <ComponentPreview
       title="Notification Badges"
       description="Display notification counts or indicators"
-      code={`<Avatar badge="5" name="User" />
+      codeSnippet={`<Avatar badge="5" name="User" />
 <Avatar badge="99+" name="User" />
 <Avatar badge="•" name="User" />
-<Avatar badge="" showBadge name="User" />`}
+<Avatar badge="" name="User" />`}
     >
-      <div slot="preview" class="p-8 flex items-center justify-center gap-6">
+      <div class="p-8 flex items-center justify-center gap-6">
         <div class="flex flex-col items-center gap-2">
           <Avatar 
             badge="5"
@@ -266,11 +266,9 @@
             src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
           />
           <span class="text-xs text-gray-500">Dot indicator</span>
-        </div>
-        <div class="flex flex-col items-center gap-2">
+        </div>        <div class="flex flex-col items-center gap-2">
           <Avatar 
             badge=""
-            showBadge
             size="lg"
             name="User Name"
             src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
@@ -288,12 +286,12 @@
     <ComponentPreview
       title="Generated Initials"
       description="Automatic initials generation from user names"
-      code={`<Avatar name="John Doe" />
+      codeSnippet={`<Avatar name="John Doe" />
 <Avatar name="Sarah Johnson Wilson" />
 <Avatar name="Alex" />
 <Avatar name="" />`}
     >
-      <div slot="preview" class="p-8 flex items-center justify-center gap-6">
+      <div class="p-8 flex items-center justify-center gap-6">
         <div class="flex flex-col items-center gap-2">
           <Avatar name="John Doe" size="lg" />
           <span class="text-xs text-gray-500">John Doe</span>
@@ -321,7 +319,7 @@
     <ComponentPreview
       title="Team Members List"
       description="Example of avatars in a team member list with status and interaction"
-      code={`{#each teamMembers as member}
+      codeSnippet={`{#each teamMembers as member}
   <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50">
     <Avatar 
       name={member.name}
@@ -337,7 +335,7 @@
   </div>
 {/each}`}
     >
-      <div slot="preview" class="p-6">
+      <div class="p-6">
         <div class="max-w-md mx-auto space-y-2">
           {#each teamMembers as member}
             <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">

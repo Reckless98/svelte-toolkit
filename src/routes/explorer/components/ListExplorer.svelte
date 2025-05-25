@@ -1,6 +1,6 @@
 <!-- List Component Explorer -->
 <script lang="ts">
-	import { List } from '$lib/components/List';
+	import List from '$lib/components/List';
 	import ComponentPreview from '../ComponentPreview.svelte';
 
 	type ListVariant = 'default' | 'cards' | 'compact' | 'detailed';
@@ -172,11 +172,17 @@
 			</div>
 		</ComponentPreview>
 
-		<!-- Compact Layout -->
-		<ComponentPreview
+		<!-- Compact Layout -->		<ComponentPreview
 			title="Compact Layout"
 			description="Space-efficient layout for navigation or simple lists."
-			codeSnippet='<List variant="compact" items={menuItems} />'
+			codeSnippet={`<List variant="compact" items={compactItems} />
+
+<!-- Sample data -->
+const compactItems = [
+  { id: 1, title: 'Home', icon: '🏠' },
+  { id: 2, title: 'Profile', icon: '👤' },
+  { id: 3, title: 'Settings', icon: '⚙️' }
+];`}
 		>
 			<div class="space-y-4">
 				<List variant="compact" items={compactItems} />
@@ -194,22 +200,40 @@
 			</div>
 		</ComponentPreview>
 
-		<!-- Cards Variant -->
-		<ComponentPreview
+		<!-- Cards Variant -->		<ComponentPreview
 			title="Cards Variant"
 			description="Display items as cards for a more visual layout."
-			codeSnippet='<List variant="cards" items={items} />'
+			codeSnippet={`<List variant="cards" items={sampleItems} />
+
+<!-- Sample data -->
+const sampleItems = [
+  {
+    id: 1,
+    title: 'John Doe',
+    subtitle: 'Software Engineer',
+    description: 'Experienced developer...',
+    avatar: '👨‍💻',
+    meta: '2 years ago',
+    status: 'active'
+  }
+];`}
 		>
 			<div class="space-y-4">
 				<List variant="cards" items={sampleItems} />
 			</div>
 		</ComponentPreview>
 
-		<!-- Selectable List -->
-		<ComponentPreview
+		<!-- Selectable List -->		<ComponentPreview
 			title="Selectable List"
 			description="Enable selection of items with checkboxes."
-			codeSnippet='<List selectable={true} multiSelect={true} items={items} />'
+			codeSnippet={`<List selectable={true} multiSelect={true} items={sampleItems} />
+
+<!-- Sample data -->
+const sampleItems = [
+  { id: 1, title: 'Item 1', subtitle: 'Description 1' },
+  { id: 2, title: 'Item 2', subtitle: 'Description 2' },
+  { id: 3, title: 'Item 3', subtitle: 'Description 3' }
+];`}
 		>
 			<div class="space-y-4">
 				<List 

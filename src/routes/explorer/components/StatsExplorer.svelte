@@ -1,6 +1,6 @@
 <!-- Stats Component Explorer -->
 <script lang="ts">
-	import { Stats } from '$lib/components/Stats';
+	import Stats from '$lib/components/Stats';
 	import ComponentPreview from '../ComponentPreview.svelte';
 
 	type StatsLayout = 'grid' | 'row' | 'column';
@@ -249,7 +249,14 @@
 		<ComponentPreview
 			title="Cards Variant"
 			description="Statistics displayed as individual cards."
-			codeSnippet='<Stats variant="cards" stats={stats} layout="grid" />'
+			codeSnippet={`<Stats variant="cards" stats={sampleStats} layout="grid" />
+
+<!-- Sample data -->
+const sampleStats = [
+  { label: 'Total Users', value: '12,345', change: '+12%' },
+  { label: 'Revenue', value: '$45,678', change: '+8%' },
+  { label: 'Orders', value: '1,234', change: '-2%' }
+];`}
 		>
 			<div class="space-y-4">
 				<Stats 
@@ -265,7 +272,14 @@
 		<ComponentPreview
 			title="Minimal Variant"
 			description="Clean, minimal design for statistics."
-			codeSnippet='<Stats variant="minimal" stats={stats} layout="row" />'
+			codeSnippet={`<Stats variant="minimal" stats={sampleStats} layout="row" />
+
+<!-- Sample data -->
+const sampleStats = [
+  { label: 'Active Users', value: '8,432' },
+  { label: 'Sessions', value: '24,567' },
+  { label: 'Bounce Rate', value: '32%' }
+];`}
 		>
 			<div class="space-y-4">
 				<Stats 
@@ -280,7 +294,13 @@
 		<ComponentPreview
 			title="Column Layout"
 			description="Vertical stacking of statistics."
-			codeSnippet='<Stats layout="column" stats={stats} variant="cards" />'
+			codeSnippet={`<Stats layout="column" stats={sampleStats} variant="cards" />
+
+<!-- Sample data -->
+const sampleStats = [
+  { label: 'Downloads', value: '5,432', change: '+15%' },
+  { label: 'Uploads', value: '2,345', change: '+5%' }
+];`}
 		>
 			<div class="space-y-4">
 				<div class="max-w-md">

@@ -1,6 +1,6 @@
 <!-- Toast Component Explorer -->
 <script lang="ts">
-	import { Toast } from '$lib/components/Toast';
+	import Toast from '$lib/components/Toast';
 	import { Button } from '$lib/components/Button';
 	import ComponentPreview from '../ComponentPreview.svelte';
 

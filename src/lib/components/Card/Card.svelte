@@ -1,17 +1,17 @@
-<script>
+<script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import clsx from 'clsx';
 
 	// Props
-	export let variant = 'standard';
+	export let variant: 'standard' | 'elevated' | 'outlined' | 'glass' | 'neon' | 'morphic' | 'gradient' = 'standard';
 	export let title = '';
 	export let subtitle = '';
-	export let image = null;
+	export let image: string | null = null;
 	export let imageAlt = '';
-	export let hoverEffect = 'none';
+	export let hoverEffect: 'none' | 'lift' | 'scale' | 'glow' | 'tilt' = 'none';
 	export let clickable = false;
-	export let padding = 'normal';
-	export let borderRadius = 'lg';
+	export let padding: 'none' | 'small' | 'normal' | 'large' = 'normal';
+	export let borderRadius: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full' = 'lg';
 
 	const dispatch = createEventDispatcher();
 
@@ -69,19 +69,20 @@
 	);
 
 	// Handle click
-	function handleClick(event) {
+	function handleClick(event: MouseEvent | KeyboardEvent) {
 		if (clickable) {
 			dispatch('click', event);
 		}
 	}
 </script>
 
+<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 <article 
 	class={cardClasses}
 	on:click={handleClick}
 	on:keydown={(e) => e.key === 'Enter' && handleClick(e)}
 	role={clickable ? 'button' : 'article'}
-	tabindex={clickable ? 0 : -1}
+	tabindex={clickable ? 0 : undefined}
 >
 	{#if image}
 		<div class="relative -mx-6 -mt-6 mb-6 aspect-video overflow-hidden">

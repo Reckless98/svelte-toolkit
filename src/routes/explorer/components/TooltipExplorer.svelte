@@ -3,6 +3,8 @@
   import { Button } from '$lib/components/Button';
   import ComponentPreview from '../ComponentPreview.svelte';
   
+  type TooltipVariant = 'default' | 'dark' | 'light' | 'error' | 'warning' | 'success' | 'info' | 'glass' | 'minimal';
+  
   let basicText = 'This is a basic tooltip';
   let dynamicContent = 'Dynamic tooltip content that can change';
   let showTooltip = false;
@@ -28,15 +30,10 @@
       code: `<Tooltip content="Left positioned tooltip" position="left">
   <Button>Left tooltip</Button>
 </Tooltip>`
-    },
-    {
+    },    {
       title: 'Rich Content',
       description: 'Tooltip with HTML content and custom styling',
-      code: `<Tooltip position="top" variant="rich">
-  <div slot="content">
-    <strong>Rich Content</strong>
-    <p>This tooltip can contain HTML elements.</p>
-  </div>
+      code: `<Tooltip content="Rich tooltip with dark variant" position="top" variant="dark">
   <Button>Rich tooltip</Button>
 </Tooltip>`
     },
@@ -46,11 +43,10 @@
       code: `<Tooltip content="This button is disabled">
   <Button disabled>Disabled button</Button>
 </Tooltip>`
-    },
-    {
+    },    {
       title: 'Manual Control',
       description: 'Programmatically control tooltip visibility',
-      code: `<Tooltip content="Manually controlled" trigger="manual" show={showTooltip}>
+      code: `<Tooltip content="Manually controlled" trigger="manual" open={showTooltip}>
   <Button on:click={() => showTooltip = !showTooltip}>
     Toggle tooltip
   </Button>
@@ -63,11 +59,9 @@
     'right', 'right-start', 'right-end',
     'bottom', 'bottom-start', 'bottom-end',
     'left', 'left-start', 'left-end'
-  ];
-
-  const variants = [
-    'default', 'dark', 'light', 'primary', 'secondary', 
-    'success', 'warning', 'error', 'rich'
+  ];  const variants: TooltipVariant[] = [
+    'default', 'dark', 'light', 'error', 
+    'warning', 'success', 'info', 'glass', 'minimal'
   ];
 </script>
 
@@ -83,13 +77,12 @@
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Examples</h2>
     
-    {#each examples as example, index}
-      <ComponentPreview
+    {#each examples as example, index}      <ComponentPreview
         title={example.title}
         description={example.description}
-        code={example.code}
+        codeSnippet={example.code}
       >
-        <div slot="preview" class="p-8 flex justify-center">
+        <div class="p-8 flex justify-center">
           {#if index === 0}
             <Tooltip content="This is a tooltip">
               <Button>Hover me</Button>
@@ -101,21 +94,15 @@
           {:else if index === 2}
             <Tooltip content="Left positioned tooltip" position="left">
               <Button>Left tooltip</Button>
-            </Tooltip>
-          {:else if index === 3}
-            <Tooltip position="top" variant="rich">
-              <div slot="content">
-                <strong>Rich Content</strong>
-                <p class="text-sm mt-1">This tooltip can contain HTML elements.</p>
-              </div>
+            </Tooltip>          {:else if index === 3}
+            <Tooltip content="Rich tooltip with dark variant" position="top" variant="dark">
               <Button>Rich tooltip</Button>
             </Tooltip>
           {:else if index === 4}
             <Tooltip content="This button is disabled">
               <Button disabled>Disabled button</Button>
-            </Tooltip>
-          {:else if index === 5}
-            <Tooltip content="Manually controlled" trigger="manual" show={showTooltip}>
+            </Tooltip>          {:else if index === 5}
+            <Tooltip content="Manually controlled" trigger="manual" open={showTooltip}>
               <Button on:click={() => showTooltip = !showTooltip}>
                 Toggle tooltip
               </Button>
@@ -129,11 +116,10 @@
   <!-- Positions -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Positions</h2>
-    
-    <ComponentPreview
+      <ComponentPreview
       title="Tooltip Positions"
       description="All available positioning options for tooltips"
-      code={`<Tooltip content="Top tooltip" position="top">
+      codeSnippet={`<Tooltip content="Top tooltip" position="top">
   <Button>Top</Button>
 </Tooltip>
 <Tooltip content="Right tooltip" position="right">
@@ -146,7 +132,7 @@
   <Button>Left</Button>
 </Tooltip>`}
     >
-      <div slot="preview" class="p-8">
+      <div class="p-8">
         <div class="grid grid-cols-3 gap-8 max-w-md mx-auto">
           <!-- Top row -->
           <Tooltip content="Top start" position="top-start">
@@ -188,27 +174,22 @@
   <!-- Variants -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Variants</h2>
-    
-    <ComponentPreview
+      <ComponentPreview
       title="Tooltip Variants"
       description="Different visual styles for various contexts"
-      code={`<Tooltip content="Default tooltip" variant="default">
+      codeSnippet={`<Tooltip content="Default tooltip" variant="default">
   <Button>Default</Button>
 </Tooltip>
 <Tooltip content="Dark tooltip" variant="dark">
   <Button>Dark</Button>
 </Tooltip>
-<Tooltip content="Primary tooltip" variant="primary">
-  <Button>Primary</Button>
-</Tooltip>
 <Tooltip content="Success tooltip" variant="success">
   <Button>Success</Button>
 </Tooltip>`}
     >
-      <div slot="preview" class="p-8 flex flex-wrap gap-4 justify-center">
-        {#each variants as variant}
-          <Tooltip content="{variant} tooltip" {variant}>
-            <Button size="sm" variant="outlined">{variant}</Button>
+      <div class="p-8 flex flex-wrap gap-4 justify-center">        {#each variants as variant}
+          <Tooltip content="{variant} tooltip" variant={variant}>
+            <Button size="sm" variant="secondary">{variant}</Button>
           </Tooltip>
         {/each}
       </div>
@@ -218,59 +199,48 @@
   <!-- Interactive Features -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Interactive Features</h2>
-    
-    <ComponentPreview
+      <ComponentPreview
       title="Trigger Methods"
       description="Different ways to trigger tooltip display"
-      code={`<Tooltip content="Hover tooltip" trigger="hover">
+      codeSnippet={`<Tooltip content="Hover tooltip" trigger="hover">
   <Button>Hover</Button>
 </Tooltip>
 <Tooltip content="Click tooltip" trigger="click">
   <Button>Click</Button>
-</Tooltip>
-<Tooltip content="Focus tooltip" trigger="focus">
-  <Button>Focus</Button>
 </Tooltip>`}
     >
-      <div slot="preview" class="p-8 flex gap-4 justify-center">
+      <div class="p-8 flex gap-4 justify-center">
         <Tooltip content="Appears on hover (default)" trigger="hover">
           <Button>Hover trigger</Button>
-        </Tooltip>
-        <Tooltip content="Appears on click, disappears on outside click" trigger="click">
+        </Tooltip>        <Tooltip content="Appears on click, disappears on outside click" trigger="click">
           <Button>Click trigger</Button>
-        </Tooltip>
-        <Tooltip content="Appears on focus (keyboard accessible)" trigger="focus">
-          <Button>Focus trigger</Button>
         </Tooltip>
       </div>
     </ComponentPreview>
-    
-    <ComponentPreview
+      <ComponentPreview
       title="Delays and Animation"
       description="Custom delays and animation options"
-      code={`<Tooltip 
+      codeSnippet={`<Tooltip 
   content="Fast tooltip" 
-  showDelay={100} 
-  hideDelay={50}
+  delay={100}
 >
   <Button>Fast</Button>
 </Tooltip>
 <Tooltip 
   content="Slow tooltip" 
-  showDelay={800} 
-  hideDelay={300}
+  delay={800}
 >
   <Button>Slow</Button>
 </Tooltip>`}
     >
-      <div slot="preview" class="p-8 flex gap-4 justify-center">
-        <Tooltip content="Fast tooltip (100ms delay)" showDelay={100} hideDelay={50}>
+      <div class="p-8 flex gap-4 justify-center">
+        <Tooltip content="Fast tooltip (100ms delay)" delay={100}>
           <Button>Fast tooltip</Button>
         </Tooltip>
-        <Tooltip content="Normal tooltip (default 500ms delay)">
+        <Tooltip content="Normal tooltip (default delay)">
           <Button>Normal tooltip</Button>
         </Tooltip>
-        <Tooltip content="Slow tooltip (800ms delay)" showDelay={800} hideDelay={300}>
+        <Tooltip content="Slow tooltip (800ms delay)" delay={800}>
           <Button>Slow tooltip</Button>
         </Tooltip>
       </div>

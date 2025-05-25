@@ -102,7 +102,7 @@
 	<ComponentPreview title="Modal Variants">
 		<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
 			{#each variants as variant}
-				<Button variant="outlined" on:click={() => openModal(variant.value)}>
+				<Button variant="secondary" on:click={() => openModal(variant.value)}>
 					{variant.name} Modal
 				</Button>
 
@@ -131,7 +131,7 @@
 	<ComponentPreview title="Modal Animations">
 		<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
 			{#each animations as animation}
-				<Button variant="outlined" on:click={() => openModal(animation.value + 'Animation')}>
+				<Button variant="secondary" on:click={() => openModal(animation.value + 'Animation')}>
 					{animation.name} Animation
 				</Button>
 
@@ -158,7 +158,7 @@
 	<ComponentPreview title="Modal Positions">
 		<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
 			{#each positions as position}
-				<Button variant="outlined" on:click={() => openModal(position.value + 'Position')}>
+				<Button variant="secondary" on:click={() => openModal(position.value + 'Position')}>
 					{position.name} Position
 				</Button>
 
@@ -185,7 +185,7 @@
 	<ComponentPreview title="Practical Examples">
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 			<!-- Form Modal -->
-			<Button variant="accent" on:click={() => openModal('withForm')}>Contact Form</Button>
+			<Button variant="primary" on:click={() => openModal('withForm')}>Contact Form</Button>
 
 			<!-- Confirmation Modal -->
 			<Button variant="primary" on:click={() => openModal('confirmation')}>

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Accordion } from '$lib/components/Accordion';
   import ComponentPreview from '../ComponentPreview.svelte';
+  import type { AccordionVariant, AccordionSize, AccordionAnimation } from '$lib/components/Accordion';
   
   let openItems = ['item1'];
   let multipleOpen = ['item1', 'item3'];
@@ -64,14 +65,13 @@
       badge: '24'
     }
   ];
-
   const examples = [
     {
       title: 'Basic Usage',
       description: 'Simple accordion with collapsible content sections',
       code: `<Accordion 
   items={basicItems} 
-  bind:openItems
+  defaultOpen={['item1']}
 />`
     },
     {
@@ -79,8 +79,8 @@
       description: 'Allow multiple sections to be open simultaneously',
       code: `<Accordion 
   items={basicItems} 
-  bind:openItems={multipleOpen}
-  allowMultiple
+  defaultOpen={['item1', 'item3']}
+  multiple
 />`
     },
     {
@@ -88,15 +88,14 @@
       description: 'Add icons to accordion headers for better visual hierarchy',
       code: `<Accordion 
   items={itemsWithIcons} 
-  bind:openItems
+  defaultOpen={['home']}
 />`
-    },
-    {
+    },    {
       title: 'With Badges',
       description: 'Display badges with counts or status indicators',
       code: `<Accordion 
   items={itemsWithBadges} 
-  bind:openItems
+  defaultOpen={['inbox']}
 />`
     },
     {
@@ -104,14 +103,14 @@
       description: 'Some items can be disabled to prevent interaction',
       code: `<Accordion 
   items={itemsWithDisabled} 
-  bind:openItems
+  defaultOpen={['item1']}
 />`
     }
   ];
 
-  const variants = ['default', 'bordered', 'elevated', 'minimal', 'modern', 'glass'];
-  const sizes = ['sm', 'md', 'lg'];
-  const animations = ['slide', 'fade', 'none'];
+  const variants: AccordionVariant[] = ['default', 'bordered', 'elevated', 'minimal', 'modern', 'glass'];
+  const sizes: AccordionSize[] = ['sm', 'md', 'lg'];
+  const animations: AccordionAnimation[] = ['slide', 'fade', 'none'];
 
   // Items with one disabled
   const itemsWithDisabled = [
@@ -140,33 +139,32 @@
         title={example.title}
         description={example.description}
         codeSnippet={example.code}
-      >
-        <div class="p-6">
+      >        <div class="p-6">
           {#if index === 0}
             <Accordion 
               items={basicItems} 
-              bind:openItems
+              defaultOpen={openItems}
             />
           {:else if index === 1}
             <Accordion 
               items={basicItems} 
-              bind:openItems={multipleOpen}
-              allowMultiple
+              defaultOpen={multipleOpen}
+              multiple
             />
           {:else if index === 2}
             <Accordion 
               items={itemsWithIcons} 
-              bind:openItems
+              defaultOpen={['home']}
             />
           {:else if index === 3}
             <Accordion 
               items={itemsWithBadges} 
-              bind:openItems
+              defaultOpen={['inbox']}
             />
           {:else if index === 4}
             <Accordion 
               items={itemsWithDisabled} 
-              bind:openItems
+              defaultOpen={['item1']}
             />
           {/if}
         </div>
@@ -190,11 +188,10 @@
           <div class="p-6 space-y-8">
             {#each variants as variant}
               <div>
-                <h4 class="text-sm font-medium mb-3 capitalize text-gray-700 dark:text-gray-300">{variant}</h4>
-                <Accordion 
+                <h4 class="text-sm font-medium mb-3 capitalize text-gray-700 dark:text-gray-300">{variant}</h4>                <Accordion 
                   variant={variant}
                   items={basicItems.slice(0, 2)} 
-                  bind:openItems
+                  defaultOpen={['item1']}
                 />
               </div>
             {/each}
@@ -213,11 +210,10 @@
       <div class="p-6 space-y-8">
         {#each sizes as size}
           <div>
-            <h4 class="text-sm font-medium mb-3 capitalize text-gray-700 dark:text-gray-300">{size}</h4>
-            <Accordion 
-              {size}
+            <h4 class="text-sm font-medium mb-3 capitalize text-gray-700 dark:text-gray-300">{size}</h4>            <Accordion 
+              size={size}
               items={basicItems.slice(0, 2)} 
-              bind:openItems
+              defaultOpen={['item1']}
             />
           </div>
         {/each}      </div>
@@ -235,11 +231,10 @@
       <div class="p-6 space-y-8">
         {#each animations as animation}
           <div>
-            <h4 class="text-sm font-medium mb-3 capitalize text-gray-700 dark:text-gray-300">{animation}</h4>
-            <Accordion 
+            <h4 class="text-sm font-medium mb-3 capitalize text-gray-700 dark:text-gray-300">{animation}</h4>            <Accordion 
               animation={animation}
               items={basicItems.slice(0, 2)} 
-              bind:openItems
+              defaultOpen={['item1']}
             />
           </div>
         {/each}
@@ -253,10 +248,9 @@
     
     <ComponentPreview
       title="Rich Content"
-      description="Accordion with rich HTML content"
-      codeSnippet={`<Accordion 
+      description="Accordion with rich HTML content"      codeSnippet={`<Accordion 
   items={basicItems.slice(0, 2)}
-  bind:openItems
+  defaultOpen={['item1']}
 />
 <Accordion 
   items={[
@@ -277,13 +271,13 @@
       </div>\`
     }
   ]}
-  bind:openItems
+  defaultOpen={['rich1']}
 />`}
     >
       <div class="p-6 space-y-8">
         <Accordion 
           items={basicItems.slice(0, 2)}
-          bind:openItems
+          defaultOpen={['item1']}
         />
         <Accordion 
           items={[

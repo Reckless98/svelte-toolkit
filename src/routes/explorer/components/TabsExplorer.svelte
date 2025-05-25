@@ -1,6 +1,6 @@
 <!-- Tabs Component Explorer -->
 <script lang="ts">
-	import { Tabs } from '$lib/components/Tabs';
+	import Tabs from '$lib/components/Tabs';
 	import ComponentPreview from '../ComponentPreview.svelte';
 
 	type TabsVariant = 'default' | 'pills' | 'underline' | 'cards';
@@ -231,7 +231,14 @@
 		<ComponentPreview
 			title="Full Width Tabs"
 			description="Tabs that stretch to fill the available width."
-			codeSnippet='<Tabs tabs={tabs} fullWidth={true} />'
+			codeSnippet={`<Tabs tabs={basicTabs} fullWidth={true} />
+
+<!-- Sample data -->
+const basicTabs = [
+  { id: 'tab1', label: 'Tab 1' },
+  { id: 'tab2', label: 'Tab 2' },
+  { id: 'tab3', label: 'Tab 3' }
+];`}
 		>
 			<div class="space-y-4">
 				<Tabs 
@@ -247,7 +254,19 @@
 		<ComponentPreview
 			title="Scrollable Tabs"
 			description="Tabs that scroll horizontally when there are many items."
-			codeSnippet='<Tabs tabs={manyTabs} scrollable={true} />'
+			codeSnippet={`<Tabs tabs={manyTabs} scrollable={true} />
+
+<!-- Sample data with many tabs -->
+const manyTabs = [
+  { id: 'tab1', label: 'Tab 1' },
+  { id: 'tab2', label: 'Tab 2' },
+  { id: 'tab3', label: 'Tab 3' },
+  { id: 'tab4', label: 'Tab 4' },
+  { id: 'tab5', label: 'Tab 5' },
+  { id: 'tab6', label: 'Tab 6' },
+  { id: 'tab7', label: 'Tab 7' },
+  { id: 'tab8', label: 'Tab 8' }
+];`}
 		>
 			<div class="space-y-4">
 				<Tabs 
@@ -279,12 +298,19 @@
 			</div>
 		</ComponentPreview>
 
-		<!-- Centered Tabs -->
-		<ComponentPreview
-			title="Centered Tabs"
-			description="Center-aligned tabs for a balanced layout."
-			codeSnippet='<Tabs tabs={tabs} centered={true} />'
-		>
+				<!-- Centered Tabs -->
+				<ComponentPreview
+					title="Centered Tabs"
+					description="Center-aligned tabs for a balanced layout."
+					codeSnippet={`<Tabs tabs={basicTabs} centered={true} />
+		
+		<!-- Sample data -->
+		const basicTabs = [
+		  { id: 'tab1', label: 'Tab 1' },
+		  { id: 'tab2', label: 'Tab 2' },
+		  { id: 'tab3', label: 'Tab 3' }
+		];`}
+				>
 			<div class="space-y-4">
 				<Tabs 
 					tabs={basicTabs}

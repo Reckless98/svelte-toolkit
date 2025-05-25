@@ -111,13 +111,12 @@
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Examples</h2>
     
-    {#each examples as example, index}
-      <ComponentPreview
+    {#each examples as example, index}      <ComponentPreview
         title={example.title}
         description={example.description}
-        code={example.code}
+        codeSnippet={example.code}
       >
-        <div slot="preview" class="p-4">
+        <div class="p-4">
           {#if index === 0}
             <Textarea bind:value={basicValue} placeholder="Enter your message..." />
           {:else if index === 1}
@@ -140,13 +139,11 @@
               showCharCount
               placeholder="Max 100 characters..."
             />
-          {:else if index === 4}
-            <Textarea 
+          {:else if index === 4}            <Textarea 
               bind:value={codeText}
               variant="filled"
               placeholder="Enter your code here..."
               rows={10}
-              class="font-mono"
             />
           {:else if index === 5}
             <Textarea 
@@ -164,17 +161,16 @@
   <!-- Variants -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Variants</h2>
-    
-    <ComponentPreview
+      <ComponentPreview
       title="Textarea Variants"
       description="Different visual styles for various use cases"
-      code={`<Textarea variant="standard" bind:value placeholder="Standard textarea" />
+      codeSnippet={`<Textarea variant="standard" bind:value placeholder="Standard textarea" />
 <Textarea variant="outlined" bind:value placeholder="Outlined textarea" />
 <Textarea variant="filled" bind:value placeholder="Filled textarea" />
 <Textarea variant="modern" bind:value placeholder="Modern textarea" />
 <Textarea variant="glass" bind:value placeholder="Glass textarea" />`}
     >
-      <div slot="preview" class="p-4 space-y-4">
+      <div class="p-4 space-y-4">
         <Textarea variant="standard" bind:value={variantDemos.standard} placeholder="Standard textarea" />
         <Textarea variant="outlined" bind:value={variantDemos.outlined} placeholder="Outlined textarea" />
         <Textarea variant="filled" bind:value={variantDemos.filled} placeholder="Filled textarea" />
@@ -187,16 +183,15 @@
   <!-- Sizes -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Sizes</h2>
-    
-    <ComponentPreview
+      <ComponentPreview
       title="Textarea Sizes"
       description="Available size options: sm, md, lg, xl"
-      code={`<Textarea size="sm" bind:value placeholder="Small textarea" />
+      codeSnippet={`<Textarea size="sm" bind:value placeholder="Small textarea" />
 <Textarea size="md" bind:value placeholder="Medium textarea (default)" />
 <Textarea size="lg" bind:value placeholder="Large textarea" />
 <Textarea size="xl" bind:value placeholder="Extra large textarea" />`}
     >
-      <div slot="preview" class="p-4 space-y-4">
+      <div class="p-4 space-y-4">
         <Textarea size="sm" bind:value={sizeDemos.sm} placeholder="Small textarea" rows={2} />
         <Textarea size="md" bind:value={sizeDemos.md} placeholder="Medium textarea (default)" rows={3} />
         <Textarea size="lg" bind:value={sizeDemos.lg} placeholder="Large textarea" rows={4} />
@@ -208,18 +203,17 @@
   <!-- Colors -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Colors</h2>
-    
-    <ComponentPreview
+      <ComponentPreview
       title="Color Themes"
       description="Different color themes for various contexts"
-      code={`<Textarea color="primary" bind:value placeholder="Primary theme" />
+      codeSnippet={`<Textarea color="primary" bind:value placeholder="Primary theme" />
 <Textarea color="secondary" bind:value placeholder="Secondary theme" />
 <Textarea color="success" bind:value placeholder="Success theme" />
 <Textarea color="warning" bind:value placeholder="Warning theme" />
 <Textarea color="error" bind:value placeholder="Error theme" />
 <Textarea color="info" bind:value placeholder="Info theme" />`}
     >
-      <div slot="preview" class="p-4 space-y-4">
+      <div class="p-4 space-y-4">
         <Textarea color="primary" bind:value={colorDemos.primary} placeholder="Primary theme" />
         <Textarea color="secondary" bind:value={colorDemos.secondary} placeholder="Secondary theme" />
         <Textarea color="success" bind:value={colorDemos.success} placeholder="Success theme" />
@@ -233,16 +227,15 @@
   <!-- Resize Options -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Resize Options</h2>
-    
-    <ComponentPreview
+      <ComponentPreview
       title="Resize Behavior"
       description="Different resize options for user control"
-      code={`<Textarea resize="none" bind:value placeholder="No resize" />
+      codeSnippet={`<Textarea resize="none" bind:value placeholder="No resize" />
 <Textarea resize="vertical" bind:value placeholder="Vertical resize only" />
 <Textarea resize="horizontal" bind:value placeholder="Horizontal resize only" />
 <Textarea resize="both" bind:value placeholder="Both directions" />`}
     >
-      <div slot="preview" class="p-4 space-y-4">
+      <div class="p-4 space-y-4">
         <Textarea resize="none" bind:value={resizeDemos.none} placeholder="No resize" />
         <Textarea resize="vertical" bind:value={resizeDemos.vertical} placeholder="Vertical resize only (default)" />
         <Textarea resize="horizontal" bind:value={resizeDemos.horizontal} placeholder="Horizontal resize only" />
@@ -254,11 +247,10 @@
   <!-- Advanced Features -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Advanced Features</h2>
-    
-    <ComponentPreview
+      <ComponentPreview
       title="Combined Features"
       description="Multiple features working together"
-      code={`<Textarea 
+      codeSnippet={`<Textarea 
   variant="modern"
   size="lg"
   color="success"
@@ -271,7 +263,7 @@
   placeholder="Type here and watch it grow..."
 />`}
     >
-      <div slot="preview" class="p-4">
+      <div class="p-4">
         <Textarea 
           variant="modern"
           size="lg"
@@ -291,16 +283,15 @@
   <!-- States -->
   <section class="space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">States</h2>
-    
-    <ComponentPreview
+      <ComponentPreview
       title="Textarea States"
       description="Different states: normal, disabled, readonly, error"
-      code={`<Textarea bind:value placeholder="Normal state" />
+      codeSnippet={`<Textarea bind:value placeholder="Normal state" />
 <Textarea disabled placeholder="Disabled state" />
 <Textarea readonly value="This is readonly text" />
 <Textarea error="This field has an error" bind:value placeholder="Error state" />`}
     >
-      <div slot="preview" class="p-4 space-y-4">
+      <div class="p-4 space-y-4">
         <Textarea bind:value={basicValue} placeholder="Normal state" />
         <Textarea disabled placeholder="Disabled state" />
         <Textarea readonly value="This is readonly text that cannot be edited" />

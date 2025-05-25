@@ -1,3 +1,3 @@
 import ScrollReveal from './ScrollReveal.svelte';
-
-export { ScrollReveal };
+import Parallax from './Parallax.svelte';
+export { ScrollReveal, Parallax };

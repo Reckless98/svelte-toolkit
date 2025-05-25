@@ -9,8 +9,9 @@
 		{ name: 'Elevated', value: 'elevated' },
 		{ name: 'Outlined', value: 'outlined' },
 		{ name: 'Glass', value: 'glass' },
-		{ name: 'Tilt', value: 'tilt' },
-		{ name: 'Flip', value: 'flip' },
+		{ name: 'Neon', value: 'neon' },
+		{ name: 'Morphic', value: 'morphic' },
+		{ name: 'Gradient', value: 'gradient' },
 	];
 
 	// Code examples - simplified to avoid template literal conflicts
@@ -42,19 +43,22 @@
 
 <Card variant="glass" title="Glass Card">
   Card with glassmorphism effect
-</Card>`;
-
-	const interactiveExample = `<Card variant="tilt" title="3D Tilt Card">
-  This card has a 3D tilt effect on hover
 </Card>
 
-<Card variant="flip" title="Flip Card">
-  <div slot="front">
-    Front content
-  </div>
-  <div slot="back">
-    Back content
-  </div>
+<Card variant="neon" title="Neon Card">
+  Card with neon glow effect
+</Card>`;
+
+	const hoverEffectsExample = `<Card hoverEffect="lift" title="Lift Effect">
+  Card lifts on hover
+</Card>
+
+<Card hoverEffect="scale" title="Scale Effect">
+  Card scales on hover
+</Card>
+
+<Card hoverEffect="glow" title="Glow Effect">
+  Card glows on hover
 </Card>`;
 
 	// Sample image for cards
@@ -111,7 +115,7 @@
 					<p>Standard card with subtle shadow and hover effect.</p>
 				</Card>
 
-				<Card variant="elevated" title="Elevated Card" subtitle="More prominent" elevation="lg">
+				<Card variant="elevated" title="Elevated Card" subtitle="More prominent">
 					<p>Card with larger shadow for more emphasis.</p>
 				</Card>
 
@@ -122,45 +126,53 @@
 				<Card variant="glass" title="Glass Card" subtitle="Transparency">
 					<p>Card with glassmorphism effect for modern UI.</p>
 				</Card>
+
+				<Card variant="neon" title="Neon Card" subtitle="Glow effect">
+					<p>Card with neon glow effect for cyberpunk aesthetics.</p>
+				</Card>
+
+				<Card variant="gradient" title="Gradient Card" subtitle="Colorful">
+					<p>Card with gradient background for vibrant displays.</p>
+				</Card>
 			</div>
 		</ComponentPreview>
 
-		<!-- Interactive Cards -->
+		<!-- Hover Effects -->
 		<ComponentPreview
-			title="Interactive Cards"
-			description="Cards with interactive effects."
-			codeSnippet={interactiveExample}
+			title="Hover Effects"
+			description="Cards with interactive hover animations."
+			codeSnippet={hoverEffectsExample}
 		>
-			<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-				<Card variant="tilt" title="3D Tilt Card" subtitle="Interactive hover" image={sampleImage}>
-					<p>This card has a 3D tilt effect. Move your mouse over it to see the effect.</p>
+			<div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+				<Card hoverEffect="lift" title="Lift Effect" subtitle="Hover to lift" image={sampleImage}>
+					<p>This card lifts up when you hover over it.</p>
 				</Card>
 
-				<Card variant="flip" title="Flip Card" subtitle="Click to flip">
-					<div slot="front">
-						<p>This is the front of the card. Click to flip it!</p>
-					</div>
-					<div slot="back">
-						<h3 class="font-bold text-lg mb-2">Back Side</h3>
-						<p>This is the back of the card. Click again to flip back.</p>
-					</div>
+				<Card hoverEffect="scale" title="Scale Effect" subtitle="Hover to scale" image={sampleImage}>
+					<p>This card scales up when you hover over it.</p>
+				</Card>
+
+				<Card hoverEffect="glow" title="Glow Effect" subtitle="Hover to glow" image={sampleImage}>
+					<p>This card glows when you hover over it.</p>
 				</Card>
 			</div>
 		</ComponentPreview>
 
 		<!-- Card with Link -->
 		<ComponentPreview
-			title="Card with Link"
-			description="Clickable card that navigates to a URL."
-			codeSnippet={'<Card title="Clickable Card" href="https://example.com">'}
+			title="Clickable Card"
+			description="Interactive card with click events."
+			codeSnippet={'<Card clickable={true} title="Clickable Card" on:click={handleClick}>'}
 		>
 			<div class="w-full max-w-sm">
 				<Card
 					title="Clickable Card"
 					subtitle="Click anywhere on this card"
 					image={sampleImage}
+					clickable={true}
+					on:click={() => alert('Card clicked!')}
 				>
-					<p>This card demonstrates interactive content without navigation.</p>
+					<p>This card demonstrates interactive content with click handling.</p>
 				</Card>
 			</div>
 		</ComponentPreview>
