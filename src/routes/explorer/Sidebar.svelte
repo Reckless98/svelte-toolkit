@@ -2,24 +2,16 @@
 	import { page } from '$app/stores';
 	import { fade, fly, slide } from 'svelte/transition';
 	import { theme } from '$lib/stores/theme.js';
-	
-	// Enhanced component categories with comprehensive collection
+		// Simplified component categories with only existing components
 	const categories = [
 		{
 			name: 'Foundation',
 			icon: '🎨',
 			items: [
 				{ name: 'Button', path: '/explorer#button', icon: '🔘' },
-				{ name: 'Button Groups', path: '/explorer#button-groups', icon: '🔘' },
-				{ name: 'Icon Button', path: '/explorer#icon-button', icon: '⭕' },
-				{ name: 'Floating Action', path: '/explorer#fab', icon: '🎯' },
 				{ name: 'Badge', path: '/explorer#badge', icon: '🏷️' },
-				{ name: 'Chip', path: '/explorer#chip', icon: '🏷️' },
 				{ name: 'Avatar', path: '/explorer#avatar', icon: '👤' },
-				{ name: 'Avatar Group', path: '/explorer#avatar-group', icon: '👥' },
 				{ name: 'Divider', path: '/explorer#divider', icon: '➖' },
-				{ name: 'Skeleton', path: '/explorer#skeleton', icon: '💀' },
-				{ name: 'Spinner', path: '/explorer#spinner', icon: '🔄' }
 			]
 		},
 		{
@@ -27,78 +19,30 @@
 			icon: '📝',
 			items: [
 				{ name: 'Input', path: '/explorer#input', icon: '📝' },
-				{ name: 'Input Groups', path: '/explorer#input-groups', icon: '📝' },
 				{ name: 'Textarea', path: '/explorer#textarea', icon: '📄' },
 				{ name: 'Select', path: '/explorer#select', icon: '📋' },
-				{ name: 'Multi Select', path: '/explorer#multi-select', icon: '📋' },
-				{ name: 'Autocomplete', path: '/explorer#autocomplete', icon: '✨' },
 				{ name: 'Checkbox', path: '/explorer#checkbox', icon: '☑️' },
-				{ name: 'Radio Button', path: '/explorer#radio', icon: '🔘' },
-				{ name: 'Toggle Switch', path: '/explorer#toggle', icon: '🔄' },
-				{ name: 'Range Slider', path: '/explorer#range', icon: '🎚️' },
-				{ name: 'File Upload', path: '/explorer#file-upload', icon: '📎' },
-				{ name: 'Date Picker', path: '/explorer#date-picker', icon: '📅' },
-				{ name: 'Time Picker', path: '/explorer#time-picker', icon: '🕐' },
-				{ name: 'Color Picker', path: '/explorer#color-picker', icon: '🎨' },
-				{ name: 'Rating', path: '/explorer#rating', icon: '⭐' },
-				{ name: 'Pin Input', path: '/explorer#pin-input', icon: '🔢' }
+				{ name: 'Toggle', path: '/explorer#toggle', icon: '🔄' },
 			]
 		},
 		{
-			name: 'Advanced Forms',
-			icon: '📋',
-			items: [
-				{ name: 'Multi-Step Form', path: '/explorer#multi-step-form', icon: '📋' },
-				{ name: 'Form Validation', path: '/explorer#form-validation', icon: '✅' },
-				{ name: 'Form Layouts', path: '/explorer#form-layouts', icon: '📐' },
-				{ name: 'Dynamic Forms', path: '/explorer#dynamic-forms', icon: '⚡' },
-				{ name: 'Form Builder', path: '/explorer#form-builder', icon: '🏗️' },
-				{ name: 'Conditional Fields', path: '/explorer#conditional-fields', icon: '🔀' },
-				{ name: 'Form Wizard', path: '/explorer#form-wizard', icon: '🧙‍♂️' },
-				{ name: 'Survey Forms', path: '/explorer#survey-forms', icon: '📊' },
-				{ name: 'Contact Forms', path: '/explorer#contact-forms', icon: '📞' },
-				{ name: 'Registration Forms', path: '/explorer#registration-forms', icon: '📝' },
-				{ name: 'Payment Forms', path: '/explorer#payment-forms', icon: '💳' },
-				{ name: 'Address Forms', path: '/explorer#address-forms', icon: '🏠' }
-			]
-		},
-		{
-			name: 'Layout & Containers',
+			name: 'Layout & Structure',
 			icon: '🏗️',
 			items: [
-				{ name: 'Container', path: '/explorer#container', icon: '📦' },
-				{ name: 'Grid System', path: '/explorer#grid', icon: '🔲' },
-				{ name: 'Flex Layout', path: '/explorer#flex', icon: '↔️' },
-				{ name: 'Stack', path: '/explorer#stack', icon: '📚' },
-				{ name: 'Section', path: '/explorer#section-component', icon: '📄' },
+				{ name: 'Layout', path: '/explorer#layout', icon: '📐' },
 				{ name: 'Card', path: '/explorer#card', icon: '🃏' },
-				{ name: 'Card Variants', path: '/explorer#card-variants', icon: '🃏' },
-				{ name: 'Spacer', path: '/explorer#spacer', icon: '↔️' },
-				{ name: 'Accordion', path: '/explorer/accordion', icon: '📋' },
-				{ name: 'Collapsible', path: '/explorer#collapsible', icon: '📁' },
-				{ name: 'Stepper', path: '/explorer#stepper', icon: '📊' },
-				{ name: 'Timeline', path: '/explorer#timeline', icon: '⏰' },
-				{ name: 'Masonry', path: '/explorer#masonry', icon: '🧱' }
+				{ name: 'Accordion', path: '/explorer#accordion', icon: '📋' },
+				{ name: 'Header', path: '/explorer#header', icon: '🎯' },
+				{ name: 'Footer', path: '/explorer#footer', icon: '📋' },
 			]
 		},
 		{
 			name: 'Navigation',
 			icon: '🧭',
 			items: [
-				{ name: 'Header', path: '/explorer#header', icon: '🎯' },
-				{ name: 'Header Variants', path: '/explorer#header-variants', icon: '🎯' },
-				{ name: 'Navigation Bar', path: '/explorer#navbar', icon: '🗂️' },
-				{ name: 'Sidebar', path: '/explorer#sidebar', icon: '📄' },
-				{ name: 'Bottom Navigation', path: '/explorer#bottom-nav', icon: '⬇️' },
-				{ name: 'Breadcrumbs', path: '/explorer#breadcrumbs', icon: '🍞' },
-				{ name: 'Pagination', path: '/explorer#pagination', icon: '📄' },
+				{ name: 'Navigation', path: '/explorer#navigation', icon: '🗂️' },
 				{ name: 'Tabs', path: '/explorer#tabs', icon: '📑' },
-				{ name: 'Tab Variants', path: '/explorer#tab-variants', icon: '📑' },
-				{ name: 'Menu', path: '/explorer#menu', icon: '🍔' },
-				{ name: 'Dropdown', path: '/explorer/dropdown', icon: '⬇️' },
-				{ name: 'Context Menu', path: '/explorer#context-menu', icon: '📋' },
-				{ name: 'Footer', path: '/explorer#footer', icon: '📋' },
-				{ name: 'Footer Variants', path: '/explorer#footer-variants', icon: '📋' }
+				{ name: 'Dropdown', path: '/explorer#dropdown', icon: '⬇️' },
 			]
 		},
 		{
@@ -106,20 +50,9 @@
 			icon: '📊',
 			items: [
 				{ name: 'Table', path: '/explorer#table', icon: '📋' },
-				{ name: 'Data Table', path: '/explorer#data-table', icon: '📊' },
-				{ name: 'Virtual Table', path: '/explorer#virtual-table', icon: '📋' },
 				{ name: 'List', path: '/explorer#list', icon: '📝' },
-				{ name: 'Virtual List', path: '/explorer#virtual-list', icon: '📝' },
-				{ name: 'Tree View', path: '/explorer#tree', icon: '🌳' },
 				{ name: 'Stats', path: '/explorer#stats', icon: '📈' },
-				{ name: 'KPI Cards', path: '/explorer#kpi', icon: '📊' },
-				{ name: 'Metrics', path: '/explorer#metrics', icon: '📈' },
-				{ name: 'Code Block', path: '/explorer#code', icon: '💻' },
-				{ name: 'Syntax Highlighter', path: '/explorer#syntax', icon: '🎨' },
-				{ name: 'JSON Viewer', path: '/explorer#json', icon: '📄' },
-				{ name: 'Image Gallery', path: '/explorer#gallery', icon: '🖼️' },
-				{ name: 'Carousel', path: '/explorer#carousel', icon: '🎠' },
-				{ name: 'Slideshow', path: '/explorer#slideshow', icon: '🎞️' }
+				{ name: 'Typography', path: '/explorer#typography', icon: '📝' },
 			]
 		},
 		{
@@ -127,107 +60,23 @@
 			icon: '💬',
 			items: [
 				{ name: 'Alert', path: '/explorer#alert', icon: '⚠️' },
-				{ name: 'Banner', path: '/explorer#banner', icon: '🏷️' },
 				{ name: 'Toast', path: '/explorer#toast', icon: '🍞' },
-				{ name: 'Notification', path: '/explorer#notification', icon: '🔔' },
-				{ name: 'Snackbar', path: '/explorer#snackbar', icon: '📱' },
 				{ name: 'Progress', path: '/explorer#progress', icon: '⏳' },
-				{ name: 'Progress Circle', path: '/explorer#progress-circle', icon: '⭕' },
-				{ name: 'Loading States', path: '/explorer#loading', icon: '⏳' },
-				{ name: 'Empty States', path: '/explorer#empty', icon: '📭' },
-				{ name: 'Error States', path: '/explorer#error', icon: '❌' },
-				{ name: 'Status Indicator', path: '/explorer#status', icon: '🔴' },
-				{ name: 'Health Check', path: '/explorer#health', icon: '💚' }
 			]
 		},
 		{
-			name: 'Overlays & Dialogs',
+			name: 'Overlays',
 			icon: '🪟',
 			items: [
 				{ name: 'Modal', path: '/explorer#modal', icon: '🪟' },
-				{ name: 'Dialog', path: '/explorer#dialog', icon: '💬' },
-				{ name: 'Drawer', path: '/explorer#drawer', icon: '📄' },
-				{ name: 'Popover', path: '/explorer#popover', icon: '💭' },
-				{ name: 'Tooltip', path: '/explorer/tooltip', icon: '💡' },
-				{ name: 'Confirmation', path: '/explorer#confirmation', icon: '❓' },
-				{ name: 'Alert Dialog', path: '/explorer#alert-dialog', icon: '⚠️' },
-				{ name: 'Sheet', path: '/explorer#sheet', icon: '📄' },
-				{ name: 'Backdrop', path: '/explorer#backdrop', icon: '🎭' },
-				{ name: 'Lightbox', path: '/explorer#lightbox', icon: '💡' }
-			]
-		},
-		{
-			name: 'Interactive',
-			icon: '⚡',
-			items: [
-				{ name: 'Search', path: '/explorer#search', icon: '🔍' },
-				{ name: 'Search Advanced', path: '/explorer#search-advanced', icon: '🔍' },
-				{ name: 'Filter', path: '/explorer#filter', icon: '🏗️' },
-				{ name: 'Sort', path: '/explorer#sort', icon: '🔄' },
-				{ name: 'Drag & Drop', path: '/explorer#drag-drop', icon: '🤏' },
-				{ name: 'Resizable', path: '/explorer#resizable', icon: '↔️' },
-				{ name: 'Infinite Scroll', path: '/explorer#infinite-scroll', icon: '♾️' },
-				{ name: 'Virtual Scroll', path: '/explorer#virtual-scroll', icon: '📜' },
-				{ name: 'Keyboard Navigation', path: '/explorer#keyboard', icon: '⌨️' },
-				{ name: 'Gesture Handler', path: '/explorer#gestures', icon: '👆' }
-			]
-		},
-		{
-			name: 'Visualization',
-			icon: '📈',
-			items: [
-				{ name: 'Charts', path: '/explorer#charts', icon: '📊' },
-				{ name: 'Graphs', path: '/explorer#graphs', icon: '📈' },
-				{ name: 'Sparklines', path: '/explorer#sparklines', icon: '⚡' },
-				{ name: 'Heatmap', path: '/explorer#heatmap', icon: '🔥' },
-				{ name: 'Gauge', path: '/explorer#gauge', icon: '🎯' },
-				{ name: 'Dashboard', path: '/explorer#dashboard', icon: '📊' },
-				{ name: 'Calendar', path: '/explorer#calendar', icon: '📅' },
-				{ name: 'Gantt Chart', path: '/explorer#gantt', icon: '📊' },
-				{ name: 'Org Chart', path: '/explorer#org-chart', icon: '🏢' },
-				{ name: 'Mind Map', path: '/explorer#mind-map', icon: '🧠' }
-			]
-		},
-		{
-			name: 'Media & Assets',
-			icon: '🎬',
-			items: [
-				{ name: 'Image', path: '/explorer#image', icon: '🖼️' },
-				{ name: 'Video Player', path: '/explorer#video', icon: '🎥' },
-				{ name: 'Audio Player', path: '/explorer#audio', icon: '🎵' },
-				{ name: 'Icon Library', path: '/explorer#icons', icon: '⭐' },
-				{ name: 'QR Code', path: '/explorer#qr-code', icon: '📱' },
-				{ name: 'Barcode', path: '/explorer#barcode', icon: '📊' },
-				{ name: 'PDF Viewer', path: '/explorer#pdf', icon: '📄' },
-				{ name: 'File Viewer', path: '/explorer#file-viewer', icon: '📁' }
-			]
-		},
-		{
-			name: 'Advanced Layouts',
-			icon: '🏗️',
-			items: [
-				{ name: 'Split Pane', path: '/explorer#split-pane', icon: '📱' },
-				{ name: 'Dock Layout', path: '/explorer#dock', icon: '⚓' },
-				{ name: 'Window Manager', path: '/explorer#window-manager', icon: '🪟' },
-				{ name: 'Workspace', path: '/explorer#workspace', icon: '💼' },
-				{ name: 'Dashboard Layout', path: '/explorer#dashboard-layout', icon: '📊' },
-				{ name: 'Grid Layout', path: '/explorer#grid-layout', icon: '⚏' },
-				{ name: 'Mosaic', path: '/explorer#mosaic', icon: '🎨' },
-				{ name: 'Flexible Layout', path: '/explorer#flexible', icon: '🤸' }
+				{ name: 'Tooltip', path: '/explorer#tooltip', icon: '💡' },
 			]
 		},
 		{
 			name: 'Animation & Effects',
 			icon: '✨',
 			items: [
-				{ name: 'Parallax', path: '/explorer#parallax', icon: '🌌' },
-				{ name: 'Scroll Reveal', path: '/explorer#scroll-reveal', icon: '👁️' },
-				{ name: 'Morphing', path: '/explorer#morphing', icon: '🔄' },
-				{ name: 'Particle System', path: '/explorer#particles', icon: '✨' },
-				{ name: 'Lottie Animation', path: '/explorer#lottie', icon: '🎭' },
-				{ name: 'CSS Animations', path: '/explorer#css-animations', icon: '🎨' },
-				{ name: 'Spring Physics', path: '/explorer#spring', icon: '🌸' },
-				{ name: 'Gesture Animations', path: '/explorer#gesture-animations', icon: '👆' }
+				{ name: 'Animation', path: '/explorer#animation', icon: '✨' },
 			]
 		}
 	];

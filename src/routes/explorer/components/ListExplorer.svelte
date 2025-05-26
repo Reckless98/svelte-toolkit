@@ -86,173 +86,206 @@
 		{ name: 'Compact', value: 'compact' },
 		{ name: 'Detailed', value: 'detailed' },
 	];
-
 	// Code examples
-	const basicExample = `<List items={[
-  { id: 1, title: 'Item 1', subtitle: 'Description' },
-  { id: 2, title: 'Item 2', subtitle: 'Description' }
+	const fundamentalsExample = `<!-- Basic List Structure -->
+<List items={[
+  { id: 1, title: 'Home', icon: '🏠' },
+  { id: 2, title: 'Profile', icon: '👤' },
+  { id: 3, title: 'Settings', icon: '⚙️' },
+  { id: 4, title: 'Messages', icon: '💬', meta: '5' }
+]} />
+
+<!-- Team Members List -->
+<List items={[
+  {
+    id: 1,
+    title: 'John Doe',
+    subtitle: 'Software Engineer',
+    description: 'Full-stack developer',
+    avatar: '👨‍💻',
+    meta: '2 years ago',
+    status: 'active'
+  }
 ]} />`;
 
-	const variantsExample = `<List variant="default" items={items} />
+	const layoutsVariantsExample = `<!-- All List Variants -->
+<List variant="default" items={items} />
 <List variant="cards" items={items} />
 <List variant="compact" items={items} />
-<List variant="detailed" items={items} />`;
+<List variant="detailed" items={items} />
 
-	const featuresExample = `<List 
+<!-- Responsive Layout -->
+<List 
+  variant="cards"
+  items={items}
+  class="md:grid-cols-2 lg:grid-cols-3"
+/>`;
+
+	const interactiveFeaturesExample = `<!-- Full Interactive List -->
+<List 
   items={items}
   searchable={true}
   selectable={true}
+  multiSelect={true}
   sortable={true}
   dividers={true}
-/>`;
+  loading={false}
+  emptyMessage="No items found"
+  on:select={handleSelection}
+  on:search={handleSearch}
+/>
 
-	const actionsExample = `<List items={[
+<!-- Loading and Empty States -->
+<List loading={true} items={[]} />
+<List items={[]} emptyMessage="No data available" />`;
+
+	const advancedFeaturesExample = `<!-- File Manager Example -->
+<List items={[
   {
     id: 1,
     title: 'Document.pdf',
+    subtitle: 'PDF Document',
+    meta: '2.4 MB',
+    icon: '📄',
     actions: [
-      { label: 'Download', action: () => {}, variant: 'primary' },
-      { label: 'Delete', action: () => {}, variant: 'danger' }
+      { label: 'Download', action: downloadFile, variant: 'primary' },
+      { label: 'Share', action: shareFile, variant: 'secondary' },
+      { label: 'Delete', action: deleteFile, variant: 'danger' }
     ]
   }
-]} />`;
+]} />
+
+<!-- Real-time Status Updates -->
+<List 
+  items={teamMembers}
+  variant="detailed"
+  realTimeUpdates={true}
+  statusIndicators={true}
+/>`;
 </script>
 
-<section>
-	<div class="max-w-4xl mx-auto">
-		<div class="mb-6">
-			<h1 class="text-2xl font-bold mb-2">List Component</h1>
-			<p class="text-gray-600 dark:text-gray-400">
-				Display collections of items with various layouts, interactions, and features.
+<section>	<div class="max-w-6xl mx-auto">
+		<div class="mb-8">
+			<h1 class="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+				List Component
+			</h1>
+			<p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+				Flexible list component for displaying collections of data with various layouts, interactive features, 
+				and advanced functionality like search, selection, and actions.
 			</p>
 		</div>
 
-		<!-- Basic Example -->
+		<!-- List Fundamentals & Basic Usage -->
 		<ComponentPreview
-			title="Basic List"
-			description="A simple list with basic items."
-			codeSnippet={basicExample}
+			title="List Fundamentals & Basic Usage"
+			description="Essential list structures with different data types - from simple navigation items to complex user profiles."
+			codeSnippet={fundamentalsExample}
+			complexity="Basic"
+			features={["Data Structure", "Basic Rendering", "Simple Icons"]}
 		>
-			<div class="space-y-4">
-				<List items={compactItems} />
+			<div class="space-y-8">
+				<!-- Simple Navigation List -->
+				<div>
+					<h3 class="font-semibold mb-4 text-gray-700 dark:text-gray-300">Simple Navigation Items</h3>
+					<List items={compactItems} />
+				</div>
+
+				<!-- Team Members List -->
+				<div>
+					<h3 class="font-semibold mb-4 text-gray-700 dark:text-gray-300">Team Members Profile List</h3>
+					<List items={sampleItems.slice(0, 3)} />
+				</div>
 			</div>
 		</ComponentPreview>
 
-		<!-- List Variants -->
+		<!-- Visual Layouts & Variants -->
 		<ComponentPreview
-			title="List Variants"
-			description="Different visual layouts for lists."
-			codeSnippet={variantsExample}
+			title="Visual Layouts & Variants"
+			description="Complete overview of all list layouts - compare default, cards, compact, and detailed variants to choose the best fit for your use case."
+			codeSnippet={layoutsVariantsExample}
+			complexity="Intermediate"
+			features={["Layout Options", "Visual Variants", "Responsive Design", "Layout Comparison"]}
 		>
 			<div class="space-y-8">
 				{#each variants as variant}
 					<div>
-						<h3 class="font-medium mb-3 text-gray-700 dark:text-gray-300">{variant.name} Variant</h3>
+						<div class="flex items-center justify-between mb-4">
+							<h3 class="font-semibold text-gray-700 dark:text-gray-300">{variant.name} Variant</h3>
+							<span class="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full">
+								{variant.value}
+							</span>
+						</div>
 						<List variant={variant.value} items={sampleItems.slice(0, 3)} />
 					</div>
 				{/each}
 			</div>
 		</ComponentPreview>
 
-		<!-- Interactive Features -->
+		<!-- Interactive Features & State Management -->
 		<ComponentPreview
-			title="Interactive Features"
-			description="Lists with search, selection, and sorting capabilities."
-			codeSnippet={featuresExample}
+			title="Interactive Features & State Management"
+			description="Advanced list capabilities including search, selection, sorting, loading states, and empty state handling for dynamic applications."
+			codeSnippet={interactiveFeaturesExample}
+			complexity="Intermediate"
+			features={["Search & Filter", "Multi-selection", "Sort Controls", "Loading States", "Empty States"]}
 		>
-			<div class="space-y-4">
-				<List 
-					items={sampleItems}
-					searchable={true}
-					selectable={true}
-					sortable={true}
-					dividers={true}
-					emptyMessage="No items match your search"
-				/>
+			<div class="space-y-8">
+				<!-- Full Interactive List -->
+				<div>
+					<h3 class="font-semibold mb-4 text-gray-700 dark:text-gray-300">Full Interactive Features</h3>
+					<List 
+						items={sampleItems}
+						searchable={true}
+						selectable={true}
+						multiSelect={true}
+						sortable={true}
+						dividers={true}
+						emptyMessage="No items match your search criteria"
+					/>
+				</div>
+
+				<!-- State Examples -->
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+					<div>
+						<h3 class="font-semibold mb-4 text-gray-700 dark:text-gray-300">Loading State</h3>
+						<List loading={true} items={[]} />
+					</div>
+					<div>
+						<h3 class="font-semibold mb-4 text-gray-700 dark:text-gray-300">Empty State</h3>
+						<List items={[]} emptyMessage="No data available" />
+					</div>
+				</div>
 			</div>
 		</ComponentPreview>
 
-		<!-- Compact Layout -->		<ComponentPreview
-			title="Compact Layout"
-			description="Space-efficient layout for navigation or simple lists."
-			codeSnippet={`<List variant="compact" items={compactItems} />
-
-<!-- Sample data -->
-const compactItems = [
-  { id: 1, title: 'Home', icon: '🏠' },
-  { id: 2, title: 'Profile', icon: '👤' },
-  { id: 3, title: 'Settings', icon: '⚙️' }
-];`}
-		>
-			<div class="space-y-4">
-				<List variant="compact" items={compactItems} />
-			</div>
-		</ComponentPreview>
-
-		<!-- List with Actions -->
+		<!-- Advanced Features & Real-world Applications -->
 		<ComponentPreview
-			title="List with Actions"
-			description="Items can have action buttons for quick operations."
-			codeSnippet={actionsExample}
+			title="Advanced Features & Real-world Applications"
+			description="Professional implementations with action buttons, file management systems, and complex business scenarios demonstrating real-world usage patterns."
+			codeSnippet={advancedFeaturesExample}
+			complexity="Advanced"
+			features={["Action Buttons", "File Management", "Status Indicators", "Real-time Updates", "Professional UI"]}
 		>
-			<div class="space-y-4">
-				<List items={actionItems} variant="detailed" />
-			</div>
-		</ComponentPreview>
+			<div class="space-y-8">
+				<!-- File Manager Example -->
+				<div>
+					<h3 class="font-semibold mb-4 text-gray-700 dark:text-gray-300">File Manager Interface</h3>
+					<List items={actionItems} variant="detailed" />
+				</div>				<!-- Team Management with Status -->
+				<div>
+					<h3 class="font-semibold mb-4 text-gray-700 dark:text-gray-300">Team Management Dashboard</h3>
+					<List 
+						items={sampleItems} 
+						variant="cards"
+						selectable={true}
+					/>
+				</div>
 
-		<!-- Cards Variant -->		<ComponentPreview
-			title="Cards Variant"
-			description="Display items as cards for a more visual layout."
-			codeSnippet={`<List variant="cards" items={sampleItems} />
-
-<!-- Sample data -->
-const sampleItems = [
-  {
-    id: 1,
-    title: 'John Doe',
-    subtitle: 'Software Engineer',
-    description: 'Experienced developer...',
-    avatar: '👨‍💻',
-    meta: '2 years ago',
-    status: 'active'
-  }
-];`}
-		>
-			<div class="space-y-4">
-				<List variant="cards" items={sampleItems} />
-			</div>
-		</ComponentPreview>
-
-		<!-- Selectable List -->		<ComponentPreview
-			title="Selectable List"
-			description="Enable selection of items with checkboxes."
-			codeSnippet={`<List selectable={true} multiSelect={true} items={sampleItems} />
-
-<!-- Sample data -->
-const sampleItems = [
-  { id: 1, title: 'Item 1', subtitle: 'Description 1' },
-  { id: 2, title: 'Item 2', subtitle: 'Description 2' },
-  { id: 3, title: 'Item 3', subtitle: 'Description 3' }
-];`}
-		>
-			<div class="space-y-4">
-				<List 
-					selectable={true} 
-					multiSelect={true} 
-					items={sampleItems.slice(0, 4)}
-					variant="default"
-				/>
-			</div>
-		</ComponentPreview>
-
-		<!-- Loading State -->
-		<ComponentPreview
-			title="Loading State"
-			description="Show loading state while data is being fetched."
-			codeSnippet='<List loading={true} items={[]} />'
-		>
-			<div class="space-y-4">
-				<List loading={true} items={[]} />
+				<!-- Compact Navigation with Badges -->
+				<div>
+					<h3 class="font-semibold mb-4 text-gray-700 dark:text-gray-300">Navigation with Notification Badges</h3>
+					<List variant="compact" items={compactItems} />
+				</div>
 			</div>
 		</ComponentPreview>
 	</div>

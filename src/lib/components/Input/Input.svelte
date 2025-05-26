@@ -73,6 +73,10 @@
 		value = target.value;
 		dispatch('input', event);
 	}
+
+	// Computed values for floating label behavior
+	$: labelFloating = focused || value !== '' || type === 'date' || type === 'time' || type === 'datetime-local';
+	$: showPlaceholder = variant !== 'floating' || labelFloating;
 	// Size classes
 	$: sizeClasses = {
 		xs: 'px-2 py-1 text-xs',

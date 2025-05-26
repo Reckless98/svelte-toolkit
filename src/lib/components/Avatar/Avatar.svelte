@@ -42,13 +42,12 @@
 		xl: 'w-16 h-16 text-xl',
 		'2xl': 'w-20 h-20 text-2xl'
 	};
-
-	// Status indicator sizes
+	// Status indicator sizes (fixed positioning and sizing)
 	const statusSizes = {
-		xs: 'w-1.5 h-1.5',
-		sm: 'w-2 h-2',
-		md: 'w-2.5 h-2.5',
-		lg: 'w-3 h-3',
+		xs: 'w-2 h-2',
+		sm: 'w-2.5 h-2.5',
+		md: 'w-3 h-3',
+		lg: 'w-3.5 h-3.5',
 		xl: 'w-4 h-4',
 		'2xl': 'w-5 h-5'
 	};
@@ -69,13 +68,12 @@
 		rounded: 'rounded-lg',
 		square: 'rounded-none'
 	};
-
-	// Status colors
+	// Status colors (enhanced contrast)
 	const statusColors = {
-		online: 'bg-green-400 border-white',
-		offline: 'bg-gray-400 border-white',
-		busy: 'bg-red-400 border-white',
-		away: 'bg-yellow-400 border-white',
+		online: 'bg-green-500 border-white dark:border-gray-800',
+		offline: 'bg-gray-400 border-white dark:border-gray-800',
+		busy: 'bg-red-500 border-white dark:border-gray-800',
+		away: 'bg-yellow-500 border-white dark:border-gray-800',
 		none: ''
 	};
 
@@ -176,19 +174,17 @@
 			<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
 		</svg>
 	{/if}
-
 	<!-- Status indicator -->
 	{#if status !== 'none'}
 		<div 
-			class="absolute -bottom-0 -right-0 {statusSizes[size]} {statusColors[status]} rounded-full border-2"
+			class="absolute bottom-0 right-0 {statusSizes[size]} {statusColors[status]} rounded-full border-2 z-10"
 			aria-label="Status: {status}"
 		></div>
 	{/if}
-
 	<!-- Badge -->
 	{#if badge}
 		<div 
-			class="absolute -top-1 -right-1 {badgeSizes[size]} bg-red-500 text-white rounded-full border-2 border-white flex items-center justify-center font-medium"
+			class="absolute -top-1 -right-1 {badgeSizes[size]} bg-red-500 text-white rounded-full border-2 border-white dark:border-gray-800 flex items-center justify-center font-medium z-10"
 			aria-label="Badge: {badge}"
 		>
 			{#if typeof badge === 'number' && badge > 99}

@@ -28,21 +28,74 @@
 		{ name: 'Medium', value: 'md' },
 		{ name: 'Large', value: 'lg' },
 	];
+	// Comprehensive code examples for smart grouping
+	const basicsAndTypesExample = `<!-- Basic Alert Usage -->
+<Alert>This is a basic alert message.</Alert>
 
-	// Code examples
-	const basicExample = '<Alert>This is a basic alert message.</Alert>';
-	const typesExample =
-		'<Alert type="success">Success: Your action was completed!</Alert>\n<Alert type="warning">Warning: Please check your input.</Alert>\n<Alert type="error">Error: Something went wrong.</Alert>\n<Alert type="info">Info: Here\'s some helpful information.</Alert>';
-	const variantsExample =
-		'<Alert variant="filled">Filled alert variant</Alert>\n<Alert variant="outlined">Outlined alert variant</Alert>\n<Alert variant="subtle">Subtle alert variant</Alert>';
-	const sizesExample =
-		'<Alert size="sm">Small alert</Alert>\n<Alert size="md">Medium alert</Alert>\n<Alert size="lg">Large alert</Alert>';
-	const withTitleExample =
-		'<Alert type="success" title="Success!">Your changes have been saved successfully.</Alert>';
-	const dismissibleExample =
-		'<Alert dismissible={true}>This alert can be dismissed by clicking the X button.</Alert>';
-	const withoutIconExample =
-		'<Alert icon={false}>This alert doesn\'t show an icon.</Alert>';
+<!-- Alert Types for Different Contexts -->
+<Alert type="success">Success: Your action was completed!</Alert>
+<Alert type="warning">Warning: Please check your input.</Alert>
+<Alert type="error">Error: Something went wrong.</Alert>
+<Alert type="info">Info: Here's some helpful information.</Alert>
+
+<!-- Type usage in real scenarios -->
+<Alert type="success">Data saved successfully!</Alert>
+<Alert type="error">Invalid email format.</Alert>`;
+
+	const variantsAndSizesExample = `<!-- All Visual Variants -->
+<Alert variant="filled">Filled alert variant</Alert>
+<Alert variant="outlined">Outlined alert variant</Alert>
+<Alert variant="subtle">Subtle alert variant</Alert>
+
+<!-- Different Sizes -->
+<Alert size="sm">Small alert</Alert>
+<Alert size="md">Medium alert</Alert>
+<Alert size="lg">Large alert</Alert>
+
+<!-- Combinations -->
+<Alert variant="outlined" size="lg" type="warning">Large outlined warning</Alert>
+<Alert variant="subtle" size="sm" type="info">Small subtle info</Alert>`;
+
+	const enhancedFeaturesExample = `<!-- Alerts with Titles -->
+<Alert type="success" title="Success!">Your changes have been saved successfully.</Alert>
+<Alert type="warning" title="Warning">Please review your input before proceeding.</Alert>
+
+<!-- Dismissible Alerts -->
+<Alert dismissible={true} type="info">This alert can be dismissed by clicking the X button.</Alert>
+<Alert dismissible={true} type="warning" title="Heads up!">Don't forget to save your changes.</Alert>
+
+<!-- Custom Icon Settings -->
+<Alert icon={false} type="warning">This alert doesn't show an icon.</Alert>
+
+<!-- Feature Combinations -->
+<Alert type="success" title="Upload Complete" dismissible={true} icon={true}>
+  Your file has been uploaded and processed successfully.
+</Alert>`;
+
+	const realWorldExample = `<!-- Form Validation Alerts -->
+<Alert type="error" title="Validation Error" dismissible={true}>
+  Please correct the highlighted fields before submitting.
+</Alert>
+
+<!-- System Status Alerts -->
+<Alert type="warning" title="Maintenance Notice" size="lg">
+  Scheduled maintenance will occur tonight from 2-4 AM EST.
+</Alert>
+
+<!-- User Feedback Alerts -->
+<Alert type="success" title="Welcome!" dismissible={true} size="md">
+  Your account has been created successfully. Check your email for verification.
+</Alert>
+
+<!-- Complex Notification -->
+<Alert type="error" title="Connection Error" dismissible={true} size="lg" variant="outlined">
+  Unable to connect to the server. Please check your internet connection and try again.
+</Alert>
+
+<!-- Progress Notifications -->
+<Alert type="info" title="Processing..." icon={true}>
+  Your request is being processed. This may take a few moments.
+</Alert>`;
 </script>
 
 <section>
@@ -53,120 +106,176 @@
 				Display important messages and notifications with various styles and configurations.
 			</p>
 		</div>
-
-		<!-- Basic Example -->
-		<ComponentPreview
-			title="Basic Alert"
-			description="The default alert component."
-			codeSnippet={basicExample}
+		<!-- Smart Grouped Previews -->		<ComponentPreview
+			title="Alert Basics & Types"
+			description="Essential alert usage with different types for various message contexts"
+			complexity="Basic"
+			features={['basic usage', 'success', 'warning', 'error', 'info', 'message types']}
+			codeSnippet={basicsAndTypesExample}
 		>
-			<div class="space-y-4">
-				<Alert>This is a basic alert message.</Alert>
+			<div class="space-y-6">
+				<!-- Basic alert -->
+				<div>
+					<h4 class="text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">Basic Usage</h4>
+					<Alert>This is a basic alert message.</Alert>
+				</div>
+				
+				<!-- All alert types -->
+				<div>
+					<h4 class="text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">Alert Types</h4>
+					<div class="space-y-3">
+						{#each types as type}
+							<Alert type={type.value}>
+								{type.name}: This is a {type.name.toLowerCase()} alert message.
+							</Alert>
+						{/each}
+					</div>
+				</div>
+				
+				<!-- Real usage examples -->
+				<div>
+					<h4 class="text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">Practical Examples</h4>
+					<div class="space-y-3">
+						<Alert type="success">Data saved successfully!</Alert>
+						<Alert type="error">Invalid email format.</Alert>
+					</div>
+				</div>
 			</div>
 		</ComponentPreview>
-
-		<!-- Alert Types -->
 		<ComponentPreview
-			title="Alert Types"
-			description="Different alert types for various message contexts."
-			codeSnippet={typesExample}
+			title="Variants & Sizes"
+			description="Visual styles and sizing options for different design needs"
+			complexity="Intermediate"
+			features={['variants', 'sizes', 'filled', 'outlined', 'subtle', 'styling']}
+			codeSnippet={variantsAndSizesExample}
 		>
-			<div class="space-y-4">
-				{#each types as type}
-					<Alert type={type.value}>
-						{type.name}: This is a {type.name.toLowerCase()} alert message.
+			<div class="space-y-6">
+				<!-- Visual variants -->
+				<div>
+					<h4 class="text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">Visual Variants</h4>
+					<div class="space-y-3">
+						{#each variants as variant}
+							<Alert variant={variant.value} type="info">
+								{variant.name} alert variant
+							</Alert>
+						{/each}
+					</div>
+				</div>
+				
+				<!-- Size options -->
+				<div>
+					<h4 class="text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">Size Options</h4>
+					<div class="space-y-3">
+						{#each sizes as size}
+							<Alert size={size.value} type="success">
+								{size.name} alert size
+							</Alert>
+						{/each}
+					</div>
+				</div>
+				
+				<!-- Combinations -->
+				<div>
+					<h4 class="text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">Variant & Size Combinations</h4>
+					<div class="space-y-3">
+						<Alert variant="outlined" size="lg" type="warning">Large outlined warning</Alert>
+						<Alert variant="subtle" size="sm" type="info">Small subtle info</Alert>
+					</div>
+				</div>
+			</div>
+		</ComponentPreview>
+		<ComponentPreview
+			title="Enhanced Features"
+			description="Advanced functionality: titles, dismissible alerts, and icon customization"
+			complexity="Intermediate"
+			features={['titles', 'dismissible', 'icons', 'interactive', 'customization']}
+			codeSnippet={enhancedFeaturesExample}
+		>
+			<div class="space-y-6">
+				<!-- Alerts with titles -->
+				<div>
+					<h4 class="text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">Alerts with Titles</h4>
+					<div class="space-y-3">
+						<Alert type="success" title="Success!">
+							Your changes have been saved successfully.
+						</Alert>
+						<Alert type="warning" title="Warning">
+							Please review your input before proceeding.
+						</Alert>
+						<Alert type="error" title="Error">
+							Unable to complete the requested action.
+						</Alert>
+					</div>
+				</div>
+				
+				<!-- Dismissible functionality -->
+				<div>
+					<h4 class="text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">Dismissible Alerts</h4>
+					<div class="space-y-3">
+						<Alert dismissible={true} type="info">
+							This alert can be dismissed by clicking the X button.
+						</Alert>
+						<Alert dismissible={true} type="warning" title="Heads up!">
+							Don't forget to save your changes.
+						</Alert>
+					</div>
+				</div>
+				
+				<!-- Icon customization -->
+				<div>
+					<h4 class="text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">Icon Customization</h4>
+					<div class="space-y-3">
+						<Alert icon={false} type="warning">
+							This alert doesn't show an icon.
+						</Alert>
+						<Alert type="success" title="Upload Complete" dismissible={true} icon={true}>
+							Your file has been uploaded and processed successfully.
+						</Alert>
+					</div>
+				</div>
+			</div>
+		</ComponentPreview>
+		<ComponentPreview
+			title="Real-World Applications"
+			description="Practical examples and complex alert implementations for common use cases"
+			complexity="Advanced"
+			features={['forms', 'validation', 'notifications', 'system status', 'user feedback']}
+			codeSnippet={realWorldExample}
+		>
+			<div class="space-y-6">
+				<!-- Form validation -->
+				<div>
+					<h4 class="text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">Form Validation</h4>
+					<Alert type="error" title="Validation Error" dismissible={true}>
+						Please correct the highlighted fields before submitting.
 					</Alert>
-				{/each}
-			</div>
-		</ComponentPreview>
-
-		<!-- Alert Variants -->
-		<ComponentPreview
-			title="Alert Variants"
-			description="Different visual styles for alerts."
-			codeSnippet={variantsExample}
-		>
-			<div class="space-y-4">
-				{#each variants as variant}
-					<Alert variant={variant.value} type="info">
-						{variant.name} alert variant
-					</Alert>
-				{/each}
-			</div>
-		</ComponentPreview>
-
-		<!-- Alert Sizes -->
-		<ComponentPreview
-			title="Alert Sizes"
-			description="Alerts in different sizes."
-			codeSnippet={sizesExample}
-		>
-			<div class="space-y-4">
-				{#each sizes as size}
-					<Alert size={size.value} type="success">
-						{size.name} alert size
-					</Alert>
-				{/each}
-			</div>
-		</ComponentPreview>
-
-		<!-- Alert with Title -->
-		<ComponentPreview
-			title="Alert with Title"
-			description="Alerts can have a title for better organization."
-			codeSnippet={withTitleExample}
-		>
-			<div class="space-y-4">
-				<Alert type="success" title="Success!">
-					Your changes have been saved successfully.
-				</Alert>
-				<Alert type="warning" title="Warning">
-					Please review your input before proceeding.
-				</Alert>
-				<Alert type="error" title="Error">
-					Unable to complete the requested action.
-				</Alert>
-			</div>
-		</ComponentPreview>
-
-		<!-- Dismissible Alert -->
-		<ComponentPreview
-			title="Dismissible Alert"
-			description="Alerts that can be dismissed by the user."
-			codeSnippet={dismissibleExample}
-		>
-			<div class="space-y-4">
-				<Alert dismissible={true} type="info">
-					This alert can be dismissed by clicking the X button.
-				</Alert>
-			</div>
-		</ComponentPreview>
-
-		<!-- Alert without Icon -->
-		<ComponentPreview
-			title="Alert without Icon"
-			description="Alerts can be displayed without an icon."
-			codeSnippet={withoutIconExample}
-		>
-			<div class="space-y-4">
-				<Alert icon={false} type="warning">
-					This alert doesn't show an icon.
-				</Alert>
-			</div>
-		</ComponentPreview>
-
-		<!-- Complex Example -->
-		<ComponentPreview
-			title="Complex Alert Example"
-			description="A combination of different alert features."
-			codeSnippet='<Alert type="error" title="Connection Error" dismissible={true} size="lg">
-	Unable to connect to the server. Please check your internet connection and try again.
-</Alert>'
-		>
-			<div class="space-y-4">
-				<Alert type="error" title="Connection Error" dismissible={true} size="lg">
-					Unable to connect to the server. Please check your internet connection and try again.
-				</Alert>
+				</div>
+				
+				<!-- System notifications -->
+				<div>
+					<h4 class="text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">System Status</h4>
+					<div class="space-y-3">
+						<Alert type="warning" title="Maintenance Notice" size="lg">
+							Scheduled maintenance will occur tonight from 2-4 AM EST.
+						</Alert>
+						<Alert type="info" title="Processing..." icon={true}>
+							Your request is being processed. This may take a few moments.
+						</Alert>
+					</div>
+				</div>
+				
+				<!-- User feedback -->
+				<div>
+					<h4 class="text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">User Feedback</h4>
+					<div class="space-y-3">
+						<Alert type="success" title="Welcome!" dismissible={true} size="md">
+							Your account has been created successfully. Check your email for verification.
+						</Alert>
+						<Alert type="error" title="Connection Error" dismissible={true} size="lg" variant="outlined">
+							Unable to connect to the server. Please check your internet connection and try again.
+						</Alert>
+					</div>
+				</div>
 			</div>
 		</ComponentPreview>
 	</div>

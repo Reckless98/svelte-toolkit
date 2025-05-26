@@ -46,22 +46,43 @@
 			if (interval) clearInterval(interval);
 		};
 	});
-
 	// Code examples
-	const basicExample = '<Progress value={75} />';
-	const variantsExample = `<Progress variant="linear" value={75} />
-<Progress variant="circular" value={75} />
-<Progress variant="steps" value={75} steps={4} />`;
-	const sizesExample = `<Progress size="sm" value={60} />
+	const fundamentalsExample = `<!-- Basic Progress -->
+<Progress value={75} />
+
+<!-- Different Sizes -->
+<Progress size="sm" value={60} />
 <Progress size="md" value={60} />
-<Progress size="lg" value={60} />`;
-	const colorsExample = `<Progress color="blue" value={60} />
+<Progress size="lg" value={60} />
+
+<!-- Progress States -->
+<Progress value={0} color="gray" />
+<Progress value={50} color="yellow" />
+<Progress value={100} color="green" />`;
+
+	const visualStylesExample = `<!-- Different Colors -->
+<Progress color="blue" value={60} />
 <Progress color="green" value={60} />
 <Progress color="red" value={60} />
 <Progress color="yellow" value={60} />
 <Progress color="purple" value={60} />`;
-	const featuresExample = `<Progress value={75} showLabel={true} animated={true} />
+
+	const progressVariantsExample = `<!-- Linear Progress -->
+<Progress variant="linear" value={75} />
+
+<!-- Circular Progress -->
+<Progress variant="circular" value={75} />
+
+<!-- Steps Progress -->
+<Progress variant="steps" value={75} steps={4} />`;
+
+	const advancedFeaturesExample = `<!-- Animated Progress -->
+<Progress value={75} showLabel={true} animated={true} />
+
+<!-- Striped Effect -->
 <Progress value={50} striped={true} />
+
+<!-- Indeterminate Progress -->
 <Progress indeterminate={true} />`;
 </script>
 
@@ -73,169 +94,211 @@
 				Display progress indicators in various styles including linear, circular, and stepped progress bars.
 			</p>
 		</div>
-
-		<!-- Basic Example -->
+		<!-- Progress Fundamentals & Basic Usage -->
 		<ComponentPreview
-			title="Basic Progress"
-			description="A simple linear progress bar."
-			codeSnippet={basicExample}
+			title="Progress Fundamentals & Basic Usage"
+			description="Core progress functionality with different sizes and states for essential progress tracking."
+			codeSnippet={fundamentalsExample}
+			complexity="Basic"
+			features={["basic-progress", "sizes", "states", "core-functionality"]}
 		>
-			<div class="space-y-4">
-				<Progress value={75} />
+			<div class="space-y-6">
+				<!-- Basic Progress -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Basic Progress</h4>
+					<Progress value={75} />
+				</div>
+
+				<!-- Progress Sizes -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Different Sizes</h4>
+					<div class="space-y-3">
+						{#each sizes as size}
+							<div>
+								<div class="text-xs text-gray-600 dark:text-gray-400 mb-1">{size.name}</div>
+								<Progress size={size.value} value={60} />
+							</div>
+						{/each}
+					</div>
+				</div>
+
+				<!-- Progress States -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Progress States</h4>
+					<div class="space-y-3">
+						<div>
+							<div class="flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
+								<span>Not Started</span>
+								<span>0%</span>
+							</div>
+							<Progress value={0} color="gray" />
+						</div>
+						<div>
+							<div class="flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
+								<span>In Progress</span>
+								<span>50%</span>
+							</div>
+							<Progress value={50} color="yellow" />
+						</div>
+						<div>
+							<div class="flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
+								<span>Completed</span>
+								<span>100%</span>
+							</div>
+							<Progress value={100} color="green" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</ComponentPreview>
+
+		<!-- Visual Styles & Colors -->
+		<ComponentPreview
+			title="Visual Styles & Colors"
+			description="Color schemes and visual presentation options for different contexts and states."
+			codeSnippet={visualStylesExample}
+			complexity="Intermediate"
+			features={["colors", "visual-styles", "theming", "state-indication"]}
+		>
+			<div class="space-y-6">
+				<!-- Color Options -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Color Schemes</h4>
+					<div class="space-y-3">
+						{#each colors as color}
+							<div class="flex items-center gap-4">
+								<span class="w-16 text-xs text-gray-600 dark:text-gray-400">{color.name}</span>
+								<div class="flex-1">
+									<Progress color={color.value} value={60} />
+								</div>
+							</div>
+						{/each}
+					</div>
+				</div>
+
+				<!-- Contextual Usage -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Contextual Usage</h4>
+					<div class="space-y-3">
+						<div>
+							<div class="text-xs text-gray-600 dark:text-gray-400 mb-1">Success (File Upload)</div>
+							<Progress value={100} color="green" />
+						</div>
+						<div>
+							<div class="text-xs text-gray-600 dark:text-gray-400 mb-1">Warning (Storage Usage)</div>
+							<Progress value={85} color="yellow" />
+						</div>
+						<div>
+							<div class="text-xs text-gray-600 dark:text-gray-400 mb-1">Danger (CPU Usage)</div>
+							<Progress value={92} color="red" />
+						</div>
+						<div>
+							<div class="text-xs text-gray-600 dark:text-gray-400 mb-1">Info (Download Progress)</div>
+							<Progress value={45} color="blue" />
+						</div>
+					</div>
+				</div>
 			</div>
 		</ComponentPreview>
 
 		<!-- Progress Variants -->
 		<ComponentPreview
 			title="Progress Variants"
-			description="Different visual styles for progress indicators."
-			codeSnippet={variantsExample}
+			description="Different form factors including linear, circular, and step-based progress indicators."
+			codeSnippet={progressVariantsExample}
+			complexity="Intermediate"
+			features={["variants", "linear", "circular", "steps"]}
 		>
 			<div class="space-y-6">
-				{#each variants as variant}
-					<div>
-						<h3 class="font-medium mb-3 text-gray-700 dark:text-gray-300">{variant.name}</h3>
-						<Progress variant={variant.value} value={65} steps={variant.value === 'steps' ? 4 : undefined} />
-					</div>
-				{/each}
-			</div>
-		</ComponentPreview>
+				<!-- Linear Progress -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Linear Progress</h4>
+					<Progress variant="linear" value={65} />
+				</div>
 
-		<!-- Progress Sizes -->
-		<ComponentPreview
-			title="Progress Sizes"
-			description="Progress bars in different sizes."
-			codeSnippet={sizesExample}
-		>
-			<div class="space-y-6">
-				{#each sizes as size}
-					<div>
-						<h3 class="font-medium mb-3 text-gray-700 dark:text-gray-300">{size.name}</h3>
-						<Progress size={size.value} value={60} />
+				<!-- Circular Progress -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Circular Progress</h4>
+					<div class="flex items-center justify-center gap-8 py-4">
+						{#each sizes as size}
+							<div class="text-center">
+								<Progress variant="circular" size={size.value} value={75} color="blue" />
+								<p class="mt-2 text-xs text-gray-600 dark:text-gray-400">{size.name}</p>
+							</div>
+						{/each}
 					</div>
-				{/each}
-			</div>
-		</ComponentPreview>
+				</div>
 
-		<!-- Progress Colors -->
-		<ComponentPreview
-			title="Progress Colors"
-			description="Progress bars with different color schemes."
-			codeSnippet={colorsExample}
-		>
-			<div class="space-y-4">
-				{#each colors as color}
-					<div class="flex items-center gap-4">
-						<span class="w-16 text-sm text-gray-600 dark:text-gray-400">{color.name}</span>
-						<div class="flex-1">
-							<Progress color={color.value} value={60} />
+				<!-- Steps Progress -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Steps Progress</h4>
+					<div class="space-y-4">
+						<div>
+							<div class="text-xs text-gray-600 dark:text-gray-400 mb-2">4-Step Process (Step 2 of 4)</div>
+							<Progress variant="steps" value={50} steps={4} />
+						</div>
+						<div>
+							<div class="text-xs text-gray-600 dark:text-gray-400 mb-2">6-Step Workflow (Step 4 of 6)</div>
+							<Progress variant="steps" value={66} steps={6} />
 						</div>
 					</div>
-				{/each}
-			</div>
-		</ComponentPreview>
-
-		<!-- Circular Progress -->
-		<ComponentPreview
-			title="Circular Progress"
-			description="Circular progress indicators in different sizes."
-			codeSnippet='<Progress variant="circular" value={75} size="lg" />'
-		>
-			<div class="flex items-center justify-center gap-8 py-8">
-				{#each sizes as size}
-					<div class="text-center">
-						<Progress variant="circular" size={size.value} value={75} color="blue" />
-						<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{size.name}</p>
-					</div>
-				{/each}
-			</div>
-		</ComponentPreview>
-
-		<!-- Steps Progress -->
-		<ComponentPreview
-			title="Steps Progress"
-			description="Step-based progress indicator for multi-step processes."
-			codeSnippet='<Progress variant="steps" value={60} steps={5} />'
-		>
-			<div class="space-y-6">
-				<div>
-					<h3 class="font-medium mb-3 text-gray-700 dark:text-gray-300">4 Steps</h3>
-					<Progress variant="steps" value={50} steps={4} />
-				</div>
-				<div>
-					<h3 class="font-medium mb-3 text-gray-700 dark:text-gray-300">6 Steps</h3>
-					<Progress variant="steps" value={66} steps={6} />
 				</div>
 			</div>
 		</ComponentPreview>
 
-		<!-- Animated Progress -->
+		<!-- Advanced Features & Animation -->
 		<ComponentPreview
-			title="Animated Progress"
-			description="Progress bars with smooth animations and different effects."
-			codeSnippet={featuresExample}
+			title="Advanced Features & Animation"
+			description="Enhanced progress indicators with animations, effects, and dynamic behavior for engaging user experiences."
+			codeSnippet={advancedFeaturesExample}
+			complexity="Advanced"
+			features={["animation", "striped", "indeterminate", "labels"]}
 		>
 			<div class="space-y-6">
-				<div>
-					<h3 class="font-medium mb-3 text-gray-700 dark:text-gray-300">Animated with Label</h3>
+				<!-- Animated Progress -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Animated Progress with Label</h4>
 					<Progress value={animatedValue > 100 ? 100 : animatedValue} showLabel={true} animated={true} />
 				</div>
-				<div>
-					<h3 class="font-medium mb-3 text-gray-700 dark:text-gray-300">Striped Effect</h3>
+
+				<!-- Striped Effect -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Striped Effect</h4>
 					<Progress value={75} striped={true} color="green" />
 				</div>
-				<div>
-					<h3 class="font-medium mb-3 text-gray-700 dark:text-gray-300">Indeterminate</h3>
+
+				<!-- Indeterminate Progress -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Indeterminate Progress</h4>
 					<Progress indeterminate={true} color="purple" />
 				</div>
-			</div>
-		</ComponentPreview>
 
-		<!-- Various Progress States -->
-		<ComponentPreview
-			title="Progress States"
-			description="Different progress states and values."
-			codeSnippet='<Progress value={0} color="gray" />
-<Progress value={25} color="red" />
-<Progress value={50} color="yellow" />
-<Progress value={75} color="blue" />
-<Progress value={100} color="green" />'
-		>
-			<div class="space-y-4">
-				<div>
-					<div class="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
-						<span>Not Started</span>
-						<span>0%</span>
+				<!-- Real-world Examples -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Real-world Applications</h4>
+					<div class="space-y-4">
+						<div>
+							<div class="flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
+								<span>File Upload</span>
+								<span>87%</span>
+							</div>
+							<Progress value={87} color="blue" animated={true} striped={true} />
+						</div>
+						<div>
+							<div class="flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
+								<span>System Health Check</span>
+								<span>Running...</span>
+							</div>
+							<Progress indeterminate={true} color="green" />
+						</div>
+						<div>
+							<div class="flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
+								<span>Profile Completion</span>
+								<span>3 of 5 steps</span>
+							</div>
+							<Progress variant="steps" value={60} steps={5} color="purple" />
+						</div>
 					</div>
-					<Progress value={0} color="gray" />
-				</div>
-				<div>
-					<div class="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
-						<span>Low Progress</span>
-						<span>25%</span>
-					</div>
-					<Progress value={25} color="red" />
-				</div>
-				<div>
-					<div class="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
-						<span>Half Way</span>
-						<span>50%</span>
-					</div>
-					<Progress value={50} color="yellow" />
-				</div>
-				<div>
-					<div class="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
-						<span>Almost Done</span>
-						<span>75%</span>
-					</div>
-					<Progress value={75} color="blue" />
-				</div>
-				<div>
-					<div class="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
-						<span>Completed</span>
-						<span>100%</span>
-					</div>
-					<Progress value={100} color="green" />
 				</div>
 			</div>
 		</ComponentPreview>

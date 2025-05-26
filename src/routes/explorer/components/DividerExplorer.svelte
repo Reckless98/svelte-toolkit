@@ -34,9 +34,74 @@
       codeSnippet: `<Divider size="lg" />`
     }
   ];
-
   const variants = ['solid', 'dashed', 'dotted', 'gradient', 'double'] as const;
   const orientations = ['horizontal', 'vertical'];
+
+  // Comprehensive code examples for each section
+  const basicsAndOrientationsExample = `<!-- Basic Divider Usage & Orientations -->
+<Divider />
+<Divider orientation="vertical" />
+<Divider label="Section Break" />
+
+<!-- Content separation examples -->
+<div class="space-y-4">
+  <p>Content above divider</p>
+  <Divider />
+  <p>Content below divider</p>
+</div>
+
+<!-- Vertical dividers for inline content -->
+<div class="flex items-center gap-4">
+  <span>Left</span>
+  <Divider orientation="vertical" />
+  <span>Right</span>
+</div>`;
+
+  const variantsAndStylingExample = `<!-- All Variants with Sizes and Styling -->
+<Divider variant="solid" size="sm" />
+<Divider variant="dashed" size="md" />
+<Divider variant="dotted" size="lg" />
+<Divider variant="gradient" />
+<Divider variant="double" />
+
+<!-- Custom colors and spacing -->
+<Divider color="blue" />
+<Divider color="green" spacing="my-8" />
+<Divider variant="gradient" color="purple" />`;
+
+  const labelsAndFeaturesExample = `<!-- Labels and Enhanced Features -->
+<Divider label="OR" />
+<Divider label="Section 2" />
+<Divider label="More Content Below" />
+
+<!-- Combined with variants -->
+<Divider variant="dashed" label="Chapter 1" />
+<Divider variant="gradient" label="Premium Content" />`;
+
+  const realWorldExample = `<!-- Real-World Applications -->
+<!-- Form separator -->
+<input type="email" placeholder="Email" />
+<input type="password" placeholder="Password" />
+<button>Sign In</button>
+
+<Divider label="OR" />
+
+<button>Continue with Google</button>
+
+<!-- Content sections -->
+<article>
+  <section>
+    <h3>Introduction</h3>
+    <p>Content...</p>
+  </section>
+  
+  <Divider label="Main Content" />
+  
+  <section>
+    <h3>Chapter 1</h3>
+    <p>Content...</p>
+  </section>
+</article>`;
 </script>
 
 <div class="space-y-8">
@@ -46,271 +111,181 @@
       A flexible divider component for creating visual separation between content sections with support for labels, icons, and multiple visual styles.
     </p>
   </div>
-
-  <!-- Basic Examples -->
-  <section class="space-y-6">
-    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Examples</h2>
-    
-    {#each examples as example, index}
-      <ComponentPreview
-        title={example.title}
-        description={example.description}
-        codeSnippet={example.codeSnippet}
-      >
-        <div class="p-8">
-          {#if index === 0}
-            <div class="space-y-4">
-              <p class="text-gray-600">Content above the divider</p>
-              <Divider />
-              <p class="text-gray-600">Content below the divider</p>
-            </div>
-          {:else if index === 1}
-            <div class="space-y-4">
-              <p class="text-gray-600">First section content</p>
-              <Divider label="Section Break" />
-              <p class="text-gray-600">Second section content</p>
-            </div>
-          {:else if index === 2}
-            <div class="flex items-center gap-4 h-20">
-              <span class="text-gray-600">Left content</span>
-              <Divider orientation="vertical" />
-              <span class="text-gray-600">Right content</span>
-            </div>
-          {:else if index === 3}
-            <div class="space-y-4">
-              <p class="text-gray-600">Content with gradient divider</p>
-              <Divider variant="gradient" />
-              <p class="text-gray-600">More content below</p>
-            </div>
-          {:else if index === 4}
-            <div class="space-y-4">
-              <p class="text-gray-600">Content with dashed divider</p>
-              <Divider variant="dashed" />
-              <p class="text-gray-600">More content below</p>
-            </div>
-          {:else if index === 5}
-            <div class="space-y-4">
-              <p class="text-gray-600">Content with larger divider</p>
-              <Divider size="lg" />
-              <p class="text-gray-600">More content below</p>
-            </div>
-          {/if}
-        </div>
-      </ComponentPreview>
-    {/each}
-  </section>
-
-  <!-- Variants -->
-  <section class="space-y-6">
-    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Variants</h2>
-    
-    <ComponentPreview
-      title="Divider Variants"
-      description="Different visual styles for various design contexts"
-      codeSnippet={`<Divider variant="solid" />
-<Divider variant="dashed" />
-<Divider variant="dotted" />
-<Divider variant="gradient" />
-<Divider variant="double" />
-<Divider variant="thick" />`}
-    >
-      <div class="p-8 space-y-6">
-        {#each variants as variant}
-          <div class="space-y-2">
-            <h4 class="text-sm font-medium capitalize text-gray-700 dark:text-gray-300">{variant}</h4>
-            <Divider {variant} />
-          </div>
-        {/each}
+  <!-- Smart Grouped Previews -->  <ComponentPreview
+    title="Divider Basics & Orientations"
+    description="Essential divider usage with horizontal and vertical orientations"
+    complexity="Basic"
+    codeSnippet={basicsAndOrientationsExample}
+  >
+    <div class="p-8 space-y-8">
+      <!-- Basic horizontal divider -->
+      <div class="space-y-4">
+        <p class="text-gray-600 dark:text-gray-300">Content above the divider</p>
+        <Divider />
+        <p class="text-gray-600 dark:text-gray-300">Content below the divider</p>
       </div>
-    </ComponentPreview>
-  </section>
-
-  <!-- Orientations -->
-  <section class="space-y-6">
-    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Orientations</h2>
-    
-    <ComponentPreview
-      title="Horizontal vs Vertical"
-      description="Dividers can be oriented horizontally or vertically"
-      codeSnippet={`<!-- Horizontal (default) -->
-<Divider orientation="horizontal" />
-
-<!-- Vertical -->
-<Divider orientation="vertical" />`}
-    >
-      <div class="p-8">
-        <div class="space-y-8">
-          <div>
-            <h4 class="text-sm font-medium mb-4 text-gray-700 dark:text-gray-300">Horizontal</h4>
-            <div class="space-y-4">
-              <p class="text-gray-600">Content above</p>
-              <Divider orientation="horizontal" />
-              <p class="text-gray-600">Content below</p>
-            </div>
-          </div>
-          
-          <div>
-            <h4 class="text-sm font-medium mb-4 text-gray-700 dark:text-gray-300">Vertical</h4>
-            <div class="flex items-center gap-4 h-16">
-              <span class="text-gray-600">Left content</span>
-              <Divider orientation="vertical" />
-              <span class="text-gray-600">Center content</span>
-              <Divider orientation="vertical" />
-              <span class="text-gray-600">Right content</span>
-            </div>
-          </div>
+      
+      <!-- Divider with label -->
+      <div class="space-y-4">
+        <p class="text-gray-600 dark:text-gray-300">First section content</p>
+        <Divider label="Section Break" />
+        <p class="text-gray-600 dark:text-gray-300">Second section content</p>
+      </div>
+      
+      <!-- Vertical dividers -->
+      <div>
+        <h4 class="text-sm font-medium mb-4 text-gray-700 dark:text-gray-300">Vertical Orientation</h4>
+        <div class="flex items-center gap-4 h-16">
+          <span class="text-gray-600 dark:text-gray-300">Left content</span>
+          <Divider orientation="vertical" />
+          <span class="text-gray-600 dark:text-gray-300">Center content</span>
+          <Divider orientation="vertical" />
+          <span class="text-gray-600 dark:text-gray-300">Right content</span>
         </div>
       </div>
-    </ComponentPreview>
-  </section>
-
-  <!-- Labels and Icons -->
-  <section class="space-y-6">
-    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Labels and Icons</h2>
-    
-    <ComponentPreview
-      title="Text Labels"
-      description="Add text labels to dividers for better content organization"
-      codeSnippet={`<Divider label="OR" />
-<Divider label="Section 2" />
-<Divider label="More Content Below" />`}
-    >
-      <div class="p-8 space-y-8">
+    </div>
+  </ComponentPreview>
+  <ComponentPreview
+    title="Variants, Sizes & Styling"
+    description="Visual styles, thickness options, colors, and custom styling"
+    complexity="Intermediate"
+    codeSnippet={variantsAndStylingExample}
+  >
+    <div class="p-8 space-y-8">
+      <!-- All variants showcase -->
+      <div>
+        <h4 class="text-sm font-medium mb-4 text-gray-700 dark:text-gray-300">Visual Variants</h4>
+        <div class="space-y-6">
+          {#each variants as variant}
+            <div class="space-y-2">
+              <h5 class="text-xs font-medium capitalize text-gray-600 dark:text-gray-400">{variant}</h5>
+              <Divider {variant} />
+            </div>
+          {/each}
+        </div>
+      </div>
+      
+      <!-- Size variations -->
+      <div>
+        <h4 class="text-sm font-medium mb-4 text-gray-700 dark:text-gray-300">Size Options</h4>
         <div class="space-y-4">
-          <p class="text-gray-600">Sign up with email</p>
+          <div>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">Small</p>
+            <Divider size="sm" />
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">Medium (default)</p>
+            <Divider size="md" />
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">Large</p>
+            <Divider size="lg" />
+          </div>
+        </div>
+      </div>
+      
+      <!-- Custom colors -->
+      <div>
+        <h4 class="text-sm font-medium mb-4 text-gray-700 dark:text-gray-300">Custom Colors</h4>
+        <div class="space-y-4">
+          <div>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">Blue</p>
+            <Divider color="blue" />
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">Green with spacing</p>
+            <Divider color="green" spacing="my-8" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </ComponentPreview>
+  <ComponentPreview
+    title="Labels & Text Features"
+    description="Text labels, combined with variants, and enhanced labeling features"
+    complexity="Intermediate"
+    codeSnippet={labelsAndFeaturesExample}
+  >
+    <div class="p-8 space-y-8">
+      <!-- Basic labels -->
+      <div class="space-y-6">
+        <div class="space-y-4">
+          <p class="text-gray-600 dark:text-gray-300">Sign up with email</p>
           <Divider label="OR" />
-          <p class="text-gray-600">Sign up with social media</p>
+          <p class="text-gray-600 dark:text-gray-300">Sign up with social media</p>
         </div>
         
         <div class="space-y-4">
-          <p class="text-gray-600">Introduction content</p>
+          <p class="text-gray-600 dark:text-gray-300">Introduction content</p>
           <Divider label="Section 2" />
-          <p class="text-gray-600">Main content</p>
+          <p class="text-gray-600 dark:text-gray-300">Main content</p>
         </div>
       </div>
-    </ComponentPreview>
-    
-    <ComponentPreview
-      title="Different Sizes"
-      description="Control the thickness of the divider"
-      codeSnippet={`<Divider size="sm" />
-<Divider size="md" />
-<Divider size="lg" />`}
-    >
-      <div class="p-8 space-y-8">
-        <div class="space-y-4">
-          <p class="text-gray-600">Small divider</p>
-          <Divider size="sm" />
-          <p class="text-gray-600">Medium divider (default)</p>
-          <Divider size="md" />
-          <p class="text-gray-600">Large divider</p>
-          <Divider size="lg" />
-          <p class="text-gray-600">End of content</p>
+      
+      <!-- Labels with variants -->
+      <div>
+        <h4 class="text-sm font-medium mb-4 text-gray-700 dark:text-gray-300">Combined with Variants</h4>
+        <div class="space-y-6">
+          <div class="space-y-4">
+            <p class="text-gray-600 dark:text-gray-300">Chapter introduction</p>
+            <Divider variant="dashed" label="Chapter 1" />
+            <p class="text-gray-600 dark:text-gray-300">Chapter content</p>
+          </div>
+          
+          <div class="space-y-4">
+            <p class="text-gray-600 dark:text-gray-300">Free content above</p>
+            <Divider variant="gradient" label="Premium Content" />
+            <p class="text-gray-600 dark:text-gray-300">Premium content below</p>
+          </div>
         </div>
       </div>
-    </ComponentPreview>
-  </section>
-
-  <!-- Custom Styling -->
-  <section class="space-y-6">
-    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Custom Styling</h2>
-      <ComponentPreview
-      title="Custom Colors and Spacing"
-      description="Customize divider appearance with colors and spacing"
-      codeSnippet={`<Divider color="blue" />
-<Divider color="green" spacing="my-8" />
-<Divider variant="gradient" color="purple" />`}
-    >
-      <div class="p-8 space-y-8">
-        <div class="space-y-4">
-          <p class="text-gray-600">Content with blue divider</p>
-          <Divider color="blue" />
-          <p class="text-gray-600">More content</p>
-        </div>
-        
-        <div class="space-y-8">
-          <p class="text-gray-600">Content with extra spacing</p>
-          <Divider color="green" spacing="my-8" />
-          <p class="text-gray-600">More content with larger spacing</p>
-        </div>
-      </div>
-    </ComponentPreview>
-  </section>
-
-  <!-- Real-world Examples -->
-  <section class="space-y-6">
-    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200">Real-world Examples</h2>
-    
-    <ComponentPreview
-      title="Form Separator"
-      description="Using dividers in forms and authentication flows"
-      codeSnippet={`<div class="space-y-4">
-  <input type="email" placeholder="Email" class="w-full p-2 border rounded" />
-  <input type="password" placeholder="Password" class="w-full p-2 border rounded" />
-  <button class="w-full bg-blue-500 text-white p-2 rounded">Sign In</button>
-  
-  <Divider label="OR" />
-  
-  <button class="w-full bg-gray-100 text-gray-700 p-2 rounded">Continue with Google</button>
-</div>`}
-    >
-      <div class="p-8 flex justify-center">
-        <div class="w-80 space-y-4">
-          <input type="email" placeholder="Email" class="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600" />
-          <input type="password" placeholder="Password" class="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600" />
-          <button class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Sign In</button>
+    </div>
+  </ComponentPreview>
+  <ComponentPreview
+    title="Real-World Applications"
+    description="Practical examples: form separators, content sections, and UI patterns"
+    complexity="Advanced"
+    codeSnippet={realWorldExample}
+  >
+    <div class="p-8 space-y-12">
+      <!-- Form separator example -->
+      <div>
+        <h4 class="text-sm font-medium mb-6 text-gray-700 dark:text-gray-300">Authentication Form</h4>
+        <div class="max-w-sm mx-auto space-y-4">
+          <input type="email" placeholder="Email" class="w-full p-3 border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-white" />
+          <input type="password" placeholder="Password" class="w-full p-3 border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-white" />
+          <button class="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition-colors">Sign In</button>
           
           <Divider label="OR" />
           
-          <button class="w-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">Continue with Google</button>
+          <button class="w-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Continue with Google</button>
         </div>
       </div>
-    </ComponentPreview>
-    
-    <ComponentPreview
-      title="Content Sections"
-      description="Organizing content into clear sections"      codeSnippet={`<article class="space-y-6">
-  <section>
-    <h3>Introduction</h3>
-    <p>Article introduction content...</p>
-  </section>
-  
-  <Divider label="Main Content" />
-  
-  <section>
-    <h3>Chapter 1</h3>
-    <p>First chapter content...</p>
-  </section>
-  
-  <Divider variant="dashed" />
-  
-  <section>
-    <h3>Conclusion</h3>
-    <p>Article conclusion...</p>
-  </section>
-</article>`}
-    >
-      <div class="p-8">
-        <article class="space-y-6 max-w-2xl">
+      
+      <!-- Content sections example -->
+      <div>
+        <h4 class="text-sm font-medium mb-6 text-gray-700 dark:text-gray-300">Article Content Organization</h4>
+        <article class="space-y-6 max-w-2xl mx-auto">
           <section>
             <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Introduction</h3>
-            <p class="text-gray-600 dark:text-gray-300">This is an example of how dividers can be used to organize content into clear, readable sections within articles or documentation.</p>
+            <p class="text-gray-600 dark:text-gray-300">This demonstrates how dividers organize content into clear, readable sections within articles or documentation.</p>
           </section>
-            <Divider label="Main Content" />
+          
+          <Divider label="Main Content" />
           
           <section>
             <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Chapter 1</h3>
-            <p class="text-gray-600 dark:text-gray-300">The main content of your article goes here. Dividers help break up long content into digestible sections.</p>
+            <p class="text-gray-600 dark:text-gray-300">The main content goes here. Dividers help break up long content into digestible sections for better readability.</p>
           </section>
           
           <Divider variant="dashed" />
           
           <section>
             <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Conclusion</h3>
-            <p class="text-gray-600 dark:text-gray-300">The conclusion wraps up the article content and provides final thoughts or calls to action.</p>
+            <p class="text-gray-600 dark:text-gray-300">The conclusion wraps up the content and provides final thoughts or calls to action.</p>
           </section>
         </article>
       </div>
-    </ComponentPreview>
-  </section>
+    </div>
+  </ComponentPreview>
 </div>

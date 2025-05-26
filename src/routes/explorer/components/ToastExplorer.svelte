@@ -24,18 +24,12 @@
 		{ name: 'Bottom Left', value: 'bottom-left' },
 		{ name: 'Bottom Center', value: 'bottom-center' },
 	];
-
 	// Toast visibility states
 	let toastStates = {
-		basic: true,
-		success: true,
-		error: true,
-		warning: true,
-		info: true,
-		withTitle: true,
-		withActions: true,
-		persistent: true,
-		positioned: true
+		fundamentals: true,
+		contentStructure: true,
+		interactive: true,
+		positioningTiming: true
 	};
 
 	// Sample actions
@@ -59,15 +53,35 @@
 	function hideToast(key: keyof typeof toastStates) {
 		toastStates[key] = false;
 	}
-
 	// Code examples
-	const basicExample = '<Toast message="This is a basic toast notification" />';
-	const typesExample = `<Toast type="success" message="Success message" />
+	const fundamentalsExample = `<!-- Basic Toast -->
+<Toast message="This is a basic toast notification" />
+
+<!-- Toast Types -->
+<Toast type="success" message="Success message" />
 <Toast type="error" message="Error message" />
 <Toast type="warning" message="Warning message" />
-<Toast type="info" message="Info message" />`;
-	const titleExample = '<Toast type="success" title="Success!" message="Your action was completed successfully." />';
-	const actionsExample = `<Toast 
+<Toast type="info" message="Info message" />
+
+<!-- Toast without Icon -->
+<Toast message="Clean toast without icon" icon={false} />`;
+
+	const contentStructureExample = `<!-- Toast with Title -->
+<Toast 
+  type="success" 
+  title="Success!" 
+  message="Your action was completed successfully." 
+/>
+
+<!-- Informational Toast with Title -->
+<Toast 
+  type="info" 
+  title="New Feature Available" 
+  message="Check out our latest dashboard improvements." 
+/>`;
+
+	const interactiveFeaturesExample = `<!-- Toast with Actions -->
+<Toast 
   type="info" 
   title="File deleted"
   message="The file has been moved to trash."
@@ -75,9 +89,31 @@
     { label: "Undo", action: () => {}, variant: "primary" },
     { label: "View", action: () => {}, variant: "secondary" }
   ]}
+/>
+
+<!-- Complex Warning Toast -->
+<Toast 
+  type="warning"
+  title="Unsaved Changes"
+  message="You have unsaved changes that will be lost."
+  duration={0}
+  actions={[
+    { label: "Save", action: () => {}, variant: "primary" },
+    { label: "Discard", action: () => {}, variant: "secondary" }
+  ]}
 />`;
-	const persistentExample = '<Toast message="This toast won\'t auto-dismiss" duration={0} />';
-	const positionExample = '<Toast message="Positioned toast" position="bottom-left" />';
+
+	const positioningTimingExample = `<!-- Different Positions -->
+<Toast message="Top right" position="top-right" />
+<Toast message="Bottom left" position="bottom-left" />
+<Toast message="Top center" position="top-center" />
+
+<!-- Duration Control -->
+<Toast message="Quick toast" duration={2000} />
+<Toast message="Long toast" duration={10000} />
+
+<!-- Persistent Toast -->
+<Toast message="Persistent toast" duration={0} />`;
 </script>
 
 <section>
@@ -87,295 +123,280 @@
 			<p class="text-gray-600 dark:text-gray-400">
 				Show temporary notifications and messages with various types, positions, and actions.
 			</p>
-		</div>
-
-		<!-- Basic Example -->
+		</div>		<!-- Toast Fundamentals & Types -->
 		<ComponentPreview
-			title="Basic Toast"
-			description="A simple toast notification."
-			codeSnippet={basicExample}
+			title="Toast Fundamentals & Types"
+			description="Basic toast functionality with different types and visual options for various message contexts."
+			codeSnippet={fundamentalsExample}
+			complexity="Basic"
+			features={["basic", "types", "visual-options", "messaging"]}
 		>
-			<div class="space-y-4">
-				<Button on:click={() => showToast('basic')}>Show Basic Toast</Button>
-				
-				{#if toastStates.basic}
-					<div class="relative">
-						<Toast 
-							message="This is a basic toast notification"
-							on:close={() => hideToast('basic')}
-						/>
-					</div>
-				{/if}
-			</div>
-		</ComponentPreview>
-
-		<!-- Toast Types -->
-		<ComponentPreview
-			title="Toast Types"
-			description="Different toast types for various message contexts."
-			codeSnippet={typesExample}
-		>
-			<div class="space-y-4">
-				<div class="flex flex-wrap gap-2">
-					{#each types as type}
-						<Button 
-							variant="secondary" 
-							size="sm"
-							on:click={() => showToast(type.value)}
-						>
-							Show {type.name} Toast
-						</Button>
-					{/each}
+			<div class="space-y-6">
+				<!-- Basic Toast -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Basic Toast</h4>
+					<Button on:click={() => showToast('fundamentals')}>Show Basic Toast</Button>
+					
+					{#if toastStates.fundamentals}
+						<div class="relative">
+							<Toast 
+								message="This is a basic toast notification"
+								on:close={() => hideToast('fundamentals')}
+							/>
+						</div>
+					{/if}
 				</div>
 
-				<div class="space-y-2 relative">
-					{#if toastStates.success}
+				<!-- Toast Types -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Toast Types</h4>
+					<div class="flex flex-wrap gap-2">
+						{#each types as type}
+							<Button 
+								variant="secondary" 
+								size="sm"
+								on:click={() => showToast('fundamentals')}
+							>
+								Show {type.name}
+							</Button>
+						{/each}
+					</div>
+
+					<div class="space-y-2 relative">
 						<Toast 
 							type="success"
 							message="Operation completed successfully!"
-							on:close={() => hideToast('success')}
+							on:close={() => hideToast('fundamentals')}
 						/>
-					{/if}
-					{#if toastStates.error}
 						<Toast 
 							type="error"
-							message="An error occurred while processing your request."
-							on:close={() => hideToast('error')}
+							message="An error occurred while processing."
+							on:close={() => hideToast('fundamentals')}
 						/>
-					{/if}
-					{#if toastStates.warning}
 						<Toast 
 							type="warning"
 							message="Please review your input before proceeding."
-							on:close={() => hideToast('warning')}
+							on:close={() => hideToast('fundamentals')}
 						/>
-					{/if}
-					{#if toastStates.info}
 						<Toast 
 							type="info"
-							message="Here's some helpful information for you."
-							on:close={() => hideToast('info')}
+							message="Here's some helpful information."
+							on:close={() => hideToast('fundamentals')}
 						/>
-					{/if}
+					</div>
+				</div>
+
+				<!-- Toast without Icon -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Clean Design Option</h4>
+					<div class="relative">
+						<Toast 
+							message="This toast doesn't display an icon for a cleaner look"
+							icon={false}
+							type="info"
+							duration={0}
+							closable={true}
+							on:close={() => {}}
+						/>
+					</div>
 				</div>
 			</div>
 		</ComponentPreview>
-
-		<!-- Toast with Title -->
+		<!-- Content & Structure -->
 		<ComponentPreview
-			title="Toast with Title"
-			description="Toasts can have titles for better organization."
-			codeSnippet={titleExample}
+			title="Content & Structure"
+			description="Organize toast content with titles and hierarchical message structure for better readability."
+			codeSnippet={contentStructureExample}
+			complexity="Intermediate"
+			features={["titles", "content-hierarchy", "organization", "readability"]}
 		>
-			<div class="space-y-4">
-				<Button on:click={() => showToast('withTitle')}>Show Toast with Title</Button>
-				
-				{#if toastStates.withTitle}
-					<div class="relative">
-						<Toast 
-							type="success"
-							title="Success!"
-							message="Your changes have been saved successfully."
-							on:close={() => hideToast('withTitle')}
-						/>
-					</div>
-				{/if}
-			</div>
-		</ComponentPreview>
+			<div class="space-y-6">
+				<!-- Toast with Title -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Toast with Title</h4>
+					<Button on:click={() => showToast('contentStructure')}>Show Toast with Title</Button>
+					
+					{#if toastStates.contentStructure}
+						<div class="relative">
+							<Toast 
+								type="success"
+								title="Success!"
+								message="Your changes have been saved successfully."
+								on:close={() => hideToast('contentStructure')}
+							/>
+						</div>
+					{/if}
+				</div>
 
-		<!-- Toast with Actions -->
-		<ComponentPreview
-			title="Toast with Actions"
-			description="Toasts can include action buttons for quick operations."
-			codeSnippet={actionsExample}
-		>
-			<div class="space-y-4">
-				<Button on:click={() => showToast('withActions')}>Show Toast with Actions</Button>
-				
-				{#if toastStates.withActions}
-					<div class="relative">
+				<!-- Different Content Structures -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Content Examples</h4>
+					<div class="space-y-2 relative">
 						<Toast 
 							type="info"
-							title="File deleted"
-							message="The file has been moved to trash."
-							actions={sampleActions}
+							title="New Feature Available"
+							message="Check out our latest dashboard improvements and analytics tools."
 							duration={0}
-							on:close={() => hideToast('withActions')}
+							on:close={() => {}}
+						/>
+						<Toast 
+							type="warning"
+							title="Storage Almost Full"
+							message="You're using 95% of your storage space. Consider upgrading your plan."
+							duration={0}
+							on:close={() => {}}
 						/>
 					</div>
-				{/if}
+				</div>
 			</div>
 		</ComponentPreview>
-
-		<!-- Persistent Toast -->
+		<!-- Interactive Features -->
 		<ComponentPreview
-			title="Persistent Toast"
-			description="Toasts that don't auto-dismiss and must be manually closed."
-			codeSnippet={persistentExample}
+			title="Interactive Features"
+			description="Enhance toasts with action buttons and complex interactions for user engagement and workflow integration."
+			codeSnippet={interactiveFeaturesExample}
+			complexity="Intermediate"
+			features={["actions", "buttons", "workflow", "user-interaction"]}
 		>
-			<div class="space-y-4">
-				<Button on:click={() => showToast('persistent')}>Show Persistent Toast</Button>
-				
-				{#if toastStates.persistent}
+			<div class="space-y-6">
+				<!-- Toast with Actions -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Action Buttons</h4>
+					<Button on:click={() => showToast('interactive')}>Show Toast with Actions</Button>
+					
+					{#if toastStates.interactive}
+						<div class="relative">
+							<Toast 
+								type="info"
+								title="File deleted"
+								message="The file has been moved to trash."
+								actions={sampleActions}
+								duration={0}
+								on:close={() => hideToast('interactive')}
+							/>
+						</div>
+					{/if}
+				</div>
+
+				<!-- Complex Interactive Example -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Complex Workflow Integration</h4>
+					<div class="relative">
+						<Toast 
+							type="warning"
+							title="Unsaved Changes"
+							message="You have unsaved changes that will be lost if you continue."
+							duration={0}
+							actions={[
+								{
+									label: 'Save',
+									action: () => {
+										console.log('Save clicked');
+										hideToast('interactive');
+									},
+									variant: 'primary'
+								},
+								{
+									label: 'Discard',
+									action: () => {
+										console.log('Discard clicked');
+										hideToast('interactive');
+									},
+									variant: 'secondary'
+								}
+							]}
+							on:close={() => hideToast('interactive')}
+						/>
+					</div>
+				</div>
+			</div>
+		</ComponentPreview>
+		<!-- Positioning & Timing -->
+		<ComponentPreview
+			title="Positioning & Timing"
+			description="Advanced configuration options for toast positioning, duration control, and persistence settings."
+			codeSnippet={positioningTimingExample}
+			complexity="Advanced"
+			features={["positioning", "timing", "persistence", "configuration"]}
+		>
+			<div class="space-y-6">
+				<!-- Toast Positions -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Position Options</h4>
+					<div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+						{#each positions as position}
+							<Button 
+								variant="secondary" 
+								size="sm"
+								on:click={() => showToast('positioningTiming')}
+							>
+								{position.name}
+							</Button>
+						{/each}
+					</div>
+
+					{#if toastStates.positioningTiming}
+						<div class="relative">
+							<Toast 
+								type="info"
+								message="This toast demonstrates positioning"
+								position="bottom-left"
+								on:close={() => hideToast('positioningTiming')}
+							/>
+						</div>
+					{/if}
+				</div>
+
+				<!-- Duration Controls -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Auto-dismiss Duration</h4>
+					<div class="flex gap-2">
+						<Button 
+							size="sm"
+							on:click={() => {
+								showToast('positioningTiming');
+								setTimeout(() => hideToast('positioningTiming'), 2000);
+							}}
+						>
+							2 seconds
+						</Button>
+						<Button 
+							size="sm" 
+							on:click={() => {
+								showToast('positioningTiming');
+								setTimeout(() => hideToast('positioningTiming'), 5000);
+							}}
+						>
+							5 seconds
+						</Button>
+						<Button 
+							size="sm" 
+							on:click={() => {
+								showToast('positioningTiming');
+								setTimeout(() => hideToast('positioningTiming'), 10000);
+							}}
+						>
+							10 seconds
+						</Button>
+					</div>
+					<p class="text-sm text-gray-600 dark:text-gray-400">
+						Click a button to see different auto-dismiss durations.
+					</p>
+				</div>
+
+				<!-- Persistent Toast -->
+				<div class="space-y-4">
+					<h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">Persistent Toast</h4>
+					<Button on:click={() => showToast('positioningTiming')}>Show Persistent Toast</Button>
 					<div class="relative">
 						<Toast 
 							type="warning"
 							title="Important Notice"
 							message="This toast won't auto-dismiss and requires manual closure."
 							duration={0}
-							on:close={() => hideToast('persistent')}
+							on:close={() => hideToast('positioningTiming')}
 						/>
 					</div>
-				{/if}
-			</div>
-		</ComponentPreview>
-
-		<!-- Toast Positions -->
-		<ComponentPreview
-			title="Toast Positions"
-			description="Toasts can be positioned in different areas of the screen."
-			codeSnippet={positionExample}
-		>
-			<div class="space-y-4">
-				<div class="grid grid-cols-2 md:grid-cols-3 gap-2">
-					{#each positions as position}
-						<Button 
-							variant="secondary" 
-							size="sm"
-							on:click={() => {
-								// Show a positioned toast (in real app, this would use a toast service)
-								showToast('positioned');
-							}}
-						>
-							{position.name}
-						</Button>
-					{/each}
-				</div>
-
-				{#if toastStates.positioned}
-					<div class="relative">
-						<Toast 
-							type="info"
-							message="This toast demonstrates positioning"
-							position="bottom-left"
-							on:close={() => hideToast('positioned')}
-						/>
-					</div>
-				{/if}
-			</div>
-		</ComponentPreview>
-
-		<!-- Toast without Icon -->
-		<ComponentPreview
-			title="Toast without Icon"
-			description="Toasts can be displayed without icons for a cleaner look."
-			codeSnippet='<Toast message="Toast without icon" icon={false} />'
-		>
-			<div class="space-y-4">
-				<Button on:click={() => {
-					toastStates.basic = true;
-				}}>Show Toast without Icon</Button>
-				
-				<div class="relative">
-					<Toast 
-						message="This toast doesn't display an icon"
-						icon={false}
-						type="info"
-						duration={0}
-						closable={true}
-						on:close={() => {}}
-					/>
-				</div>
-			</div>
-		</ComponentPreview>
-
-		<!-- Auto-dismiss Duration -->
-		<ComponentPreview
-			title="Auto-dismiss Duration"
-			description="Control how long toasts remain visible before auto-dismissing."
-			codeSnippet='<Toast message="Quick toast" duration={2000} />'
-		>
-			<div class="space-y-4">
-				<div class="flex gap-2">
-					<Button 
-						size="sm" 
-						on:click={() => {
-							toastStates.basic = true;
-							setTimeout(() => hideToast('basic'), 2000);
-						}}
-					>
-						2 seconds
-					</Button>
-					<Button 
-						size="sm" 
-						on:click={() => {
-							toastStates.basic = true;
-							setTimeout(() => hideToast('basic'), 5000);
-						}}
-					>
-						5 seconds
-					</Button>
-					<Button 
-						size="sm" 
-						on:click={() => {
-							toastStates.basic = true;
-							setTimeout(() => hideToast('basic'), 10000);
-						}}
-					>
-						10 seconds
-					</Button>
-				</div>
-				
-				<p class="text-sm text-gray-600 dark:text-gray-400">
-					Click a button to see a toast with different auto-dismiss durations.
-				</p>
-			</div>
-		</ComponentPreview>
-
-		<!-- Complex Toast Example -->
-		<ComponentPreview
-			title="Complex Toast Example"
-			description="A comprehensive example with title, actions, and custom duration."
-			codeSnippet='<Toast 
-  type="warning"
-  title="Unsaved Changes"
-  message="You have unsaved changes that will be lost if you continue."
-  duration={0}
-  actions={[
-    { label: "Save", action: () => {}, variant: "primary" },
-    { label: "Discard", action: () => {}, variant: "secondary" }
-  ]}
-/>'
-		>
-			<div class="space-y-4">
-				<Button on:click={() => showToast('withActions')}>Show Complex Toast</Button>
-				
-				<div class="relative">
-					<Toast 
-						type="warning"
-						title="Unsaved Changes"
-						message="You have unsaved changes that will be lost if you continue."
-						duration={0}
-						actions={[
-							{
-								label: 'Save',
-								action: () => {
-									console.log('Save clicked');
-									hideToast('withActions');
-								},
-								variant: 'primary'
-							},
-							{
-								label: 'Discard',
-								action: () => {
-									console.log('Discard clicked');
-									hideToast('withActions');
-								},
-								variant: 'secondary'
-							}
-						]}
-						on:close={() => hideToast('withActions')}
-					/>
 				</div>
 			</div>
 		</ComponentPreview>
