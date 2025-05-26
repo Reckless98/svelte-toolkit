@@ -109,7 +109,7 @@
 
 <input type="hidden" {name} value={checked ? value || 'on' : ''} />
 
-<style>
+<style lang="postcss">
   .toggle-wrapper {
     @apply flex items-center gap-3;
   }

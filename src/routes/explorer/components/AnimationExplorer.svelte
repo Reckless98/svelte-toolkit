@@ -1,6 +1,6 @@
 <!-- Animation Component Explorer -->
 <script>
-	import { ScrollReveal } from '$lib/animations';
+	import { ScrollReveal, Parallax } from '$lib/animations';
 	import ComponentPreview from '../ComponentPreview.svelte'; // Animation examples
 	const scrollRevealExample =
 		'<ScrollReveal animation="fade" delay={0} duration={800}>\n  <div class="p-6 bg-white rounded-lg shadow-md">\n    Content that fades in when scrolled into view\n  </div>\n</ScrollReveal>';

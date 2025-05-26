@@ -33,11 +33,9 @@
 <div class="app min-h-screen flex flex-col bg-white dark:bg-gray-900 transition-colors duration-300">
 	<Header 
 		variant="glass"
-		title="UI Toolkit"
-		{navLinks}
+		links={navLinks}
 		sticky={true}
 		animated={true}
-		dark={$theme === 'dark'}
 		ctaButton={{ text: 'Get Started', href: '/explorer', variant: 'primary' }}
 	/>
 
@@ -51,10 +49,6 @@
 
 	<Footer 
 		variant="expanded"
-		title="Svelte UI Toolkit"
-		description="Building beautiful, accessible, and performant web experiences with modern Svelte components."
-		dark={$theme === 'dark'}
-		newsletter={true}
 		showBranding={true}
 	/>
 </div>

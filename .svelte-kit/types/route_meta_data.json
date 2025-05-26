@@ -37,33 +37,6 @@
 	"/explorer": [
 		"src/routes/+layout.js"
 	],
-	"/explorer/accordion": [
-		"src/routes/+layout.js"
-	],
-	"/explorer/avatar": [
-		"src/routes/+layout.js"
-	],
-	"/explorer/checkbox": [
-		"src/routes/+layout.js"
-	],
-	"/explorer/divider": [
-		"src/routes/+layout.js"
-	],
-	"/explorer/dropdown": [
-		"src/routes/+layout.js"
-	],
-	"/explorer/select": [
-		"src/routes/+layout.js"
-	],
-	"/explorer/textarea": [
-		"src/routes/+layout.js"
-	],
-	"/explorer/toggle": [
-		"src/routes/+layout.js"
-	],
-	"/explorer/tooltip": [
-		"src/routes/+layout.js"
-	],
 	"/services": [
 		"src/routes/+layout.js"
 	]

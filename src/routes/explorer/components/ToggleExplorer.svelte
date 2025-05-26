@@ -94,9 +94,9 @@
       <ComponentPreview
         title={example.title}
         description={example.description}
-        code={example.code}
+        codeSnippet={example.code}
       >
-        <div slot="preview" class="p-4">
+        <div class="p-4">
           {#if index === 0}
             <Toggle bind:checked={basicToggle} />
           {:else if index === 1}
@@ -136,13 +136,13 @@
     <ComponentPreview
       title="Toggle Variants"
       description="Different platform and design styles"
-      code={`<Toggle variant="standard" bind:checked label="Standard" />
+      codeSnippet={`<Toggle variant="standard" bind:checked label="Standard" />
 <Toggle variant="modern" bind:checked label="Modern" />
 <Toggle variant="ios" bind:checked label="iOS Style" />
 <Toggle variant="material" bind:checked label="Material Design" />
 <Toggle variant="neon" bind:checked label="Neon" />`}
     >
-      <div slot="preview" class="p-4 space-y-4">
+      <div class="p-4 space-y-4">
         <Toggle variant="standard" bind:checked={variantDemos.standard} label="Standard toggle" />
         <Toggle variant="modern" bind:checked={variantDemos.modern} label="Modern toggle" />
         <Toggle variant="ios" bind:checked={variantDemos.ios} label="iOS style toggle" />
@@ -159,12 +159,12 @@
     <ComponentPreview
       title="Toggle Sizes"
       description="Available size options: sm, md, lg, xl"
-      code={`<Toggle size="sm" bind:checked label="Small" />
+      codeSnippet={`<Toggle size="sm" bind:checked label="Small" />
 <Toggle size="md" bind:checked label="Medium (default)" />
 <Toggle size="lg" bind:checked label="Large" />
 <Toggle size="xl" bind:checked label="Extra Large" />`}
     >
-      <div slot="preview" class="p-4 space-y-4">
+      <div class="p-4 space-y-4">
         <Toggle size="sm" bind:checked={sizeDemos.sm} label="Small toggle" />
         <Toggle size="md" bind:checked={sizeDemos.md} label="Medium toggle (default)" />
         <Toggle size="lg" bind:checked={sizeDemos.lg} label="Large toggle" />
@@ -180,14 +180,14 @@
     <ComponentPreview
       title="Color Themes"
       description="Different color themes for various contexts"
-      code={`<Toggle color="primary" bind:checked label="Primary" />
+      codeSnippet={`<Toggle color="primary" bind:checked label="Primary" />
 <Toggle color="secondary" bind:checked label="Secondary" />
 <Toggle color="success" bind:checked label="Success" />
 <Toggle color="warning" bind:checked label="Warning" />
 <Toggle color="error" bind:checked label="Error" />
 <Toggle color="info" bind:checked label="Info" />`}
     >
-      <div slot="preview" class="p-4 space-y-4">
+      <div  class="p-4 space-y-4">
         <Toggle color="primary" bind:checked={colorDemos.primary} label="Primary theme" />
         <Toggle color="secondary" bind:checked={colorDemos.secondary} label="Secondary theme" />
         <Toggle color="success" bind:checked={colorDemos.success} label="Success theme" />
@@ -205,7 +205,7 @@
     <ComponentPreview
       title="Feature Showcase"
       description="Combining multiple features"
-      code={`<Toggle 
+      codeSnippet={`<Toggle 
   variant="neon"
   size="lg"
   color="success"
@@ -217,7 +217,7 @@
   description="Enable magical features with sparkles"
 />`}
     >
-      <div slot="preview" class="p-4">
+      <div  class="p-4">
         <Toggle 
           variant="neon"
           size="lg"
@@ -240,14 +240,14 @@
     <ComponentPreview
       title="Settings Panel"
       description="Toggle switches in a typical settings interface"
-      code={`<div class="space-y-4">
+      codeSnippet={`<div class="space-y-4">
   <Toggle bind:checked label="Push Notifications" />
   <Toggle bind:checked label="Email Updates" />
   <Toggle bind:checked label="Auto-save Documents" />
   <Toggle bind:checked label="Enable Analytics" />
 </div>`}
     >
-      <div slot="preview" class="p-4">
+      <div class="p-4">
         <div class="space-y-4">
           <Toggle bind:checked={notificationToggle} label="Push Notifications" description="Receive instant notifications on your device" />
           <Toggle bind:checked={basicToggle} label="Email Updates" description="Get weekly updates via email" />

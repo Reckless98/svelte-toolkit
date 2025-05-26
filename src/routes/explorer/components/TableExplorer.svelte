@@ -1,6 +1,6 @@
 <!-- Table Component Explorer -->
 <script lang="ts">
-	import { Table } from '$lib/components/Table';
+	import Table from '$lib/components/Table/Table.svelte';
 	import ComponentPreview from '../ComponentPreview.svelte';
 
 	// Sample data
@@ -198,7 +198,7 @@
 		<ComponentPreview
 			title="Products Table"
 			description="Table with different column types and alignments."
-			codeSnippet='<Table columns={productsColumns} data={productsData} />'
+			codeSnippet='&lt;Table columns={`{productsColumns}`} data={`{productsData}`} /&gt;'
 		>
 			<div class="space-y-4">
 				<Table 
@@ -215,7 +215,7 @@
 		<ComponentPreview
 			title="Compact Table"
 			description="Space-efficient table layout."
-			codeSnippet='<Table columns={columns} data={data} compact={true} />'
+			codeSnippet='&lt;Table columns={`{columns}`} data={`{data}`} compact={`{true}`} /&gt;'
 		>
 			<div class="space-y-4">
 				<Table 
@@ -247,7 +247,7 @@
 		<ComponentPreview
 			title="Selectable Table"
 			description="Table with row selection capabilities."
-			codeSnippet='<Table columns={columns} data={data} selectable={true} />'
+			codeSnippet='&lt;Table columns={`{columns}`} data={`{data}`} selectable={`{true}`} /&gt;'
 		>
 			<div class="space-y-4">
 				<Table 
@@ -264,12 +264,12 @@
 		<ComponentPreview
 			title="Paginated Table"
 			description="Table with pagination for large datasets."
-			codeSnippet='<Table columns={columns} data={data} paginated={true} pageSize={3} />'
-		>
+			codeSnippet='&lt;Table columns={`{columns}`} data={`{data}`} paginated={`{true}`} pageSize={`{3}`} /&gt;'		>
 			<div class="space-y-4">
+				<!-- More data for pagination -->
 				<Table 
 					columns={sampleColumns}
-					data={[...sampleData, ...sampleData, ...sampleData]} // More data for pagination
+					data={[...sampleData, ...sampleData, ...sampleData]}
 					paginated={true}
 					pageSize={4}
 					filterable={true}
@@ -281,7 +281,7 @@
 		<ComponentPreview
 			title="Table States"
 			description="Different table states including loading and empty."
-			codeSnippet='<Table loading={true} columns={columns} data={[]} />'
+			codeSnippet='&lt;Table loading={`{true}`} columns={`{columns}`} data={`{[]}`} /&gt;'
 		>
 			<div class="space-y-8">
 				<div>
@@ -307,7 +307,7 @@
 		<ComponentPreview
 			title="Table Styling Variants"
 			description="Different visual styles for tables."
-			codeSnippet='<Table striped={true} hoverable={true} columns={columns} data={data} />'
+			codeSnippet='&lt;Table striped={`{true}`} hoverable={`{true}`} columns={`{columns}`} data={`{data}`} /&gt;'
 		>
 			<div class="space-y-8">
 				<div>

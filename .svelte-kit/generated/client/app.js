@@ -15,16 +15,7 @@ export const nodes = [
 	() => import('./nodes/11'),
 	() => import('./nodes/12'),
 	() => import('./nodes/13'),
-	() => import('./nodes/14'),
-	() => import('./nodes/15'),
-	() => import('./nodes/16'),
-	() => import('./nodes/17'),
-	() => import('./nodes/18'),
-	() => import('./nodes/19'),
-	() => import('./nodes/20'),
-	() => import('./nodes/21'),
-	() => import('./nodes/22'),
-	() => import('./nodes/23')
+	() => import('./nodes/14')
 ];
 
 export const server_loads = [];
@@ -42,16 +33,7 @@ export const dictionary = {
 		"/components/toast": [11],
 		"/contact": [12],
 		"/explorer": [13],
-		"/explorer/accordion": [14],
-		"/explorer/avatar": [15],
-		"/explorer/checkbox": [16],
-		"/explorer/divider": [17],
-		"/explorer/dropdown": [18],
-		"/explorer/select": [19],
-		"/explorer/textarea": [20],
-		"/explorer/toggle": [21],
-		"/explorer/tooltip": [22],
-		"/services": [23]
+		"/services": [14]
 	};
 
 export const hooks = {

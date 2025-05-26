@@ -15,9 +15,9 @@
 				{ name: 'Floating Action', path: '/explorer#fab', icon: '🎯' },
 				{ name: 'Badge', path: '/explorer#badge', icon: '🏷️' },
 				{ name: 'Chip', path: '/explorer#chip', icon: '🏷️' },
-				{ name: 'Avatar', path: '/explorer/avatar', icon: '👤' },
+				{ name: 'Avatar', path: '/explorer#avatar', icon: '👤' },
 				{ name: 'Avatar Group', path: '/explorer#avatar-group', icon: '👥' },
-				{ name: 'Divider', path: '/explorer/divider', icon: '➖' },
+				{ name: 'Divider', path: '/explorer#divider', icon: '➖' },
 				{ name: 'Skeleton', path: '/explorer#skeleton', icon: '💀' },
 				{ name: 'Spinner', path: '/explorer#spinner', icon: '🔄' }
 			]
